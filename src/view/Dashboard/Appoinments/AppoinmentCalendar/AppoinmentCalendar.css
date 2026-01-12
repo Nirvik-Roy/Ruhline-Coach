@@ -1,0 +1,120 @@
+.claendar_wrappr553 {
+    margin-top: 30px;
+    position: relative;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 0.8rem !important;
+}
+
+.fc-toolbar-chunk {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.fc .fc-button-primary:disabled {
+    background-color: transparent !important;
+    color: var(--text-color);
+    opacity: 1 !important;
+    border: none !important;
+    padding: 0 !important;
+    font-size: 0.8rem !important;
+}
+.fc .fc-button-primary {
+    background-color: transparent !important;
+    border: 1px solid rgba(220, 223, 227, 1) !important;
+    color: rgba(102, 110, 125, 1) !important;
+    padding: 3px 10px !important;
+}
+
+.fc-h-event .fc-event-title {
+    text-wrap: wrap;
+    text-align: center;
+}
+.fc .fc-timegrid-slot{
+    height: 4rem;
+}
+.fc-v-event .fc-event-main-frame{
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+.fc-v-event .fc-event-title-container{
+    flex-grow: unset !important;
+    flex-shrink: unset !important;
+}
+
+
+
+/* Upcoming — green */
+.fc-event-upcoming {
+  background-color: rgba(206, 115, 86, 1) !important;
+  border-color: rgba(206, 115, 86, 1) !important;
+  color: #fff !important;
+}
+
+/* Completed — blue */
+.fc-event-completed {
+  background-color: rgba(206, 114, 86, 0.588) !important;
+  border-color: rgba(206, 114, 86, 0.588) !important;
+  color: #fff !important;
+  opacity: 1 !important;
+}
+
+/* Cancelled — red */
+.fc-event-cancelled  {
+  background-color: rgba(206, 114, 86, 0.251) !important;
+  border-color: rgba(206, 114, 86, 0.351) !important;
+  color: var(--text-color) !important;
+  opacity: 1 !important;
+}
+
+.fc-event-cancelled .fc-event-main {
+    color: var(--text-color) !important;
+      font-size: 15px;
+      font-weight: 600;
+}
+
+.fc-event-completed .fc-event-main {
+    color: var(--text-color) !important;
+    font-size: 15px;
+     font-weight: 600;
+}
+.fc-event-upcoming .fc-event-main{
+    font-weight: 600;
+        font-size: 15px;
+}
+.fc .fc-timegrid-slot-minor{
+    border-top: none !important;
+}
+.fc .fc-view-harness-active > .fc-view{
+    height: 80vh;
+}
+ .fc-view-harness-active{
+    height: 85vh !important;
+}
+.claender_status_wrapper{
+    display:flex ;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    position: absolute;
+    top: 5px;
+    right: 0;
+}
+.clendar_upcoming{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+}
+.clendar_upcoming p{
+    color: var(--text-color);
+    font-size: 12px;
+}
+.fc th {
+    text-align: center;
+    font-size: 1rem !important;
+    text-wrap: wrap;
+}

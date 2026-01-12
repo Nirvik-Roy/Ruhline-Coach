@@ -1,0 +1,11 @@
+.appointments_button_wrapper{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+}
+.appointes_head_wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

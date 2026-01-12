@@ -1,0 +1,36 @@
+.pagination_wrapper {
+    display: flex;
+    width: fit-content;
+    margin-inline: auto;
+    align-items: center;
+    margin-top: 60px;
+}
+
+.pagination_wrapper p {
+    padding: 8px 0px;
+    border-radius: 5px;
+    font-size: 13px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color);
+    transition: 0.2s linear all;
+    cursor: pointer;
+}
+
+.pagination_wrapper p:hover {
+    background-color: #e2e2e2;
+}
+
+.pagination_wrapper i {
+    padding: 8px 0;
+    font-size: 15px;
+
+    width: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+}

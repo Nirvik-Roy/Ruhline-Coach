@@ -1,0 +1,49 @@
+
+.input_form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.input_form label{
+    font-weight: 400;
+    font-size: 15px;
+    margin-left: 15px;
+    color: var(--text-color);
+}
+.input_form label span{
+    color: rgba(235, 87, 87, 1);
+}
+.input_form input{
+    height: 50px;
+    padding: 0 15px;
+    border: 1px solid rgba(216, 216, 216, 1);
+    background: transparent;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+}
+.input_form input::placeholder{
+    font-weight: 400;
+    color: var(--text-color);
+}
+.input_form textarea{
+    height: 120px;
+    padding: 15px 15px;
+    border: 1px solid rgba(216, 216, 216, 1);
+    background: transparent;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px; 
+    resize: none;
+}
+input[type="time"]::-webkit-calendar-picker-indicator{
+     width: 18px;
+    height: 18px;
+    background-image: url('../assets/pace.svg');
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator{
+     width: 18px;
+    height: 18px;
+    background-image: url('../assets/calendar_month.svg');
+}
