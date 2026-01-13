@@ -7,6 +7,13 @@ import ScrollTop from './Components/ScrollTop/ScrollTop'
 import Createpassword from './view/Auth/Createpassword'
 import MainLayout from './MainLayout/MainLayout'
 import Appoinments from './view/Dashboard/Appoinments/Appoinments'
+import AppoinmentPrograms from './view/Dashboard/Appoinments/AppoinmentProgram/AppoinmentPrograms'
+import ProgramValues from './view/Dashboard/Appoinments/AppoinmentProgram/ProgramValues'
+import ProgramGoal from './view/Dashboard/Appoinments/AppoinmentProgram/ProgramGoal'
+import CreateGoal from './view/Dashboard/Appoinments/AppoinmentProgram/CreateGoal'
+import ViewGoal from './view/Dashboard/Appoinments/AppoinmentProgram/ViewGoal'
+import Whoami from './view/Dashboard/Appoinments/AppoinmentProgram/Whoami'
+import Cardgame from './view/Dashboard/Appoinments/AppoinmentProgram/Cardgame'
 
 function App() {
   return (
@@ -20,6 +27,13 @@ function App() {
           <Route path='/create-password' element={<Createpassword/>}/>
           <Route path='/dashboard' element={<MainLayout/>}>
              <Route path='appoinments' element={<Appoinments/>}/>
+             <Route path='appoinments/program/:id' element={<AppoinmentPrograms/>}/>
+             <Route path='appoinments/program/:id/values' element={<ProgramValues/>}/>
+             <Route path='appoinments/program/:id/goal' element={<ProgramGoal/>}/>
+             <Route path='appoinments/program/:id/create-goal' element={<CreateGoal/>} />
+             <Route path='appoinments/goal/view-goal/:id' element={<ViewGoal/>}/>
+             <Route path='appoinments/program/:id/who-am-i' element={<Whoami/>}/>
+             <Route path='appoinments/program/:id/card-game' element={<Cardgame/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

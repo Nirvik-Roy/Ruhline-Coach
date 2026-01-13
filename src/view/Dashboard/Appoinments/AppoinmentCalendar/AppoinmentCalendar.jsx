@@ -6,6 +6,9 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import { useNavigate } from "react-router-dom";
+import AppoinmentViewModal from '../../../Modal/AppoinmentViewModal.jsx'
+import AddBreakModal from '../../../Modal/AddBreakModal.jsx';
+import WorkingHoursModal from '../../../Modal/WorkingHoursModal.jsx';
 const AppoinmentCalendar = () => {
     const calendarComponentRef = useRef(null);
     const navigate = useNavigate();
@@ -95,6 +98,9 @@ const AppoinmentCalendar = () => {
     }
     return (
         <>
+        {/* <AppoinmentViewModal/> */}
+        {/* <AddBreakModal/> */}
+        {/* <WorkingHoursModal/> */}
             <div className="claendar_wrappr553">
                 <div className='claender_status_wrapper'>
                     <div className='clendar_upcoming'>

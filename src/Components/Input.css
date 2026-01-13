@@ -1,19 +1,21 @@
-
 .input_form {
     display: flex;
     flex-direction: column;
     row-gap: 10px;
 }
-.input_form label{
+
+.input_form label {
     font-weight: 400;
     font-size: 15px;
     margin-left: 15px;
     color: var(--text-color);
 }
-.input_form label span{
+
+.input_form label span {
     color: rgba(235, 87, 87, 1);
 }
-.input_form input{
+
+.input_form input {
     height: 50px;
     padding: 0 15px;
     border: 1px solid rgba(216, 216, 216, 1);
@@ -22,28 +24,47 @@
     outline: none;
     font-size: 14px;
 }
-.input_form input::placeholder{
+
+.input_form input::placeholder {
     font-weight: 400;
     color: var(--text-color);
 }
-.input_form textarea{
+
+.input_form textarea {
     height: 120px;
     padding: 15px 15px;
     border: 1px solid rgba(216, 216, 216, 1);
     background: transparent;
     border-radius: 10px;
     outline: none;
-    font-size: 14px; 
+    font-size: 14px;
     resize: none;
 }
-input[type="time"]::-webkit-calendar-picker-indicator{
-     width: 18px;
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    width: 18px;
     height: 18px;
     background-image: url('../assets/pace.svg');
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator{
-     width: 18px;
+input[type="date"]::-webkit-calendar-picker-indicator {
+    width: 18px;
     height: 18px;
     background-image: url('../assets/calendar_month.svg');
 }
+
+.input_form select {
+    height: 50px;
+    padding: 0px 14px;
+    background: transparent;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    border: 1px solid rgba(216, 216, 216, 1);
+    appearance: none;
+    background-image: url(../assets/_ChevronDownIcon_.png) !important;
+    background-position: right 0.7rem top 50%;
+    background-size: 25px auto;
+    background-repeat: no-repeat;
+}
+

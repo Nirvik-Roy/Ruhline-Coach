@@ -1,12 +1,13 @@
 .dashboard_container {
     width: calc(100% - 270px);
     padding: 20px 40px 20px 20px;
+    min-height: 100vh;
 }
 
 .dashboard_container h2 {
     font-weight: 600;
     color: var(--text-color);
-    font-size: 27px;
+    font-size: 1.8rem;
 }
 
 .dashboard_cards_wrapper {
