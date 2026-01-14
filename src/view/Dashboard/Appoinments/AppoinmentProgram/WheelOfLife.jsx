@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import arrowRight from '../../../../assets/Chevron Right.svg'
 import arrowDown from '../../../../assets/Chevron.svg'
-const Cardgame = () => {
+import Rating from '../../../../Components/Rating/Rating';
+const WheelOfLife = () => {
+
     const navigate = useNavigate();
     const [index, setIndex] = useState();
     const data = [
@@ -60,19 +62,18 @@ const Cardgame = () => {
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
                     <div>
-                        <h2>Card Game</h2>
+                        <h2>Wheel of Life</h2>
                         <small style={{
                             cursor: 'pointer'
-                        }}><span onClick={(() => navigate('/dashboard/appoinments'))}>Appointments</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1'))}>Program 1</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1/card-game'))} >Card Game</span></small>
+                        }}><span onClick={(() => navigate('/dashboard/appoinments'))}>Appointments</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1'))}>Program 1</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1/card-game'))} >Wheel of Life</span></small>
                     </div>
 
                 </div>
                 <div className='response_details_wrapper'>
-                    <h3>Response Details</h3>
-                    {[1, 2, 3, 4, 5].map((e, i) => (
-                        <div  className='response_set_wrapper'>
+                    {['Anxiety','Depression','Health','Courage','Peace','Forgiveness'].map((e, i) => (
+                        <div className='response_set_wrapper'>
                             <div className='response_set_head'>
-                                <h5>Response Set {e}</h5>
+                                <h5>{e}</h5>
                                 <hr />
                                 <div onClick={(() => indexFunction(i))} className='arrow_btn' style={index == i ? {
                                     background: 'var(--primary-color)',
@@ -83,6 +84,18 @@ const Cardgame = () => {
                             </div>
 
                             {index == i && <>
+                                <div className='rate_life_elements_wrapper' style={{
+                                    marginTop: '15px',
+                                    marginBottom: '15px',
+                                    display: 'flex',
+                                    gap: '10px'
+                                }}>
+                                    <h6 style={{
+                                        color: 'var(--text-color)',
+                                        fontSize: '16px'
+                                    }}>Rate Life Elements:</h6>
+                                    <Rating />
+                                </div>
                                 <h4>1. Tell us about ur Working Experience.</h4>
                                 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi</p>
 
@@ -137,4 +150,4 @@ const Cardgame = () => {
     )
 }
 
-export default Cardgame
+export default WheelOfLife

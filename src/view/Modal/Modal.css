@@ -399,3 +399,8 @@
 .break_time_add_wrapper img{
     margin-top: 25px;
 }
+.habit_grid_wrapper{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
+    gap: 20px;
+}

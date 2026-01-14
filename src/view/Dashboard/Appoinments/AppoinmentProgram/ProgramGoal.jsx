@@ -35,7 +35,6 @@ const ProgramGoal = () => {
                                 <th>Goal Type</th>
                                 <th>Start Date</th>
                                 <th>Actions</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -52,7 +51,7 @@ const ProgramGoal = () => {
                                             <p onClick={(() => {
                                                 navigate(`/dashboard/coaches/single-coache/${i + 1}`)
                                             })}>View</p>
-                                            <p onClick={(() => { seteditCoachModal(true) })}>Edit</p>
+                                            <p>Edit</p>
                                             <p>Delete</p>
                                         </div>}
                                     </td>
@@ -61,7 +60,6 @@ const ProgramGoal = () => {
                         </tbody>
                     </table>
                 </div>
-
                 <Pagination/>
             </div>
         </>

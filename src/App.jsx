@@ -14,6 +14,8 @@ import CreateGoal from './view/Dashboard/Appoinments/AppoinmentProgram/CreateGoa
 import ViewGoal from './view/Dashboard/Appoinments/AppoinmentProgram/ViewGoal'
 import Whoami from './view/Dashboard/Appoinments/AppoinmentProgram/Whoami'
 import Cardgame from './view/Dashboard/Appoinments/AppoinmentProgram/Cardgame'
+import WheelOfLife from './view/Dashboard/Appoinments/AppoinmentProgram/WheelOfLife'
+import Habitracker from './view/Dashboard/Appoinments/AppoinmentProgram/Habitacker'
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
              <Route path='appoinments/goal/view-goal/:id' element={<ViewGoal/>}/>
              <Route path='appoinments/program/:id/who-am-i' element={<Whoami/>}/>
              <Route path='appoinments/program/:id/card-game' element={<Cardgame/>}/>
+             <Route path='appoinments/program/:id/wheel-life' element={<WheelOfLife/>}/>
+             <Route path='appoinments/program/:id/habit-tracker' element={<Habitracker/>}/>
           </Route>
         </Routes>
       </BrowserRouter>
