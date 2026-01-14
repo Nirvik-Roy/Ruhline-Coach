@@ -1,11 +1,12 @@
-import React,{useState} from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../../../Components/Button'
 import ellipse from '../../../../assets/_MoreIcon_.svg'
 import Pagination from '../../../../Components/Pagination/Pagination.jsx'
 const ProgramGoal = () => {
     const [index, setIndex] = useState([]);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const drodownRef = useRef()
     const indexFunction = (i) => {
         if (index.includes(i)) {
             setIndex(prev => prev.filter((e) => e != i))
@@ -13,6 +14,21 @@ const ProgramGoal = () => {
             setIndex([...index, i])
         }
     }
+    useEffect(() => {
+        const closeDropdownFunc = (e) => {
+            if (drodownRef.current && !drodownRef.current.contains(e.target)) {
+                setIndex([])
+            } else {
+                return null;
+            }
+        }
+        document.addEventListener('mousedown', closeDropdownFunc)
+
+        return (() => {
+            document.removeEventListener('mousedown', closeDropdownFunc)
+        })
+    }, [])
+
     return (
         <>
             <div className='dashboard_container'>
@@ -40,17 +56,20 @@ const ProgramGoal = () => {
                         <tbody>
                             {[1, 2, 3, 4, 5, 6].map((e, i) => (
                                 <tr>
-                                   
+
                                     <td>Goal 1</td>
                                     <td>Coach</td>
                                     <td>Long term</td>
                                     <td>27/10/2025</td>
-                                    <td>
-                                        <img onClick={(() => indexFunction(i))} src={ellipse} />
-                                        {index.includes(i) && <div className='actions_wrapper'>
-                                            <p onClick={(() => {
-                                                navigate(`/dashboard/coaches/single-coache/${i + 1}`)
-                                            })}>View</p>
+                                    <td ref={drodownRef} style={{
+                                        position: 'relative'
+                                    }}>
+                                        <img onClick={((e) => {
+                                            indexFunction(i)
+                                            e.stopPropagation()
+                                        })} src={ellipse} />
+                                        {index.includes(i) && <div ref={drodownRef} className='actions_wrapper'>
+                                            <p>View</p>
                                             <p>Edit</p>
                                             <p>Delete</p>
                                         </div>}
@@ -60,7 +79,7 @@ const ProgramGoal = () => {
                         </tbody>
                     </table>
                 </div>
-                <Pagination/>
+                <Pagination />
             </div>
         </>
     )
