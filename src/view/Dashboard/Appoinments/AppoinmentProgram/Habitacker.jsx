@@ -13,40 +13,44 @@ const Habitracker = () => {
         {
             id: 1,
             habitName: 'Habit Tracker 1',
-            limits: '20 Lorem Ipsum',
+            limits: '20',
             createdBy: 'coach',
             frequency: 'daily',
-            reminderTime: '09:30 AM'
+            reminderTime: '09:30'
         },
         {
             id: 2,
             habitName: 'Habit Tracker 1',
-            limits: '20 Lorem Ipsum',
+            limits: '20',
             createdBy: 'coach',
             frequency: 'daily',
-            reminderTime: '09:30 AM'
+            reminderTime: '09:30'
         },
         {
             id: 3,
             habitName: 'Habit Tracker 1',
-            limits: '20 Lorem Ipsum',
+            limits: '20',
             createdBy: 'coach',
             frequency: 'daily',
-            reminderTime: '09:30 AM'
+            reminderTime: '09:30'
         },
         {
             id: 4,
             habitName: 'Habit Tracker 1',
-            limits: '20 Lorem Ipsum',
+            limits: '20',
             createdBy: 'coach',
             frequency: 'daily',
-            reminderTime: '09:30 AM'
+            reminderTime: '09:30'
         },
     ])
+
+    const editFunc = (formValue) => {
+        setData([...data, formValue])
+    }
     return (
         <>
             {habitModal && <HabitTrackerModal sethabitModal={sethabitModal} />}
-            {habitTracker && <CreateHabitTrackerModal sethabitTracker={sethabitTracker} />}
+            {habitTracker && <CreateHabitTrackerModal sethabitTracker={sethabitTracker} editFunc={editFunc} />}
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
                     <div>
@@ -77,19 +81,19 @@ const Habitracker = () => {
                                 <tr key={e}>
                                     <td style={{
                                         padding: '20px 0'
-                                    }}>Habit Tracker 1</td>
+                                    }}>{e.habitName}</td>
                                     <td style={{
                                         padding: '20px 0'
-                                    }}>20 Lorem Ipsum</td>
+                                    }}>{e.limits} Lorem Ipsum</td>
                                     <td style={{
                                         padding: '20px 0'
-                                    }}>Coach</td>
+                                    }}>{e.createdBy}</td>
                                     <td style={{
                                         padding: '20px 0'
-                                    }}>Daily</td>
+                                    }}>{e.frequency}</td>
                                     <td style={{
                                         padding: '20px 0'
-                                    }}>09:30 AM</td>
+                                    }}>{e.reminderTime} {'AM'}</td>
                                     <td onClick={(() => sethabitModal(true))} style={{
                                         padding: '20px 0'
                                     }}>
