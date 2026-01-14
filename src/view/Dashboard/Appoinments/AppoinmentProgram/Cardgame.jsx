@@ -84,7 +84,7 @@ const Cardgame = () => {
 
                         <div className='selected_cards_grid_wrapper'>
                             {data.map((e, i) => (
-                                <div className='selected_card'>
+                                <div className='selected_card' key={i}>
                                     <h6>{e.num}</h6>
                                     <h5>{e.title}</h5>
                                     <span>Stability, orderliness, predictability</span>
@@ -148,10 +148,10 @@ const Cardgame = () => {
 
 
                         <div className='selected_cards_grid_wrapper' style={{
-                            marginTop:'15px'
+                            marginTop: '15px'
                         }}>
                             {data.map((e, i) => (
-                                <div className='selected_card'>
+                                <div className='selected_card' key={i}>
                                     <h6>{e.num}</h6>
                                     <h5>{e.title}</h5>
                                     <span>Stability, orderliness, predictability</span>
