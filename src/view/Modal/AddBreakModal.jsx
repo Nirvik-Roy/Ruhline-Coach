@@ -2,14 +2,20 @@ import React, { Activity, useState } from 'react'
 import Input from '../../Components/Input'
 import Button from '../../Components/Button'
 import cross from '../../assets/content (1).svg'
-const AddBreakModal = () => {
-    const [toggle, setToggle] = useState()
+const AddBreakModal = ({ setState }) => {
+    const [toggle, setToggle] = useState('Full Day')
     return (
         <>
-            <div className='modal_wrapper'></div>
+            <div className='modal_wrapper' onClick={(() => setState({
+                viewWorking: false,
+                break: false,
+            }))}></div>
             <div className='modal_div'>
                 <h4>Add Break / Leave</h4>
-                <i class="fa-solid fa-xmark" ></i>
+                <i class="fa-solid fa-xmark" onClick={(() => setState({
+                    viewWorking: false,
+                    break: false,
+                }))}></i>
 
                 <div className='modal_full_day_radio_inputs_wrapper'>
                     <div className='modal_full_day_input_wrapper'>
@@ -65,23 +71,23 @@ const AddBreakModal = () => {
                                 <Input type={'time'} label={'Start Time'} required={true} />
                                 <Input type={'time'} label={'End Time'} required={true} />
                             </div>
-                            <img src={cross}/>
+                            <img src={cross} />
                         </div>
-                           <div className='break_time_add_wrapper'>
+                        <div className='break_time_add_wrapper'>
                             <h3>2.</h3>
                             <div className='break_time_grid_wrapper'>
                                 <Input type={'time'} label={'Start Time'} required={true} />
                                 <Input type={'time'} label={'End Time'} required={true} />
                             </div>
-                            <img src={cross}/>
+                            <img src={cross} />
                         </div>
                         <Button children={'Add Break'} styles={{
-                            background:'transparent',
-                            color:'var(--text-color)',
-                            border:'1px solid var(--primary-color)',
-                            padding:'12px 15px',
-                            fontSize:'14px'
-                        }}/>
+                            background: 'transparent',
+                            color: 'var(--text-color)',
+                            border: '1px solid var(--primary-color)',
+                            padding: '12px 15px',
+                            fontSize: '14px'
+                        }} />
                     </form>
                 </Activity>
 

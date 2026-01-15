@@ -1,6 +1,6 @@
 import React from 'react'
 import './Auth.css'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import bg from '../../assets/1ead06fbd0868b8d5a4743b9171f9405bb5b0dbc(1).jpg'
 import logo from '../../assets/Frame 1984078480.svg'
 import Input from '../../Components/Input.jsx'
@@ -10,6 +10,7 @@ import Button from '../../Components/Button.jsx'
 import google from '../../assets/Button with icon.svg'
 import apple from '../../assets/Button with icon (1).svg'
 const Register = () => {
+    const navigate = useNavigate()
     return (
         <>
             <div className='register_wrapper'>
@@ -55,12 +56,13 @@ const Register = () => {
                             <input type='checkbox'/>
                             <p>By continuing I agree with the Terms & Conditions, Privacy Policy</p>
                         </div>
-
+                        <div onClick={(()=>navigate('/login'))}>
                         <Button styles={{
                             width:'100%'
                         }} children={
                             'Create Account'
                         }/>
+                        </div>
 
                         <h5 className='or_with_wrapper'>Or with</h5>
 

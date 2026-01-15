@@ -23,7 +23,8 @@ const AppoinmentPrograms = () => {
             img: icon1,
             title: 'Values',
             tick: true,
-            lock: false
+            lock: false,
+            link: '/dashboard/appoinments/program/1/values'
         },
         {
             id: 2,
@@ -31,6 +32,7 @@ const AppoinmentPrograms = () => {
             title: 'Card Game',
             tick: true,
             lock: false,
+            link: '/dashboard/appoinments/program/1/card-game'
         },
         {
             id: 3,
@@ -38,6 +40,7 @@ const AppoinmentPrograms = () => {
             title: 'Wheel of Life',
             tick: false,
             lock: true,
+            link: '/dashboard/appoinments/program/1/wheel-life'
         },
         {
             id: 4,
@@ -45,7 +48,7 @@ const AppoinmentPrograms = () => {
             title: 'Goal Settings',
             tick: false,
             lock: true,
-
+            link: '/dashboard/appoinments/program/1/goal'
         },
         {
             id: 5,
@@ -53,7 +56,7 @@ const AppoinmentPrograms = () => {
             title: 'Find your Motivation',
             tick: false,
             lock: true,
-
+            link: '/dashboard/appoinment'
         },
         {
             id: 6,
@@ -61,7 +64,7 @@ const AppoinmentPrograms = () => {
             title: 'Habit Tracker',
             tick: false,
             lock: true,
-
+            link: '/dashboard/appoinments/program/1/habit-tracker'
         },
         {
             id: 6,
@@ -69,7 +72,7 @@ const AppoinmentPrograms = () => {
             title: 'Who am I?',
             tick: false,
             lock: true,
-
+            link: '/dashboard/appoinments/program/:id/who-am-i'
         },
     ])
 
@@ -125,7 +128,7 @@ const AppoinmentPrograms = () => {
                                 }} />
                                 <img src={e.img} />
                                 <p>{e.title}</p>
-                                {!e.lock && <Link onClick={((e) => {
+                                {!e.lock && <Link to={e.link} onClick={((e) => {
                                     e.stopPropagation()
                                 })}>View</Link>}
                             </div>

@@ -12,6 +12,7 @@ import WorkingHoursModal from '../../../Modal/WorkingHoursModal.jsx';
 const AppoinmentCalendar = () => {
     const calendarComponentRef = useRef(null);
     const navigate = useNavigate();
+    const [showModal, setshowModal] = useState(false)
     const [events, setEvents] = useState([
         // Completed (before today if your calendar considers Jan 12 as “today”)
         {
@@ -90,17 +91,12 @@ const AppoinmentCalendar = () => {
     // };
 
     const handleNavigation = (info) => {
-        if (events[0].start != info.dateStr) {
-            return;
-        } else {
-            navigate(`/dashboard/calendar/programs/${info.dateStr}`)
-        }
+        // navigate(`/dashboard/calendar/programs/${info.dateStr}`)
+        setshowModal(true)
     }
     return (
         <>
-        {/* <AppoinmentViewModal/> */}
-        {/* <AddBreakModal/> */}
-        {/* <WorkingHoursModal/> */}
+          {showModal && <AppoinmentViewModal setshowModal={setshowModal}/>}
             <div className="claendar_wrappr553">
                 <div className='claender_status_wrapper'>
                     <div className='clendar_upcoming'>
@@ -134,6 +130,7 @@ const AppoinmentCalendar = () => {
                     </div>
                 </div>
                 <FullCalendar
+
                     schedulerLicenseKey="GPL-My-Project-Is-Open-Source"
                     ref={calendarComponentRef}
                     initialView="timeGridWeek"
@@ -153,7 +150,7 @@ const AppoinmentCalendar = () => {
                         resourceTimeGridPlugin,
                     ]}
                     eventClick={(event) => {
-                        console.log(event.event._def.publicId);
+                        handleNavigation(event)
                     }}
                     events={events}
                     eventClassNames={(arg) => {
@@ -178,7 +175,7 @@ const AppoinmentCalendar = () => {
                         return (
                             <>
                                 <div>{args.text}</div>
-                                <div style={{ fontSize: "0.85rem", color: "var(--text-color)",fontWeight:'500',marginTop:'10px' }}>
+                                <div style={{ fontSize: "0.85rem", color: "var(--text-color)", fontWeight: '500', marginTop: '10px' }}>
                                     {count} task{count !== 1 ? "(s)" : "(s)"}
                                 </div>
                             </>

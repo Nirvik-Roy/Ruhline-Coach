@@ -48,11 +48,14 @@ const Login = () => {
                             }}>Forget Password?</Link>
                         </div>
                         <div>
+                        <div onClick={(()=>navigate('/dashboard/appoinments'))}>
                         <Button styles={{
                             width: '100%'
                         }} children={
                             'Login'
                         } />
+
+                        </div>
 
                         </div>
                     </form>

@@ -32,7 +32,10 @@ const CreateGoal = () => {
                             fontWeight: '700',
                             textDecoration: 'none'
                         }}>Cancel</Link>
+                        <div onClick={(()=>navigate('/dashboard/appoinments/goal/view-goal/2'))}>
+
                         <Button children={'Create'} />
+                        </div>
                     </div>
                 </div>
 

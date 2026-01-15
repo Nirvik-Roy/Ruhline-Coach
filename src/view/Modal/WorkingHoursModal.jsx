@@ -1,12 +1,18 @@
 import React from 'react'
 
-const WorkingHoursModal = () => {
+const WorkingHoursModal = ({ setState }) => {
     return (
         <>
-            <div className='modal_wrapper'></div>
+            <div className='modal_wrapper' onClick={(() => setState({
+                viewWorking: false,
+                break: false,
+            }))}></div>
             <div className='modal_div'>
                 <h4>Working Hours</h4>
-                <i class="fa-solid fa-xmark" ></i>
+                <i onClick={(() => setState({
+                    viewWorking: false,
+                    break: false,
+                }))} class="fa-solid fa-xmark" ></i>
                 <div className='modal_disputes_details'>
                     <p>Sun: <span>08:00 AM - 08:00 PM</span></p>
                     <p>Mon: <span>08:00 AM - 08:00 PM</span></p>
