@@ -16,17 +16,21 @@ import Whoami from './view/Dashboard/Appoinments/AppoinmentProgram/Whoami'
 import Cardgame from './view/Dashboard/Appoinments/AppoinmentProgram/Cardgame'
 import WheelOfLife from './view/Dashboard/Appoinments/AppoinmentProgram/WheelOfLife'
 import Habitracker from './view/Dashboard/Appoinments/AppoinmentProgram/Habitacker'
+import { Toaster } from 'react-hot-toast'
+import PrivateRoute from './PrivateRoute/PrivateRoute'
 
 function App() {
   return (
     <>
       <BrowserRouter>
+      <Toaster/>
         <ScrollTop />
         <Routes>
-          <Route path='/' element={<Register />} />
-          <Route path='/login' element={<Login />} />
+          {/* <Route path='/' element={<Register />} /> */}
+          <Route path='/' element={<Login />} />
           <Route path='/associate-email' element={<EmailAssociate />} />
           <Route path='/create-password' element={<Createpassword/>}/>
+          <Route path='/dashboard' element={<PrivateRoute/>}>
           <Route path='/dashboard' element={<MainLayout/>}>
              <Route path='appoinments' element={<Appoinments/>}/>
              <Route path='appoinments/program/:id' element={<AppoinmentPrograms/>}/>
@@ -38,6 +42,8 @@ function App() {
              <Route path='appoinments/program/:id/card-game' element={<Cardgame/>}/>
              <Route path='appoinments/program/:id/wheel-life' element={<WheelOfLife/>}/>
              <Route path='appoinments/program/:id/habit-tracker' element={<Habitracker/>}/>
+          </Route>
+
           </Route>
         </Routes>
       </BrowserRouter>
