@@ -19,33 +19,35 @@ import Habitracker from './view/Dashboard/Appoinments/AppoinmentProgram/Habitack
 import { Toaster } from 'react-hot-toast'
 import PrivateRoute from './PrivateRoute/PrivateRoute'
 import ResendEmail from './view/Auth/ResendEmail'
+import ForgotPassword from './view/Auth/ForgotPassword'
 
 function App() {
   return (
     <>
       <BrowserRouter>
-      <Toaster/>
+        <Toaster />
         <ScrollTop />
         <Routes>
           <Route path='/' element={<Register />} />
           <Route path='/verify-email' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/associate-email' element={<EmailAssociate />} />
-          <Route path='/resend-email' element={<ResendEmail/>}/>
-          <Route path='/create-password' element={<Createpassword/>}/>
-          <Route path='/dashboard' element={<PrivateRoute/>}>
-          <Route path='/dashboard' element={<MainLayout/>}>
-             <Route path='appoinments' element={<Appoinments/>}/>
-             <Route path='appoinments/program/:id' element={<AppoinmentPrograms/>}/>
-             <Route path='appoinments/program/:id/values' element={<ProgramValues/>}/>
-             <Route path='appoinments/program/:id/goal' element={<ProgramGoal/>}/>
-             <Route path='appoinments/program/:id/create-goal' element={<CreateGoal/>} />
-             <Route path='appoinments/goal/view-goal/:id' element={<ViewGoal/>}/>
-             <Route path='appoinments/program/:id/who-am-i' element={<Whoami/>}/>
-             <Route path='appoinments/program/:id/card-game' element={<Cardgame/>}/>
-             <Route path='appoinments/program/:id/wheel-life' element={<WheelOfLife/>}/>
-             <Route path='appoinments/program/:id/habit-tracker' element={<Habitracker/>}/>
-          </Route>
+          <Route path='/resend-email' element={<ResendEmail />} />
+          <Route path='/create-password' element={<Createpassword />} />
+          <Route path='/forgot-password' element={<ForgotPassword />} />
+          <Route path='/dashboard' element={<PrivateRoute />}>
+            <Route path='/dashboard' element={<MainLayout />}>
+              <Route path='appoinments' element={<Appoinments />} />
+              <Route path='appoinments/program/:id' element={<AppoinmentPrograms />} />
+              <Route path='appoinments/program/:id/values' element={<ProgramValues />} />
+              <Route path='appoinments/program/:id/goal' element={<ProgramGoal />} />
+              <Route path='appoinments/program/:id/create-goal' element={<CreateGoal />} />
+              <Route path='appoinments/goal/view-goal/:id' element={<ViewGoal />} />
+              <Route path='appoinments/program/:id/who-am-i' element={<Whoami />} />
+              <Route path='appoinments/program/:id/card-game' element={<Cardgame />} />
+              <Route path='appoinments/program/:id/wheel-life' element={<WheelOfLife />} />
+              <Route path='appoinments/program/:id/habit-tracker' element={<Habitracker />} />
+            </Route>
 
           </Route>
         </Routes>

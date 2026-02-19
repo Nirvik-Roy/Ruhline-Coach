@@ -123,7 +123,7 @@ const Login = () => {
                             width: '15px',
                             cursor: 'pointer'
                         }} src={tick} /> */}
-                            <small style={{
+                            <small onClick={(()=>navigate('/forgot-password'))} style={{
                                 // marginLeft: '15px',
                                 fontSize: '11px',
                                 marginLeft: 'auto',

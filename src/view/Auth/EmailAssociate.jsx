@@ -11,7 +11,7 @@ const EmailAssociate = () => {
                     <h2>Please enter the email associated with your account.</h2>
 
                     <form className='register_form_wrapper'>
-                        <Input type={'email'} label={'Email Address'} defaultValue={'example@mail.com'} />
+                        <Input type={'email'} label={'Email Address'}  />
 
                         <Button styles={{
                             width: '100%'

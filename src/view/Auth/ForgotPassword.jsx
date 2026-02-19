@@ -1,20 +1,19 @@
+import React, { useState } from 'react'
+import Input from '../../Components/Input'
+import Button from '../../Components/Button'
 import bg from '../../assets/1ead06fbd0868b8d5a4743b9171f9405bb5b0dbc(1).jpg'
 import logo from '../../assets/Frame 1984078480.svg'
-import Input from '../../Components/Input.jsx'
-import Button from '../../Components/Button.jsx'
-import { useState } from 'react'
-import { resendEmailApi } from '../../utils/ResendMail.js'
 import toast from 'react-hot-toast'
-import Loaders from '../../Components/Loaders/Loaders.jsx'
-
-const ResendEmail = () => {
+import { forgotPasswordApi } from '../../utils/ForgotPaswordMail'
+import Loaders from '../../Components/Loaders/Loaders'
+const ForgotPassword = () => {
     const [email, setemail] = useState("");
     const [loading, setloading] = useState(false)
-    const resendEmail = async () => {
+    const sendEmail = async () => {
         if (email != '') {
             try {
                 setloading(true);
-                const res = await resendEmailApi({email:email});
+                const res = await forgotPasswordApi({ email: email });
                 console.log(res)
             } catch (err) {
                 console.log(err)
@@ -31,13 +30,12 @@ const ResendEmail = () => {
             <div className='register_wrapper'>
                 <div className='left_register'>
                     <img src={logo} />
-                    <h2>Resend Verification</h2>
+                    <h2>Forgot Password</h2>
                     <p>Please enter the email associated with your account.</p>
-
                     <form className='register_form_wrapper'>
-                        <Input onChange={((e) => setemail(e.target.value))} type={'email'} label={'Email Address'} placeholder={'Enter email address'} />
+                        <Input onChange={((e) => setemail(e.target.value))} type={'email'} placeholder={'Enter email'} label={'Email Address'} />
 
-                        <Button onClick={resendEmail} styles={{
+                        <Button onClick={sendEmail} styles={{
                             width: '100%'
                         }} children={
                             'Send Link'
@@ -53,4 +51,4 @@ const ResendEmail = () => {
     )
 }
 
-export default ResendEmail
+export default ForgotPassword
