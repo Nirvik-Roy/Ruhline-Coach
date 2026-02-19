@@ -18,6 +18,7 @@ import WheelOfLife from './view/Dashboard/Appoinments/AppoinmentProgram/WheelOfL
 import Habitracker from './view/Dashboard/Appoinments/AppoinmentProgram/Habitacker'
 import { Toaster } from 'react-hot-toast'
 import PrivateRoute from './PrivateRoute/PrivateRoute'
+import ResendEmail from './view/Auth/ResendEmail'
 
 function App() {
   return (
@@ -26,9 +27,11 @@ function App() {
       <Toaster/>
         <ScrollTop />
         <Routes>
-          {/* <Route path='/' element={<Register />} /> */}
-          <Route path='/' element={<Login />} />
+          <Route path='/' element={<Register />} />
+          <Route path='/verify-email' element={<Register />} />
+          <Route path='/login' element={<Login />} />
           <Route path='/associate-email' element={<EmailAssociate />} />
+          <Route path='/resend-email' element={<ResendEmail/>}/>
           <Route path='/create-password' element={<Createpassword/>}/>
           <Route path='/dashboard' element={<PrivateRoute/>}>
           <Route path='/dashboard' element={<MainLayout/>}>

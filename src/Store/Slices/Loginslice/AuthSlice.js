@@ -2,6 +2,8 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { Authregister } from "../RegisterSlice/AuthRegisterSlice";
+import { Autoverify } from "../AutoVerificationSlice/AutoVerificationSlice";
 export const Auth = createAsyncThunk('Auth', async (loginParams, { rejectWithValue }) => {
     const { formData } = loginParams
     console.log(formData)
@@ -12,7 +14,7 @@ export const Auth = createAsyncThunk('Auth', async (loginParams, { rejectWithVal
                 toast.success(res.data?.message || 'Login Success');
                 console.log(res.data.data)
                 return res.data.data
-               
+
             }
         } catch (err) {
             // toast.error(err.response?.data?.data.errors?.email[0])
@@ -52,14 +54,16 @@ const AuthSlice = createSlice({
         isLogin: false,
         isLoading: false,
         isChecking: true,
-        errors: ''
+        isRegister: false,
+        registrationErrors: '',
+        errors: '',
     },
     reducers: {
         verifyToken(state,) {
             const token = localStorage.getItem('token');
             if (token) {
                 state.isLogin = true,
-                state.isChecking = false;
+                    state.isChecking = false;
             }
         },
     },
@@ -67,7 +71,7 @@ const AuthSlice = createSlice({
         builder.addCase(Auth.pending, (state) => {
             state.isLoading = true;
             state.isLogin = false,
-            state.errors = ''
+                state.errors = ''
         })
 
         builder.addCase(AuthlogOut.pending, (state) => {
@@ -96,6 +100,24 @@ const AuthSlice = createSlice({
             state.isLoading = false;
             state.isLogin = false;
             state.errors = action.payload.errors
+        })
+
+        builder.addCase(Authregister.pending, (state) => {
+            state.isRegister = false,
+                state.isLoading = true,
+                state.registrationErrors = ''
+        })
+
+        builder.addCase(Authregister.fulfilled, (state) => {
+            state.isRegister = true,
+                state.isLoading = false,
+                state.registrationErrors = ''
+        })
+
+        builder.addCase(Authregister.rejected, (state, action) => {
+            state.isRegister = true,
+                state.isLoading = false,
+                state.registrationErrors = action.payload
         })
     }
 })
