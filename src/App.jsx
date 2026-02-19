@@ -33,7 +33,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/associate-email' element={<EmailAssociate />} />
           <Route path='/resend-email' element={<ResendEmail />} />
-          <Route path='/create-password' element={<Createpassword />} />
+          <Route path='/reset-password' element={<Createpassword />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/dashboard' element={<PrivateRoute />}>
             <Route path='/dashboard' element={<MainLayout />}>
@@ -48,7 +48,6 @@ function App() {
               <Route path='appoinments/program/:id/wheel-life' element={<WheelOfLife />} />
               <Route path='appoinments/program/:id/habit-tracker' element={<Habitracker />} />
             </Route>
-
           </Route>
         </Routes>
       </BrowserRouter>
