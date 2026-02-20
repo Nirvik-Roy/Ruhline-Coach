@@ -20,6 +20,7 @@ import { Toaster } from 'react-hot-toast'
 import PrivateRoute from './PrivateRoute/PrivateRoute'
 import ResendEmail from './view/Auth/ResendEmail'
 import ForgotPassword from './view/Auth/ForgotPassword'
+import EditCoachProfile from './view/CoachProfile/EditCoachProfile'
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
               <Route path='appoinments/program/:id/card-game' element={<Cardgame />} />
               <Route path='appoinments/program/:id/wheel-life' element={<WheelOfLife />} />
               <Route path='appoinments/program/:id/habit-tracker' element={<Habitracker />} />
+              <Route path='edit-profile/:id' element={<EditCoachProfile />} />
             </Route>
           </Route>
         </Routes>
