@@ -10,19 +10,22 @@ import Button from '../../Components/Button.jsx'
 import google from '../../assets/Button with icon.svg'
 import apple from '../../assets/Button with icon (1).svg'
 import Loaders from '../../Components/Loaders/Loaders.jsx'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Authregister } from '../../Store/Slices/RegisterSlice/AuthRegisterSlice.js'
 import toast from 'react-hot-toast'
 import RegisterSuccessModal from '../Modal/RegisterSuccessModal.jsx'
 import AutoVerificationModal from '../Modal/AutoVerificationModal.jsx'
 import VerficationDoneModal from '../Modal/VerficationDoneModal.jsx'
 import { Autoverify } from '../../Store/Slices/AutoVerificationSlice/AutoVerificationSlice.js'
+import { verifyToken } from '../../Store/Slices/Loginslice/AuthSlice.js'
 const Register = () => {
     const location = useLocation();
     const [verificationChecking, setverificationChecking] = useState(false)
     const [loading, setloading] = useState(false);
     const [registerSuccess, setregisterSuccess] = useState();
     const [verifiedSuccess, setverifiedSuccess] = useState(false)
+    const { isLogin, isLoading, errors } = useSelector(state => state.auth)
+
     const dispatch = useDispatch()
     const [formData, setformData] = useState({
         first_name: "",
@@ -63,6 +66,20 @@ const Register = () => {
             }
         }
     }, [location, dispatch]);
+
+    useEffect(() => {
+        dispatch(verifyToken());
+    }, [dispatch]);
+
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (
+            isLogin &&
+            (location.pathname === "/")
+        ) {
+            navigate("/dashboard/appoinments", { replace: true });
+        }
+    }, [isLogin, location.pathname, navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

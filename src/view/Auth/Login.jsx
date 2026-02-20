@@ -66,11 +66,12 @@ const Login = () => {
     useEffect(() => {
         if (
             isLogin &&
-            (location.pathname === "/")
+            (location.pathname === "/login")
         ) {
             navigate("/dashboard/appoinments", { replace: true });
         }
     }, [isLogin, location.pathname, navigate]);
+    
     return (
         <>  {isLoading && <Loaders />}
             <div className='register_wrapper'>
@@ -123,7 +124,7 @@ const Login = () => {
                             width: '15px',
                             cursor: 'pointer'
                         }} src={tick} /> */}
-                            <small onClick={(()=>navigate('/forgot-password'))} style={{
+                            <small onClick={(() => navigate('/forgot-password'))} style={{
                                 // marginLeft: '15px',
                                 fontSize: '11px',
                                 marginLeft: 'auto',
@@ -132,9 +133,9 @@ const Login = () => {
                             }}>Forget Password?</small>
 
                             <p style={{
-                                color:'var(--primary-color)',
-                                fontSize:'13px',
-                                fontWeight:'600'
+                                color: 'var(--primary-color)',
+                                fontSize: '13px',
+                                fontWeight: '600'
                             }}>Didn't get the link? <Link to={'/resend-email'} >Click to resend email</Link></p>
                         </div>
                         <div>
@@ -148,7 +149,7 @@ const Login = () => {
 
                         </div>
                     </form>
-                
+
                 </div>
                 <div className='right_register'>
                     <img src={bg} />

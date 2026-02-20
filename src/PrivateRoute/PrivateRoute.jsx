@@ -8,10 +8,10 @@ const PrivateRoute = () => {
     useEffect(() => {
         dispatch(verifyToken())
     }, [dispatch])
-
-    // if (isChecking) {
-    //     return null; // or loader
-    // }
+    
+    if (isChecking) {
+        return null; // or loader
+    }
     return (
         isLogin ? <Outlet /> : <Navigate to='/' replace />
     )
