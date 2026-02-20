@@ -6,8 +6,10 @@ import logout from '../../assets/Group (1).svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { AuthlogOut } from '../../Store/Slices/Loginslice/AuthSlice'
 import Loaders from '../../Components/Loaders/Loaders'
+import { useNavigate } from 'react-router-dom'
 const Navbar = () => {
     const [dropdown, setdropdown] = useState(false);
+    const navigate = useNavigate()
     const {isLoading} = useSelector(state=>state.auth)
     const [modalOpen, setmodalOpen] = useState({
         password: false,
@@ -40,9 +42,10 @@ const Navbar = () => {
                         <img onClick={(() => logoutFunction())} src={logout} />
                         {dropdown && <div className='user_dropdown'>
                             <div className='user_square'></div>
-                            <p onClick={(() => modalFunction(1))}>Update Name</p>
+                            <p onClick={(() => navigate('/dashboard/coach-profile'))}>View Profile</p>
+                            {/* <p onClick={(() => modalFunction(1))}>Update Name</p>
                             <p onClick={(() => modalFunction(2))}>Change Profile Picture</p>
-                            <p onClick={(() => modalFunction(3))}>Change Password</p>
+                            <p onClick={(() => modalFunction(3))}>Change Password</p> */}
                         </div>}
                     </div>
                 </div>

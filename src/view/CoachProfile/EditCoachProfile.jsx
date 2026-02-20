@@ -2,37 +2,36 @@ import Button from "../../Components/Button"
 import './CoachProfile.css'
 import Input from '../../Components/Input.jsx'
 import upload from '../../assets/Vector (8).svg'
+import { useNavigate } from "react-router-dom"
 const EditCoachProfile = () => {
+    const navigate = useNavigate()
     return (
         <>
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
                     <div>
                         <h2>Edit profile</h2>
-                        <small><span>My profile</span> / <span>Edit profile</span></small>
+                        <small style={{
+                            cursor:'pointer'
+                        }}><span onClick={(() => navigate('/dashboard/coach-profile'))}>My profile</span> / <span onClick={(() => navigate('/dashboard/edit-profile/2'))}>Edit profile</span></small>
                     </div>
                     <div className='appointments_button_wrapper'>
                         <div>
                             <Button styles={{
-                                border: '1px solid var(--primary-color)',
+                                border: 'none',
                                 borderRadius: '8px',
                                 background: 'transparent',
-                                color: 'var(--primary-color)'
-                            }} children={'Update Bank details'} />
+                                color: 'rgba(70, 35, 7, 1)',
+                                backgroundColor: 'transparent',
+                                fontWeight: '700'
+                            }} children={'Cancel'} />
                         </div>
 
 
                         <div>
-                            <Button styles={{
-                                border: '1px solid var(--primary-color)',
-                                borderRadius: '8px',
-                                background: 'transparent',
-                                color: 'var(--primary-color)'
-                            }} children={'Change Password'} />
+                            <Button children={'Save'} />
                         </div>
-                        <div>
-                            <Button children={'Edit Profile'} />
-                        </div>
+
 
                     </div>
                 </div>
@@ -98,7 +97,7 @@ const EditCoachProfile = () => {
 
 
                         <div className='input_form' style={{
-                            gridColumn:'1/-1'
+                            gridColumn: '1/-1'
                         }}>
                             <label style={{
                                 fontSize: '15px',

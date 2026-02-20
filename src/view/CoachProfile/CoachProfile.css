@@ -6,3 +6,52 @@
   grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
   gap: 20px;
 }
+.coach_profile_wrapper {
+  margin: 30px 0;
+  border: 1px solid rgba(217, 217, 217, 1);
+  padding: 30px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-radius: 15px;
+}
+.coach_profile_img {
+  width: 250px;
+}
+.coach_profile_img img {
+  width: 100%;
+  object-fit: cover;
+  height: 200px;
+  border-radius: 15px;
+}
+.coach_profile_content_wrapper {
+  width: calc(100% - 270px);
+}
+.coach_profile_content_wrapper h3 {
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(217, 217, 217, 1);
+  color: var(--text-color);
+}
+.coach_profile_content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 15px;
+}
+.user_info_wrapper{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    color: var(--text-color);
+    font-size: 15px;
+}
+.banking_details_wrapper{
+     display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    color: var(--text-color);
+    font-size: 15px;
+}
+.banking_details_wrapper h4{
+    font-size: 20px;
+}

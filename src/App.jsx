@@ -21,6 +21,7 @@ import PrivateRoute from './PrivateRoute/PrivateRoute'
 import ResendEmail from './view/Auth/ResendEmail'
 import ForgotPassword from './view/Auth/ForgotPassword'
 import EditCoachProfile from './view/CoachProfile/EditCoachProfile'
+import CoachProfile from './view/CoachProfile/CoachProfile'
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/dashboard' element={<PrivateRoute />}>
             <Route path='/dashboard' element={<MainLayout />}>
+              <Route path='coach-profile' element={<CoachProfile />} />
               <Route path='appoinments' element={<Appoinments />} />
               <Route path='appoinments/program/:id' element={<AppoinmentPrograms />} />
               <Route path='appoinments/program/:id/values' element={<ProgramValues />} />
