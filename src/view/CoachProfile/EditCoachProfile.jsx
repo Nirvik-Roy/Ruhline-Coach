@@ -7,7 +7,6 @@ import { useNavigate, useParams } from "react-router-dom"
 import { updateCoachProfile } from '../../Services/UpdateCoachProfile'
 import { getCoachProfile } from '../../Services/GetCoachProfile'
 
-const COACH_TYPES = ['Mentor', 'Yoga trainer', 'Life Coach', 'Career Coach']
 
 const emptyForm = {
     first_name: '',
@@ -47,23 +46,25 @@ const EditCoachProfile = () => {
             setError('')
             try {
                 const res = await getCoachProfile()
-                const data = res?.data ?? res
-                if (cancelled || !data) return
+                const payload = res?.data ?? res
+                const user = payload?.user
+                if (cancelled || !user) return
+                const profile = user.profile ?? {}
                 setForm({
-                    first_name: data.first_name ?? '',
-                    last_name: data.last_name ?? '',
-                    email: data.email ?? '',
-                    phone: data.phone ?? '',
-                    phone_country_code_id: String(data.phone_country_code_id ?? '1'),
-                    address_line_1: data.address_line_1 ?? '',
-                    address_line_2: data.address_line_2 ?? '',
-                    landmark: data.landmark ?? '',
-                    country_id: data.country_id != null ? String(data.country_id) : '',
-                    state_id: data.state_id != null ? String(data.state_id) : '',
-                    city_id: data.city_id != null ? String(data.city_id) : '',
-                    postal_code: data.postal_code ?? ''
+                    first_name: user.first_name ?? '',
+                    last_name: user.last_name ?? '',
+                    email: user.email ?? '',
+                    phone: profile.phone ?? '',
+                    phone_country_code_id: String(profile.phone_country_code_id ?? '1'),
+                    address_line_1: profile.address_line_1 ?? '',
+                    address_line_2: profile.address_line_2 ?? '',
+                    landmark: profile.landmark ?? '',
+                    country_id: profile.country_id != null ? String(profile.country_id) : '',
+                    state_id: profile.state_id != null ? String(profile.state_id) : '',
+                    city_id: profile.city_id != null ? String(profile.city_id) : '',
+                    postal_code: profile.postal_code ?? ''
                 })
-                if (data.profile_image) setExistingProfileImageUrl(data.profile_image)
+                if (profile.profile_image) setExistingProfileImageUrl(profile.profile_image)
             } catch (err) {
                 if (!cancelled) setError(err.message || 'Failed to load profile')
             } finally {
@@ -81,6 +82,7 @@ const EditCoachProfile = () => {
         if (loading) return
         setError('')
         const fd = new FormData()
+        
         fd.append('first_name', form.first_name)
         fd.append('last_name', form.last_name)
         fd.append('email', form.email)
