@@ -74,7 +74,7 @@ const CoachProfile = () => {
                 </div>
                 <div className='coach_profile_wrapper'>
                     <div className='coach_profile_img'>
-                        <img src={profile.avatar || defaultProfileImg} alt="Profile" />
+                        <img src={profile.profile?.profile_image || defaultProfileImg} alt="Profile" />
                     </div>
                     <div className='coach_profile_content_wrapper'>
                         <h3>{profile.first_name} {profile.last_name}</h3>
