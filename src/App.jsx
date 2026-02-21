@@ -1,5 +1,6 @@
-import { BrowserRouter, Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
+import { LocationProvider } from './context/locationContext'
 import Login from './view/Auth/Login'
 import Register from './view/Auth/Register'
 import EmailAssociate from './view/Auth/EmailAssociate'
@@ -27,6 +28,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <LocationProvider>
         <Toaster />
         <ScrollTop />
         <Routes>
@@ -54,6 +56,7 @@ function App() {
             </Route>
           </Route>
         </Routes>
+        </LocationProvider>
       </BrowserRouter>
     </>
   )

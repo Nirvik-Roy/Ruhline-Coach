@@ -6,6 +6,7 @@ import upload from '../../assets/Vector (8).svg'
 import { useNavigate, useParams } from "react-router-dom"
 import { updateCoachProfile } from '../../Services/UpdateCoachProfile'
 import { getCoachProfile } from '../../Services/GetCoachProfile'
+import { useCountries, useStates, useCities, usePhoneCountryCodes } from '../../hooks/Location'
 
 
 const emptyForm = {
@@ -30,6 +31,14 @@ const EditCoachProfile = () => {
 
     const [form, setForm] = useState(emptyForm)
     const [profileImage, setProfileImage] = useState(null)
+
+    const { countries, loading: countriesLoading } = useCountries()
+    const countryId = form.country_id ? Number(form.country_id) || form.country_id : null
+    const { states, loading: statesLoading } = useStates(countryId)
+    const stateId = form.state_id ? Number(form.state_id) || form.state_id : null
+    const { cities, loading: citiesLoading } = useCities(stateId)
+    const { phoneCodes, loading: phoneCodesLoading } = usePhoneCountryCodes()
+
     const [existingProfileImageUrl, setExistingProfileImageUrl] = useState(null)
     const [loading, setLoading] = useState(false)
     const [fetchLoading, setFetchLoading] = useState(true)
@@ -50,18 +59,22 @@ const EditCoachProfile = () => {
                 const user = payload?.user
                 if (cancelled || !user) return
                 const profile = user.profile ?? {}
+                const countryId = profile.country?.id ?? profile.country_id
+                const stateId = profile.state?.id ?? profile.state_id
+                const cityId = profile.city?.id ?? profile.city_id
+                const phoneCodeId = profile.phone_country_code?.id ?? profile.phone_country_code_id
                 setForm({
                     first_name: user.first_name ?? '',
                     last_name: user.last_name ?? '',
                     email: user.email ?? '',
                     phone: profile.phone ?? '',
-                    phone_country_code_id: String(profile.phone_country_code_id ?? '1'),
+                    phone_country_code_id: phoneCodeId != null ? String(phoneCodeId) : '1',
                     address_line_1: profile.address_line_1 ?? '',
                     address_line_2: profile.address_line_2 ?? '',
                     landmark: profile.landmark ?? '',
-                    country_id: profile.country_id != null ? String(profile.country_id) : '',
-                    state_id: profile.state_id != null ? String(profile.state_id) : '',
-                    city_id: profile.city_id != null ? String(profile.city_id) : '',
+                    country_id: countryId != null ? String(countryId) : '',
+                    state_id: stateId != null ? String(stateId) : '',
+                    city_id: cityId != null ? String(cityId) : '',
                     postal_code: profile.postal_code ?? ''
                 })
                 if (profile.profile_image) setExistingProfileImageUrl(profile.profile_image)
@@ -75,7 +88,18 @@ const EditCoachProfile = () => {
         return () => { cancelled = true }
     }, [id])
 
-    const updateField = (name, value) => setForm(prev => ({ ...prev, [name]: value }))
+    const updateField = (name, value) => {
+        setForm(prev => {
+            const next = { ...prev, [name]: value }
+            if (name === 'country_id') {
+                next.state_id = ''
+                next.city_id = ''
+            } else if (name === 'state_id') {
+                next.city_id = ''
+            }
+            return next
+        })
+    }
 
     const handleSave = async (e) => {
         e?.preventDefault()
@@ -195,10 +219,14 @@ const EditCoachProfile = () => {
                                     value={form.phone_country_code_id}
                                     onChange={(e) => updateField('phone_country_code_id', e.target.value)}
                                     style={{ border: 'none', borderRight: '2px solid #000', outline: 'none' }}
+                                    disabled={phoneCodesLoading}
                                 >
-                                    <option value="1">+1</option>
-                                    <option value="44">+44</option>
-                                    <option value="91">+91</option>
+                                    <option value="">Select code</option>
+                                    {phoneCodes.map((pc) => (
+                                        <option key={pc.id} value={String(pc.id)}>
+                                            +{pc.phone_code ?? pc.code ?? pc.country_code ?? pc.id}
+                                        </option>
+                                    ))}
                                 </select>
                                 <input
                                     name='phone'
@@ -240,11 +268,12 @@ const EditCoachProfile = () => {
                                 name="country_id"
                                 value={form.country_id}
                                 onChange={(e) => updateField('country_id', e.target.value)}
+                                disabled={countriesLoading}
                             >
                                 <option value=''>--Select country--</option>
-                                <option value='1'>United States</option>
-                                <option value='2'>United Kingdom</option>
-                                <option value='3'>India</option>
+                                {countries.map((c) => (
+                                    <option key={c.id} value={String(c.id)}>{c.name}</option>
+                                ))}
                             </select>
                         </div>
                         <div className='input_form'>
@@ -253,10 +282,12 @@ const EditCoachProfile = () => {
                                 name="state_id"
                                 value={form.state_id}
                                 onChange={(e) => updateField('state_id', e.target.value)}
+                                disabled={!form.country_id || statesLoading}
                             >
                                 <option value=''>--Select state--</option>
-                                <option value='1'>California</option>
-                                <option value='2'>New York</option>
+                                {states.map((s) => (
+                                    <option key={s.id} value={String(s.id)}>{s.name}</option>
+                                ))}
                             </select>
                         </div>
                         <div className='input_form'>
@@ -265,10 +296,12 @@ const EditCoachProfile = () => {
                                 name="city_id"
                                 value={form.city_id}
                                 onChange={(e) => updateField('city_id', e.target.value)}
+                                disabled={!form.state_id || citiesLoading}
                             >
                                 <option value=''>--Select city--</option>
-                                <option value='1'>Los Angeles</option>
-                                <option value='2'>New York City</option>
+                                {cities.map((c) => (
+                                    <option key={c.id} value={String(c.id)}>{c.name}</option>
+                                ))}
                             </select>
                         </div>
 
@@ -298,7 +331,10 @@ const EditCoachProfile = () => {
                                 style={{ cursor: 'pointer' }}
                             >
                                 {existingProfileImageUrl && !profileImage ? (
-                                    <img src={existingProfileImageUrl} alt="Current profile" style={{ maxWidth: '80px', maxHeight: '80px', borderRadius: '8px', objectFit: 'cover' }} />
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+                                        <img src={existingProfileImageUrl} alt="Profile preview" style={{ width: '80px', height: '80px', borderRadius: '8px', objectFit: 'cover' }} />
+                                        <span style={{ fontSize: '12px', color: '#666' }}>Current photo</span>
+                                    </div>
                                 ) : (
                                     <img src={upload} alt="" />
                                 )}
