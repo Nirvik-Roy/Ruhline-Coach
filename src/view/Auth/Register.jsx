@@ -199,7 +199,8 @@ const Register = () => {
                                 top: '50px',
                                 right: '40px',
                                 width: '15px',
-                                cursor: 'pointer'
+                                cursor: 'pointer',
+                                display: 'none'
                             }} src={tick} />
                             {registrationErrors?.password_confirmation && <small style={{
                                 color: 'red',

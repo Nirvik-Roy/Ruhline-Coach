@@ -15,7 +15,10 @@ const Createpassword = () => {
     const navigate = useNavigate()
     const location = useLocation();
     const [loading, setloading] = useState();
-    const [navigateLogin, setnavigateLogin] = useState(false)
+    const [errors, setErrors] = useState()
+    const [navigateLogin, setnavigateLogin] = useState(false);
+    const [type, setType] = useState(true)
+    const [type2, setType2] = useState(true)
     const [formData, setformData] = useState({
         password: "",
         password_confirmation: ''
@@ -63,10 +66,12 @@ const Createpassword = () => {
                     password: formData.password,
                     password_confirmation: formData.password_confirmation
                 })
-                console.log(res)
                 if (res.success) {
                     setnavigateLogin(true)
                 }
+                setErrors(res)
+                toast.error(errors.token[0])
+                toast.error(errors.email[0])
             } catch (err) {
                 console.log(err)
             } finally {
@@ -78,11 +83,11 @@ const Createpassword = () => {
 
     }
 
-    useEffect(()=>{
-     if(navigateLogin){
-        navigate('/login')
-     }
-    },[navigateLogin])
+    useEffect(() => {
+        if (navigateLogin) {
+            navigate('/login')
+        }
+    }, [navigateLogin])
     return (
         <>
             {loading && <Loaders />}
@@ -98,14 +103,28 @@ const Createpassword = () => {
                             <label>New Password <span>*</span></label>
                             <input name='password' value={formData.password} onChange={handleChange} style={{
                                 padding: '0 40px 0 15px '
-                            }} type='password' placeholder='*********' />
-                            <img style={{
+                            }} type={!type ? 'text' : 'password'} placeholder='*********' />
+                            {type && <i style={{
                                 position: 'absolute',
                                 top: '47px',
                                 right: '10px',
                                 width: '20px',
                                 cursor: 'pointer'
-                            }} src={eye} />
+                            }} className="fa-regular fa-eye-slash" onClick={(() => setType(!type))}></i>}
+                            {!type && <i style={{
+                                position: 'absolute',
+                                top: '47px',
+                                right: '10px',
+                                width: '20px',
+                                cursor: 'pointer'
+                            }} className="fa-regular fa-eye" onClick={(() => setType(!type))}></i>}
+
+                            {errors?.password
+                                && <small style={{
+                                    color: 'red',
+                                    fontWeight: '500',
+                                    fontSize: '11px'
+                                }}>* {errors?.password[1]}</small>}
                         </div>
 
                         <div className='input_form' style={{
@@ -114,28 +133,36 @@ const Createpassword = () => {
                             <label>Confirm Password <span>*</span></label>
                             <input name='password_confirmation' value={formData.password_confirmation} onChange={handleChange} style={{
                                 padding: '0 40px 0 15px '
-                            }} type='password' placeholder='*********' />
-                            <img style={{
-                                position: 'absolute',
-                                top: '47px',
-                                right: '10px',
-                                width: '20px',
-                                cursor: 'pointer'
-                            }} src={eye} />
-                            <img style={{
+                            }} type={!type2 ? 'text' : 'password'} placeholder='*********' />
+                            {/* <img style={{
                                 position: 'absolute',
                                 top: '50px',
                                 right: '40px',
                                 width: '15px',
                                 cursor: 'pointer'
-                            }} src={tick} />
-                            <small style={{
-                                fontSize: '12px',
-                                marginLeft: '10px',
-                                fontWeight: '700',
-                                display: 'block',
-                                textDecoration: 'none'
-                            }}>8+ characters</small>
+                            }} src={tick} /> */}
+                            {errors?.password
+                                && <small style={{
+                                    color: 'red',
+                                    fontWeight: '500',
+                                    fontSize: '11px'
+                                }}>* {errors?.password[0]}</small>}
+                            
+
+                            {type2 && <i style={{
+                                position: 'absolute',
+                                top: '47px',
+                                right: '10px',
+                                width: '20px',
+                                cursor: 'pointer'
+                            }} className="fa-regular fa-eye-slash" onClick={(() => setType2(!type2))}></i>}
+                            {!type2 && <i style={{
+                                position: 'absolute',
+                                top: '47px',
+                                right: '10px',
+                                width: '20px',
+                                cursor: 'pointer'
+                            }} className="fa-regular fa-eye" onClick={(() => setType2(!type2))}></i>}
                         </div>
                         <Button onClick={handleSubmit} styles={{
                             width: '100%'
