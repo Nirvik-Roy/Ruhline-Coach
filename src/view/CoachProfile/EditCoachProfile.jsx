@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { updateCoachProfile } from '../../Services/UpdateCoachProfile'
 import { getCoachProfile } from '../../Services/GetCoachProfile'
 import { useCountries, useStates, useCities, usePhoneCountryCodes } from '../../hooks/Location'
+import Loaders from "../../Components/Loaders/Loaders.jsx"
 
 
 const emptyForm = {
@@ -147,6 +148,7 @@ const EditCoachProfile = () => {
 
     return (
         <>
+        {(loading || fetchLoading )&& <Loaders/>}
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
                     <div>

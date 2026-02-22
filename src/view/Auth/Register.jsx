@@ -23,8 +23,10 @@ const Register = () => {
     const [verificationChecking, setverificationChecking] = useState(false)
     const [loading, setloading] = useState(false);
     const [registerSuccess, setregisterSuccess] = useState();
-    const [verifiedSuccess, setverifiedSuccess] = useState(false)
-    const { isLogin, isLoading, errors } = useSelector(state => state.auth)
+    const [verifiedSuccess, setverifiedSuccess] = useState(false);
+    const [type, setType] = useState(true)
+    const [type2, setType2] = useState(true)
+    const { isLogin, isLoading, errors, registrationErrors } = useSelector(state => state.auth)
 
     const dispatch = useDispatch()
     const [formData, setformData] = useState({
@@ -131,6 +133,14 @@ const Register = () => {
                             <Input onChange={handleChange} name={'email'} value={formData.email} type={'email'} label={'Email Address'} placeholder={
                                 'Enter email'
                             } />
+
+                            {registrationErrors?.email && <small style={{
+                                marginTop: '10px',
+                                color: 'red',
+                                fontSize: '12px',
+                                display: 'block',
+                                marginLeft: '10px'
+                            }}>* {registrationErrors?.email[0]}</small>}
                         </div>
 
                         <div className='input_form' style={{
@@ -139,18 +149,27 @@ const Register = () => {
                             <label> Password <span>*</span></label>
                             <input onChange={handleChange} name='password' value={formData.password} style={{
                                 padding: '0 40px 0 15px '
-                            }} type='password' placeholder='*********' />
-                            <img style={{
+                            }} type={!type ? 'text' : 'password'} placeholder='*********' />
+                            {type && <i style={{
                                 position: 'absolute',
                                 top: '47px',
                                 right: '10px',
                                 width: '20px',
                                 cursor: 'pointer'
-                            }} src={eye} />
-                            <small style={{
+                            }} className="fa-regular fa-eye-slash" onClick={(() => setType(!type))}></i>}
+                            {!type && <i style={{
+                                position: 'absolute',
+                                top: '47px',
+                                right: '10px',
+                                width: '20px',
+                                cursor: 'pointer'
+                            }} className="fa-regular fa-eye" onClick={(() => setType(!type))}></i>}
+                            {registrationErrors?.password && <small style={{
+                                color: 'red',
                                 fontSize: '12px',
+                                display: 'block',
                                 marginLeft: '10px'
-                            }}>8+ characters</small>
+                            }}>* {registrationErrors?.password[0]}</small>}
                         </div>
 
 
@@ -160,14 +179,21 @@ const Register = () => {
                             <label> Confirm Password <span>*</span></label>
                             <input onChange={handleChange} name='password_confirmation' value={formData.password_confirmation} style={{
                                 padding: '0 40px 0 15px '
-                            }} type='password' placeholder='*********' />
-                            <img style={{
+                            }} type={!type2 ? 'text' : 'password'} placeholder='*********' />
+                            {type2 && <i style={{
                                 position: 'absolute',
                                 top: '47px',
                                 right: '10px',
                                 width: '20px',
                                 cursor: 'pointer'
-                            }} src={eye} />
+                            }} className="fa-regular fa-eye-slash" onClick={(() => setType2(!type2))}></i>}
+                            {!type2 && <i style={{
+                                position: 'absolute',
+                                top: '47px',
+                                right: '10px',
+                                width: '20px',
+                                cursor: 'pointer'
+                            }} className="fa-regular fa-eye" onClick={(() => setType2(!type2))}></i>}
                             <img style={{
                                 position: 'absolute',
                                 top: '50px',
@@ -175,10 +201,12 @@ const Register = () => {
                                 width: '15px',
                                 cursor: 'pointer'
                             }} src={tick} />
-                            <small style={{
+                            {registrationErrors?.password_confirmation && <small style={{
+                                color: 'red',
                                 fontSize: '12px',
+                                display: 'block',
                                 marginLeft: '10px'
-                            }}>8+ characters</small>
+                            }}>* {registrationErrors?.password_confirmation[0]}</small>}
                         </div>
 
                         {/* <div className='terms_conditions_wrapper'>

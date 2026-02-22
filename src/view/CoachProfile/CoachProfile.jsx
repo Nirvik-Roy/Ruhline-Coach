@@ -5,6 +5,7 @@ import ChangePasswordModal from '../Modal/ChangePasswordModal'
 import UpdateBankDetails from '../Modal/UpdateBankDetails'
 import { useNavigate } from 'react-router-dom'
 import { getCoachProfile } from '../../Services/GetCoachProfile'
+import Loaders from '../../Components/Loaders/Loaders'
 const CoachProfile = () => {
     const [changePassword, setchangePassword] = useState(false)
     const [updateBankDetails, setupdateBankDetails] = useState(false);
@@ -40,7 +41,8 @@ const CoachProfile = () => {
     }
     return (
         <>
-            {changePassword && <ChangePasswordModal setchangePassword={setchangePassword}/>}
+            {loading && <Loaders />}
+            {changePassword && <ChangePasswordModal setchangePassword={setchangePassword} />}
             {updateBankDetails && <UpdateBankDetails setupdateBankDetails={setupdateBankDetails} />}
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
@@ -48,17 +50,17 @@ const CoachProfile = () => {
                         <h2>My profile</h2>
                     </div>
                     <div className='appointments_button_wrapper'>
-                        <div onClick={(()=>setupdateBankDetails(true))}>
+                        {/* <div onClick={(() => setupdateBankDetails(true))}>
                             <Button styles={{
                                 border: '1px solid var(--primary-color)',
                                 borderRadius: '8px',
                                 background: 'transparent',
                                 color: 'var(--primary-color)'
                             }} children={'Update Bank details'} />
-                        </div>
+                        </div> */}
 
 
-                        <div onClick={(()=>setchangePassword(true))}>
+                        <div onClick={(() => setchangePassword(true))}>
                             <Button styles={{
                                 border: '1px solid var(--primary-color)',
                                 borderRadius: '8px',
@@ -66,7 +68,7 @@ const CoachProfile = () => {
                                 color: 'var(--primary-color)'
                             }} children={'Change Password'} />
                         </div>
-                        <div onClick={(()=>navigate('/dashboard/edit-profile/2'))}>
+                        <div onClick={(() => navigate('/dashboard/edit-profile/2'))}>
                             <Button children={'Edit Profile'} />
                         </div>
 
