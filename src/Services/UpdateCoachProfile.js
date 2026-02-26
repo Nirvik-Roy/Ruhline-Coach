@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export const updateCoachProfile = async (formData) => {
   try {
@@ -15,10 +16,13 @@ export const updateCoachProfile = async (formData) => {
     );
     return response.data;
   } catch (error) {
-    throw {
-      success: false,
-      message: error.response?.data?.message || error.message || 'Failed to update profile',
-      data: null
-    };
+    toast.error(error.response?.data?.message);
+    return error.response.data.errors
+    // throw {
+    //   success: false,
+    //   message: error.response?.data?.message || error.message || 'Failed to update profile',
+    //   data: error.response.data.errors
+    // };
+
   }
 };
