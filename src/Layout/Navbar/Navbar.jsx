@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './Navbar.css'
 import logo from '../../assets/Frame 1984078480.svg'
 import user from '../../assets/g10332.svg'
@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 const Navbar = () => {
     const [dropdown, setdropdown] = useState(false);
     const navigate = useNavigate()
-    const {isLoading} = useSelector(state=>state.auth)
+    const { isLoading } = useSelector(state => state.auth)
     const [modalOpen, setmodalOpen] = useState({
         password: false,
         profile: false,
@@ -24,12 +24,26 @@ const Navbar = () => {
             name: id == 1 ? true : false
         })
     }
-    const logoutFunction = () =>{
-         dispatch(AuthlogOut())
-    } 
+    const logoutFunction = () => {
+        dispatch(AuthlogOut())
+    }
+    const dropdownRef = useRef(null);
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setdropdown(false);
+        }
+    };
+
+
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
     return (
         <>
-            {isLoading && <Loaders/>}
+            {isLoading && <Loaders />}
             {/* {modalOpen.password && <ChangePasswordModal  modalFunction={modalFunction}/>}
             {modalOpen.profile && <ChangeProfileModal modalFunction={modalFunction}/>}
             {modalOpen.name && <UpdateName modalFunction={modalFunction}/>} */}
@@ -37,12 +51,14 @@ const Navbar = () => {
                 <div className='container navbar_content_wrapper'>
                     <img src={logo} />
 
-                    <div className='navbar_logout_wrapper'>
+                    <div className='navbar_logout_wrapper' ref={dropdownRef}>
                         <img onClick={(() => { setdropdown(!dropdown) })} src={user} />
                         <img onClick={(() => logoutFunction())} src={logout} />
                         {dropdown && <div className='user_dropdown'>
                             <div className='user_square'></div>
-                            <p onClick={(() => navigate('/dashboard/coach-profile'))}>View Profile</p>
+                            <p onClick={(() =>{ 
+                                setdropdown(false)
+                                navigate('/dashboard/coach-profile')})}>View Profile</p>
                             {/* <p onClick={(() => modalFunction(1))}>Update Name</p>
                             <p onClick={(() => modalFunction(2))}>Change Profile Picture</p>
                             <p onClick={(() => modalFunction(3))}>Change Password</p> */}
