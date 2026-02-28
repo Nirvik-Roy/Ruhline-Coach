@@ -13,7 +13,7 @@ const PrivateRoute = () => {
         return null; // or loader
     }
     return (
-        isLogin ? <Outlet /> : <Navigate to='/' replace />
+        isLogin ? <Outlet /> : <Navigate to='/login' replace />
     )
 }
 
