@@ -26,6 +26,10 @@ import CoachProfile from './view/CoachProfile/CoachProfile'
 import SingleCreatedPrograms from './view/Programs/SingleCreatedPrograms/SingleCreatedPrograms.jsx'
 import CardGameModule from './view/Programs/SingleCreatedPrograms/ProgramModule/CardGameModule/CardGameModule.jsx'
 import CardGameQuestions from './view/Programs/SingleCreatedPrograms/ProgramModule/CardGameModule/CardGameQuestions.jsx'
+import WheelOfLifeModule from './view/Programs/SingleCreatedPrograms/ProgramModule/WheelOfLifeModule/WheelOfLifeModule.jsx'
+import ProgramTable from './view/Programs/ProgramTable/ProgramTable.jsx'
+import FindYourMotivationModule from './view/Programs/SingleCreatedPrograms/ProgramModule/FindYourMotivationModule/FindYourMotivationModule.jsx'
+import WhoamIModule from './view/Programs/SingleCreatedPrograms/ProgramModule/WhoamIModule/WhoamIModule.jsx'
 function App() {
   return (
     <>
@@ -55,10 +59,14 @@ function App() {
                 <Route path='appoinments/program/:id/wheel-life' element={<WheelOfLife />} />
                 <Route path='appoinments/program/:id/habit-tracker' element={<Habitracker />} />
                 <Route path='edit-profile/:id' element={<EditCoachProfile />} />
-                <Route path='program'>
+                <Route path='program' >
+                  <Route path='' element={<ProgramTable />} />
                   <Route path='single-program/:id' element={<SingleCreatedPrograms />} />
                   <Route path='single-program/:id/card-game/:moduleId' element={<CardGameModule />} />
                   <Route path='single-program/card-game/:id/questions/:moduleId' element={<CardGameQuestions />} />
+                  <Route path='single-program/wheel-of-life/:id/life-elements/:moduleId' element={<WheelOfLifeModule />} />
+                  <Route path='single-program/:id/motivation/:moduleId' element={<FindYourMotivationModule />} />
+                  <Route path='single-program/:id/who-Am-I/:moduleId' element={<WhoamIModule />} />
                 </Route>
               </Route>
             </Route>

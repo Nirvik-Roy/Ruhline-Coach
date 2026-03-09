@@ -20,64 +20,52 @@ const SingleCreatedPrograms = () => {
             id: 1,
             img: icon1,
             title: 'Values',
-            tick: true,
-            lock: false,
             link: '/dashboard/appoinments/program/1/values'
         },
         {
             id: 2,
             img: icon2,
             title: 'Card Game',
-            tick: true,
-            lock: false,
             link: '/dashboard/appoinments/program/1/card-game'
         },
         {
             id: 3,
             img: icon3,
             title: 'Wheel of Life',
-            tick: false,
-            lock: true,
             link: '/dashboard/appoinments/program/1/wheel-life'
         },
         {
             id: 4,
             img: icon4,
             title: 'Goal Settings',
-            tick: false,
-            lock: true,
+            
             link: '/dashboard/appoinments/program/1/goal'
         },
         {
             id: 5,
             img: icon5,
             title: 'Find your Motivation',
-            tick: false,
-            lock: true,
+            
             link: '/dashboard/appoinment'
         },
         {
             id: 6,
             img: icon6,
             title: 'Habit Tracker',
-            tick: false,
-            lock: true,
+            
             link: '/dashboard/appoinments/program/1/habit-tracker'
         },
         {
             id: 1,
             img: icon1,
             title: 'Documents',
-            tick: true,
-            lock: false,
             link: '/dashboard/appoinments/program/1/values'
         },
         {
             id: 6,
             img: icon7,
             title: 'Who am I?',
-            tick: false,
-            lock: true,
+            
             link: '/dashboard/appoinments/program/:id/who-am-i'
         },
 

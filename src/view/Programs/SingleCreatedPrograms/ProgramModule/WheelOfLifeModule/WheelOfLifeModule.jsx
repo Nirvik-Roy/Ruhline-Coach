@@ -19,7 +19,7 @@ import DeleteModal from '../../../../../Components/DeleteModal/DeleteModal.jsx'
 import toast from 'react-hot-toast'
 import down from '../../../../../assets/Chevron.svg'
 import right from '../../../../../assets/Chevron Right.svg'
-const CardGameQuestions = () => {
+const WheelOfLifeModule = () => {
     const navigate = useNavigate();
     const [allQuestionSets, setallQuestionSets] = useState([]);
     const [singleQuestion, setsingleQuestion] = useState({})
@@ -769,10 +769,15 @@ const CardGameQuestions = () => {
             <div className='dashboard_container'>
                 <div className='coaches_head_wrapper'>
                     <div>
-                        <h2>Questions</h2>
+                        <h2>Wheel of Life</h2>
                         <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}`))}>{singleProgramData?.name}</span> / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}/card-game/${moduleId}`))}>Card Game</span> / <span onClick={(() => navigate(`/dashboard/programs/card-game/${id}/questions/${moduleId}`))}>Questions</span></small>
                     </div>
                 </div>
+                <h3 style={{
+                    marginTop: '20px',
+                    color: 'var(--text-color)',
+                    fontSize: '23px'
+                }}>Life Elements</h3>
 
                 <div className='card_game_questions_list_wrapper'>
                     {[1, 2, 3, 4, 5]?.map((e, i) => (
@@ -794,8 +799,7 @@ const CardGameQuestions = () => {
 
                                 </div>
 
-                                {faqIndex.includes(i) && 
-                                <div className='questions_list_wrapper4562'>
+                                {faqIndex.includes(i) && <div className='questions_list_wrapper4562'>
                                     {e?.questions?.length <= 0 && <p style={{
                                         fontWeight: '600',
                                         fontSize: '16px',
@@ -853,4 +857,4 @@ const CardGameQuestions = () => {
     )
 }
 
-export default CardGameQuestions
+export default WheelOfLifeModule
