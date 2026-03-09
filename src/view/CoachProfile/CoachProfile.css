@@ -55,3 +55,68 @@
 .banking_details_wrapper h4{
     font-size: 20px;
 }
+
+.coaches_head_wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.coaches_head_wrapper small{
+    cursor: pointer;
+}
+.coaches_button_wapper{
+    display: flex;
+    gap: 10px;
+}
+.coaches_search_wrapper{
+    width: 200px;
+    position: relative;
+}
+.coaches_search_wrapper input{
+    width: 100%;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid rgba(217, 217, 217, 1);
+    padding: 15px 20px 15px 35px;
+    background-color: transparent;
+    font-size: 12px;
+}
+.coaches_search_wrapper i{
+    position: absolute;
+    top: 15px;
+    left: 10px;
+}
+.coaches_table_wrapper th{
+    text-align: left;
+}
+.coaches_table_wrapper td{
+    text-align: left;
+    position: relative;
+}
+.coaches_table_wrapper td:last-child{
+    text-align: center;
+    cursor: pointer;
+}
+.actions_wrapper{
+    width: 100%;
+    box-shadow: 0px 8px 12px 0px rgba(9, 30, 66, 0.15);
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    background-color: #fff;
+    bottom: -110px;
+    left: -50px;
+    z-index: 8;
+    cursor: pointer;
+}
+.actions_wrapper p{
+    color: var(--text-color);
+    padding: 10px 20px;
+    font-size: 13px;
+    text-align: left;
+    transition: 0.2s linear all;
+}
+.actions_wrapper p:hover{
+    background-color: #efeeee;
+}

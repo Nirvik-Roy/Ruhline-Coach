@@ -23,39 +23,46 @@ import ResendEmail from './view/Auth/ResendEmail'
 import ForgotPassword from './view/Auth/ForgotPassword'
 import EditCoachProfile from './view/CoachProfile/EditCoachProfile'
 import CoachProfile from './view/CoachProfile/CoachProfile'
-
+import SingleCreatedPrograms from './view/Programs/SingleCreatedPrograms/SingleCreatedPrograms.jsx'
+import CardGameModule from './view/Programs/SingleCreatedPrograms/ProgramModule/CardGameModule/CardGameModule.jsx'
+import CardGameQuestions from './view/Programs/SingleCreatedPrograms/ProgramModule/CardGameModule/CardGameQuestions.jsx'
 function App() {
   return (
     <>
       <BrowserRouter>
         <LocationProvider>
-        <Toaster />
-        <ScrollTop />
-        <Routes>
-          <Route path='/' element={<Register />} />
-          <Route path='/verify-email' element={<Register />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/associate-email' element={<EmailAssociate />} />
-          <Route path='/resend-email' element={<ResendEmail />} />
-          <Route path='/reset-password' element={<Createpassword />} />
-          <Route path='/forgot-password' element={<ForgotPassword />} />
-          <Route path='/dashboard' element={<PrivateRoute />}>
-            <Route path='/dashboard' element={<MainLayout />}>
-              <Route path='coach-profile' element={<CoachProfile />} />
-              <Route path='appoinments' element={<Appoinments />} />
-              <Route path='appoinments/program/:id' element={<AppoinmentPrograms />} />
-              <Route path='appoinments/program/:id/values' element={<ProgramValues />} />
-              <Route path='appoinments/program/:id/goal' element={<ProgramGoal />} />
-              <Route path='appoinments/program/:id/create-goal' element={<CreateGoal />} />
-              <Route path='appoinments/goal/view-goal/:id' element={<ViewGoal />} />
-              <Route path='appoinments/program/:id/who-am-i' element={<Whoami />} />
-              <Route path='appoinments/program/:id/card-game' element={<Cardgame />} />
-              <Route path='appoinments/program/:id/wheel-life' element={<WheelOfLife />} />
-              <Route path='appoinments/program/:id/habit-tracker' element={<Habitracker />} />
-              <Route path='edit-profile/:id' element={<EditCoachProfile />} />
+          <Toaster />
+          <ScrollTop />
+          <Routes>
+            <Route path='/' element={<Register />} />
+            <Route path='/verify-email' element={<Register />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/associate-email' element={<EmailAssociate />} />
+            <Route path='/resend-email' element={<ResendEmail />} />
+            <Route path='/reset-password' element={<Createpassword />} />
+            <Route path='/forgot-password' element={<ForgotPassword />} />
+            <Route path='/dashboard' element={<PrivateRoute />}>
+              <Route path='/dashboard' element={<MainLayout />}>
+                <Route path='coach-profile' element={<CoachProfile />} />
+                <Route path='appoinments' element={<Appoinments />} />
+                <Route path='appoinments/program/:id' element={<AppoinmentPrograms />} />
+                <Route path='appoinments/program/:id/values' element={<ProgramValues />} />
+                <Route path='appoinments/program/:id/goal' element={<ProgramGoal />} />
+                <Route path='appoinments/program/:id/create-goal' element={<CreateGoal />} />
+                <Route path='appoinments/goal/view-goal/:id' element={<ViewGoal />} />
+                <Route path='appoinments/program/:id/who-am-i' element={<Whoami />} />
+                <Route path='appoinments/program/:id/card-game' element={<Cardgame />} />
+                <Route path='appoinments/program/:id/wheel-life' element={<WheelOfLife />} />
+                <Route path='appoinments/program/:id/habit-tracker' element={<Habitracker />} />
+                <Route path='edit-profile/:id' element={<EditCoachProfile />} />
+                <Route path='program'>
+                  <Route path='single-program/:id' element={<SingleCreatedPrograms />} />
+                  <Route path='single-program/:id/card-game/:moduleId' element={<CardGameModule />} />
+                  <Route path='single-program/card-game/:id/questions/:moduleId' element={<CardGameQuestions />} />
+                </Route>
+              </Route>
             </Route>
-          </Route>
-        </Routes>
+          </Routes>
         </LocationProvider>
       </BrowserRouter>
     </>

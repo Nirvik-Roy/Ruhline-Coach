@@ -1,0 +1,124 @@
+import React from 'react'
+import Button from '../../Components/Button'
+import crossIcon from '../../assets/Frame 1984078314.svg'
+import { useParams } from 'react-router-dom'
+import Textarea from '../../Components/Textarea'
+const CardGameMultichoiceModal = ({ tabsFunction, addEmptyOption, removeOption, updateQuestionText, updateOptionText, dynamicOptions, postQuestions, errors, selectedIndex }) => {
+    const { moduleId } = useParams()
+    return (
+        <>
+            <div className='modal_wrapper' onClick={(() => tabsFunction(0))}></div>
+            <div className='modal_div'>
+                <h4>Multi Choice</h4>
+                <i class="fa-solid fa-xmark" onClick={(() => tabsFunction(0))}></i>
+                {
+                    dynamicOptions[selectedIndex]?.questions?.map((question, qIndex) => (
+                        question.type === "multi_choice" ? (
+                            <div key={`${selectedIndex}-${qIndex}`} style={{ margin: "20px 0" }}>
+
+                                {/* Question Textarea */}
+                                <Textarea
+                                    styles={{ height: "70px" }}
+                                    label="Question"
+                                    required={true}
+                                    value={question.question_text}
+                                    onChange={(event) =>
+                                        updateQuestionText(selectedIndex, qIndex, event.target.value)
+                                    }
+                                />
+                                {errors?.question_text && (
+                                    <small style={{ color: 'red' }}>
+                                        *{errors?.question_text[0]}
+                                    </small>
+                                )}
+
+                                {/* Options Header + Add Button */}
+                                <div className="options_wrapper466885">
+                                    <h3>Options</h3>
+                                    <Button
+                                        onClick={() => addEmptyOption(selectedIndex, qIndex)}
+                                        children="Add Option"
+                                        styles={{
+                                            backgroundColor: "transparent",
+                                            border: "1px solid var(--primary-color)",
+                                            color: "var(--text-color)",
+                                            padding: "10px",
+                                            fontSize: "12px",
+                                        }}
+                                    />
+                                </div>
+
+                                {/* Render Each Option */}
+                                <div className="options_list_wrapper46656">
+                                    {question.options && question.options.length > 0 ? (
+                                        question.options.map((opt, optIndex) => (
+                                            <div
+                                                className="options_1_wrapper456"
+                                                key={`${selectedIndex}-${qIndex}-opt-${optIndex}`}
+                                            >
+                                                <div className="option_left_wrapper">
+                                                    <Textarea
+                                                        label={`Option ${optIndex + 1}`}
+                                                        required={true}
+                                                        styles={{ height: "70px" }}
+                                                        // If options are strings
+                                                        value={opt}
+                                                        // If options are objects:
+                                                        // value={opt.text || ''}
+                                                        placeholder="Enter option"
+                                                        onChange={(event) =>
+                                                            updateOptionText(
+                                                                selectedIndex,
+                                                                qIndex,
+                                                                optIndex,
+                                                                event.target.value
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+
+                                                <div className="option_right_wrapper">
+                                                    <img
+                                                        src={crossIcon}
+                                                        alt="remove"
+                                                        onClick={() =>
+                                                            removeOption(selectedIndex, qIndex, optIndex)
+                                                        }
+                                                        style={{ cursor: "pointer" }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p style={{ color: '#999', margin: '10px 0' }}>No options added yet</p>
+                                    )}
+
+                                    {errors?.options && (
+                                        <small style={{ color: 'red' }}>
+                                            *{errors?.options[0]}
+                                        </small>
+                                    )}
+
+                                    {/* Submit Button */}
+                                    <div
+                                        className="change_cancel_wrapper"
+                                        style={{ margin: "20px 0 0 0" }}
+                                    >
+                                        <Button
+                                            onClick={() => postQuestions(moduleId)}
+                                            children="Add"
+                                        />
+                                    </div>
+                                </div>
+
+                            </div>
+                        ) : null
+                    ))
+                }
+
+            </div>
+        </>
+    )
+}
+
+export default CardGameMultichoiceModal

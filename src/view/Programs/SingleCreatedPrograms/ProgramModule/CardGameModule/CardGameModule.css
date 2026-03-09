@@ -1,0 +1,48 @@
+.card_game_questions_list_wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    margin: 25px 0;
+}
+
+.card_game_questions_wrapper {
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(217, 217, 217, 1);
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.question_set_heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.question_set_heading hr {
+    border: 1px solid rgb(232, 230, 230);
+    width: calc(100% - 150px);
+}
+
+.question_set_heading h2 {
+    font-size: 19px;
+    color: var(--text-color);
+    font-weight: 700;
+}
+.questions_buttons_wrapper466{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.questions_buttons_wrapper466 h4{
+    font-size: 15px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+.question_button{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+}
