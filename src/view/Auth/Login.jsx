@@ -71,7 +71,7 @@ const Login = () => {
             navigate("/dashboard/appoinments", { replace: true });
         }
     }, [isLogin, location.pathname, navigate]);
-    
+
     return (
         <>  {isLoading && <Loaders />}
             <div className='register_wrapper'>
@@ -132,6 +132,7 @@ const Login = () => {
                                 cursor: 'pointer'
                             }}>Forget Password?</small>
 
+
                             <p style={{
                                 color: 'var(--primary-color)',
                                 fontSize: '13px',
@@ -148,6 +149,8 @@ const Login = () => {
                             </div>
 
                         </div>
+
+                        <h5 className='log_in_link'>Don't have an account? <Link to={'/'}>Sign Up</Link></h5>
                     </form>
 
                 </div>
