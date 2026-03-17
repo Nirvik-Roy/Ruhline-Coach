@@ -13,6 +13,11 @@ const Sidebar = () => {
                     <p>Dashboard</p>
                 </NavLink>
 
+                <NavLink to={'/dashboard/program'}>
+                    <img src={settings} />
+                    <p>Programs</p>
+                </NavLink>
+
                 <NavLink to={'/dashboard/appoinments'}>
                     <img src={settings} />
                     <p>Appointments</p>

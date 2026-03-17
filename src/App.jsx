@@ -30,6 +30,7 @@ import WheelOfLifeModule from './view/Programs/SingleCreatedPrograms/ProgramModu
 import ProgramTable from './view/Programs/ProgramTable/ProgramTable.jsx'
 import FindYourMotivationModule from './view/Programs/SingleCreatedPrograms/ProgramModule/FindYourMotivationModule/FindYourMotivationModule.jsx'
 import WhoamIModule from './view/Programs/SingleCreatedPrograms/ProgramModule/WhoamIModule/WhoamIModule.jsx'
+import ValuesModule from './view/Programs/SingleCreatedPrograms/ProgramModule/ValuesModule/ValuesModule.jsx'
 function App() {
   return (
     <>
@@ -67,6 +68,7 @@ function App() {
                   <Route path='single-program/wheel-of-life/:id/life-elements/:moduleId' element={<WheelOfLifeModule />} />
                   <Route path='single-program/:id/motivation/:moduleId' element={<FindYourMotivationModule />} />
                   <Route path='single-program/:id/who-Am-I/:moduleId' element={<WhoamIModule />} />
+                  <Route path='single-program/:id/values/:moduleId' element={<ValuesModule />} />
                 </Route>
               </Route>
             </Route>

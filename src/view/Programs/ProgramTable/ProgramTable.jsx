@@ -1,7 +1,9 @@
 
+import { useNavigate } from 'react-router-dom'
 import ellipse from '../../../assets/icon.svg'
 import Pagination from '../../../Components/Pagination/Pagination'
 const ProgramTable = () => {
+    const navigate = useNavigate()
     return (
         <>
             <div className='dashboard_container'>
@@ -23,7 +25,7 @@ const ProgramTable = () => {
                         </thead>
                         <tbody>
 
-                            {[1, 2, 3].map(() => (
+                            {[1, 2, 3].map((e) => (
                                 <tr>
                                     <td>
                                         <div className='customer_wrapper' style={{
@@ -42,7 +44,7 @@ const ProgramTable = () => {
                                     <td>Program Sub-Category 1</td>
                                     <td>One-Time</td>
                                     <td>
-                                        <div style={{
+                                        <div onClick={(()=>navigate(`/dashboard/program/single-program/${e}`))} style={{
                                             position: 'relative'
                                         }}>
                                             <img src={ellipse} />

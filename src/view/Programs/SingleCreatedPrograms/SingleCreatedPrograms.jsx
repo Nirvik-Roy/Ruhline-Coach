@@ -13,46 +13,49 @@ import icon6 from '../../../assets/Layer_1 (6).svg'
 import icon7 from '../../../assets/Group 1597882969 (1).svg'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import EditDocumentModal from '../../Modal/EditDocumentModal.jsx'
+import UploadDocumentsModal from '../../Modal/UploadDocumentsModal.jsx'
 const SingleCreatedPrograms = () => {
     const navigate = useNavigate()
+    const [uploadModal, setuploadModal] = useState(false)
     const [programData, setProgramData] = useState([
         {
             id: 1,
             img: icon1,
             title: 'Values',
-            link: '/dashboard/appoinments/program/1/values'
+            link: '/dashboard/program/single-program/1/values/2'
         },
         {
             id: 2,
             img: icon2,
             title: 'Card Game',
-            link: '/dashboard/appoinments/program/1/card-game'
+            link: '/dashboard/program/single-program/1/card-game/2'
         },
         {
             id: 3,
             img: icon3,
             title: 'Wheel of Life',
-            link: '/dashboard/appoinments/program/1/wheel-life'
+            link: '/dashboard/program/single-program/wheel-of-life/1/life-elements/3'
         },
         {
             id: 4,
             img: icon4,
             title: 'Goal Settings',
-            
+
             link: '/dashboard/appoinments/program/1/goal'
         },
         {
             id: 5,
             img: icon5,
             title: 'Find your Motivation',
-            
-            link: '/dashboard/appoinment'
+
+            link: '/dashboard/program/single-program/1/motivation/5'
         },
         {
             id: 6,
             img: icon6,
             title: 'Habit Tracker',
-            
+
             link: '/dashboard/appoinments/program/1/habit-tracker'
         },
         {
@@ -65,13 +68,15 @@ const SingleCreatedPrograms = () => {
             id: 6,
             img: icon7,
             title: 'Who am I?',
-            
-            link: '/dashboard/appoinments/program/:id/who-am-i'
+
+            link: '/dashboard/program/single-program/1/who-Am-I/3'
         },
 
     ])
     return (
         <>
+            {uploadModal && <UploadDocumentsModal setuploadModal={setuploadModal} />}
+
             <div className='dashboard_container one_time_content_wrapper'>
                 <div className='appointes_head_wrapper'>
                     <div>
@@ -94,21 +99,33 @@ const SingleCreatedPrograms = () => {
                     }}>
                         {programData.map((e) => (
                             <div className='customer_journey_card' style={{
-                                position:'relative',
-                                width:'140px',
-                                minWidth:'140px',
-                                height:'130px'
+                                position: 'relative',
+                                width: '140px',
+                                minWidth: '140px',
+                                height: '130px'
                             }}>
                                 <div style={{
-                                    position:'absolute',
-                                    top:'5px',
-                                    right:'5px',
-                                    display:'flex',
-                                    flexDirection:'column',
-                                    rowGap:'5px'
+                                    position: 'absolute',
+                                    top: '5px',
+                                    right: '5px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    rowGap: '5px'
                                 }}>
-                                    <img src={pencil}/>
-                                    <img src={eye}/>
+                                    <img onClick={(() => {
+                                        if (e?.title === 'Documents') {
+                                            setuploadModal(true)
+                                        } else {
+                                            navigate(e?.link)
+                                        }
+                                    })} src={pencil} />
+                                    <img onClick={(() => {
+                                        if (e?.title === 'Documents') {
+                                            setuploadModal(true)
+                                        } else {
+                                            navigate(e?.link)
+                                        }
+                                    })} src={eye} />
                                 </div>
                                 <img style={{
                                     position: 'absolute',
@@ -117,7 +134,7 @@ const SingleCreatedPrograms = () => {
                                 }} />
                                 <img src={e.img} />
                                 <p style={{
-                                    width:'100px'
+                                    width: '100px'
                                 }}>{e.title}</p>
                             </div>
                         ))}
