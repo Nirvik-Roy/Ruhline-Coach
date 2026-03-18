@@ -3,8 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../../../../Components/Button'
 import ellipse from '../../../../../assets/_MoreIcon_.svg'
 import Pagination from '../../../../../Components/Pagination/Pagination';
-import CardViewModal from '../../../../Modal/CardViewModal.jsx';
-
+import CardViewModal from '../../../../Modal/CardViewModal';
+import { deleteCardGameCards, editCardGamecards, getCardGameQuestions, getCoachSinglePrograms, postCardGamecards } from '../../../../../utils/Program'
 import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
 import AddCardModal from '../../../../Modal/AddCardModal.jsx';
 import toast from 'react-hot-toast';
@@ -43,11 +43,11 @@ const CardGameModule = () => {
     const fetchCardGameQuestions = async () => {
         try {
             setloading(true)
-            // const res = await getCardGameQuestions(id, moduleId)
-            // console.log(res)
-            // if (res?.success) {
-            //     setallQuestions(res?.data?.data)
-            // }
+            const res = await getCardGameQuestions(id, moduleId)
+            console.log(res)
+            if (res?.success) {
+                setallQuestions(res?.data?.data)
+            }
         } catch (err) {
             console.log(err)
         } finally {
@@ -64,17 +64,17 @@ const CardGameModule = () => {
     const addCardFunc = async () => {
         if (cardName != "" && cardDescription != '') {
             setloading(true)
-            // const res = await postCardGamecards({
-            //     name: cardName,
-            //     // card_category_id: cardCategoryId,
-            //     description: cardDescription || ''
-            // }, id, moduleId);
-            // if (res?.success) {
-            //     fetchCardGameQuestions()
-            //     setisModal(false)
-            //     setcardDescription("")
-            //     setcardName("")
-            // }
+            const res = await postCardGamecards({
+                name: cardName,
+                // card_category_id: cardCategoryId,
+                description: cardDescription || ''
+            }, id, moduleId);
+            if (res?.success) {
+                fetchCardGameQuestions()
+                setisModal(false)
+                setcardDescription("")
+                setcardName("")
+            }
             setloading(false)
         } else {
             toast.error("Plz enter the fields")
@@ -85,15 +85,15 @@ const CardGameModule = () => {
         if (cardName != '' && cardDescription != "") {
             try {
                 setloading(true);
-                // const res = await editCardGamecards({
-                //     name: cardName,
-                //     description: cardDescription
-                // }, id, moduleId, singleCardId);
+                const res = await editCardGamecards({
+                    name: cardName,
+                    description: cardDescription
+                }, id, moduleId, singleCardId);
 
-                // if (res?.success) {
-                //     Modalfunc(0);
-                //     fetchCardGameQuestions()
-                // }
+                if (res?.success) {
+                    Modalfunc(0);
+                    fetchCardGameQuestions()
+                }
             } catch (err) {
                 console.log(err)
             } finally {
@@ -112,12 +112,12 @@ const CardGameModule = () => {
     const deleteFunc = async () => {
         try {
             setloading(true)
-            // const res = await deleteCardGameCards(id, moduleId, deletedId)
-            // if (res?.success) {
-            //     fetchCardGameQuestions()
-            //     setdeleteModal(false)
-            //     setIndex([])
-            // }
+            const res = await deleteCardGameCards(id, moduleId, deletedId)
+            if (res?.success) {
+                fetchCardGameQuestions()
+                setdeleteModal(false)
+                setIndex([])
+            }
         } catch (err) {
             console.log(err)
         } finally {
@@ -129,8 +129,8 @@ const CardGameModule = () => {
     const fetchSingleProgram = async () => {
         try {
             setloading(true)
-            // const res = await getprogramById(id);
-            // setsingleProgramData(res?.data)
+            const res = await getCoachSinglePrograms(id);
+            setsingleProgramData(res?.data)
         } catch (err) {
             console.log(err)
         } finally {
@@ -178,7 +178,7 @@ const CardGameModule = () => {
                         <Button onClick={(() => setisModal(true))} styles={{
                             fontSize: '13px'
                         }} children={'Add Cards'} />
-                        <div onClick={(() => navigate(`/dashboard/program/single-program/card-game/${id}/questions/${moduleId}`))}>
+                        <div onClick={(() => navigate(`/dashboard/programs/card-game/${id}/questions/${moduleId}`))}>
                             <Button children={'Questions'} styles={{
                                 fontSize: '13px'
                             }} />
@@ -212,7 +212,7 @@ const CardGameModule = () => {
 
                                             <div className='customer_details_wrapper'>
                                                 <p>{e?.name}</p>
-                                                
+                                                {/* <p>Card 1</p> */}
                                             </div>
                                         </div>
                                     </td>
@@ -221,9 +221,10 @@ const CardGameModule = () => {
                                         <div style={{
                                             position: 'relative'
                                         }}>
-                                            <img onClick={((e) =>{ 
+                                            <img onClick={((e) => {
                                                 e.stopPropagation()
-                                                indexFunction(i)})} src={ellipse} />
+                                                indexFunction(i)
+                                            })} src={ellipse} />
                                             {index.includes(i) && <div className='actions_wrapper' style={{
                                                 top: '20px'
                                             }}>

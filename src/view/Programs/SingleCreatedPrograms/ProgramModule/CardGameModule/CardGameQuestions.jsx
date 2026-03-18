@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import '../ProgramModule.css'
-import Button from '../../../../../Components/Button.jsx'
+import Button from '../../../../../Components/Button'
+import DescriptiveModal from '../../../../Modal/DescriptiveModal'
+import MultiChoiceModal from '../../../../Modal/MultiChoiceModal'
+import SingleChoiceModal from '../../../../Modal/SingleChoiceModal'
+import DropdownModal from '../../../../Modal/DropdownModal'
 import menu from '../../../../../assets/menu.svg'
 import edit from '../../../../../assets/Pencil.svg'
 import deleteicon from '../../../../../assets/delete.svg'
 import { useNavigate, useParams } from 'react-router-dom'
-import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
-import CardGameDescriptiveModal from '../../../../Modal/CardGameDescriptiveModal.jsx'
+import { deleteQuestionsInsideSet, editCardGameQuestionSet, editQuestionsInsideQuestionSet, getCardGameQuestionSets, getCoachSinglePrograms, postQuestionsInsideQuestionSet } from '../../../../../utils/Program'
+import Loaders from '../../../../../Components/Loaders/Loaders'
+import CardGameDescriptiveModal from '../../../../Modal/CardGameDescriptiveModal'
 import CardGameMultichoiceModal from '../../../../Modal/CardGameMultichoiceModal'
 import CardGameSingleChoiceModal from '../../../../Modal/CardGameSingleChoiceModal'
 import CardGameDropdownModal from '../../../../Modal/CardGameDropdownModal'
-import EditMultiChoiceModal from '../../../../Modal/EditMultiChoiceModal.jsx'
+import EditMultiChoiceModal from '../../../../Modal/EditMultiChoiceModal'
 import EditDropdownModal from '../../../../Modal/EditDropdownModal'
 import EditSingleChoiceModal from '../../../../Modal/EditSingleChoiceModal'
 import EditDescriptiveModal from '../../../../Modal/EditDescriptiveModal'
 import EditQuestionTitleModal from '../../../../Modal/EditQuestionTitleModal'
 import DeleteModal from '../../../../../Components/DeleteModal/DeleteModal.jsx'
 import toast from 'react-hot-toast'
-import down from '../../../../../assets/Chevron.svg'
-import right from '../../../../../assets/Chevron Right.svg'
 const CardGameQuestions = () => {
     const navigate = useNavigate();
     const [allQuestionSets, setallQuestionSets] = useState([]);
@@ -203,10 +206,10 @@ const CardGameQuestions = () => {
     const getQuestionSets = async () => {
         try {
             setloading(true)
-            //  const res = await getCardGameQuestionSets(id, moduleId)
-            // if (res?.success) {
-            //     setallQuestionSets(res?.data?.data)
-            // }
+            const res = await getCardGameQuestionSets(id, moduleId)
+            if (res?.success) {
+                setallQuestionSets(res?.data?.data)
+            }
         } catch (err) {
             console.log(err)
         } finally {
@@ -287,160 +290,160 @@ const CardGameQuestions = () => {
                         }
                     }
                 })
-                // const res = await postQuestionsInsideQuestionSet(formData, moduleId, id, questionId);
-                // if (res?.success) {
-                //     setTabs(0);
-                //     getQuestionSets()
-                //     setselectedIndex('')
-                //     setquestionId('')
-                //     setdynamicOptions([
-                //         {
-                //             id: 1,
-                //             title: 'Question 1',
-                //             questions: [
-                //                 {
-                //                     id: 1,
-                //                     type: 'descriptive',
-                //                     question_text: '',
-                //                     options: null,
-                //                 }, {
-                //                     id: 2,
-                //                     type: 'multi_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 }, {
-                //                     id: 3,
-                //                     type: 'single_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 },
-                //                 {
-                //                     id: 4,
-                //                     type: 'dropdown',
-                //                     question_text: '',
-                //                     options: []
-                //                 }
-                //             ]
-                //         },
-                //         {
-                //             id: 2,
-                //             title: 'Question 1',
-                //             questions: [
-                //                 {
-                //                     id: 1,
-                //                     type: 'descriptive',
-                //                     question_text: '',
-                //                     options: null,
-                //                 }, {
-                //                     id: 2,
-                //                     type: 'multi_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 }, {
-                //                     id: 3,
-                //                     type: 'single_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 },
-                //                 {
-                //                     id: 4,
-                //                     type: 'dropdown',
-                //                     question_text: '',
-                //                     options: []
-                //                 }
-                //             ]
-                //         },
+                const res = await postQuestionsInsideQuestionSet(formData, moduleId, id, questionId);
+                if (res?.success) {
+                    setTabs(0);
+                    getQuestionSets()
+                    setselectedIndex('')
+                    setquestionId('')
+                    setdynamicOptions([
+                        {
+                            id: 1,
+                            title: 'Question 1',
+                            questions: [
+                                {
+                                    id: 1,
+                                    type: 'descriptive',
+                                    question_text: '',
+                                    options: null,
+                                }, {
+                                    id: 2,
+                                    type: 'multi_choice',
+                                    question_text: '',
+                                    options: []
+                                }, {
+                                    id: 3,
+                                    type: 'single_choice',
+                                    question_text: '',
+                                    options: []
+                                },
+                                {
+                                    id: 4,
+                                    type: 'dropdown',
+                                    question_text: '',
+                                    options: []
+                                }
+                            ]
+                        },
+                        {
+                            id: 2,
+                            title: 'Question 1',
+                            questions: [
+                                {
+                                    id: 1,
+                                    type: 'descriptive',
+                                    question_text: '',
+                                    options: null,
+                                }, {
+                                    id: 2,
+                                    type: 'multi_choice',
+                                    question_text: '',
+                                    options: []
+                                }, {
+                                    id: 3,
+                                    type: 'single_choice',
+                                    question_text: '',
+                                    options: []
+                                },
+                                {
+                                    id: 4,
+                                    type: 'dropdown',
+                                    question_text: '',
+                                    options: []
+                                }
+                            ]
+                        },
 
-                //         {
-                //             id: 3,
-                //             title: 'Question 1',
-                //             questions: [
-                //                 {
-                //                     id: 1,
-                //                     type: 'descriptive',
-                //                     question_text: '',
-                //                     options: null,
-                //                 }, {
-                //                     id: 2,
-                //                     type: 'multi_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 }, {
-                //                     id: 3,
-                //                     type: 'single_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 },
-                //                 {
-                //                     id: 4,
-                //                     type: 'dropdown',
-                //                     question_text: '',
-                //                     options: []
-                //                 }
-                //             ]
-                //         },
-                //         {
-                //             id: 4,
-                //             title: 'Question 1',
-                //             questions: [
-                //                 {
-                //                     id: 1,
-                //                     type: 'descriptive',
-                //                     question_text: '',
-                //                     options: null,
-                //                 }, {
-                //                     id: 2,
-                //                     type: 'multi_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 }, {
-                //                     id: 3,
-                //                     type: 'single_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 },
-                //                 {
-                //                     id: 4,
-                //                     type: 'dropdown',
-                //                     question_text: '',
-                //                     options: []
-                //                 }
-                //             ]
-                //         },
-                //         {
-                //             id: 5,
-                //             title: 'Question 1',
-                //             questions: [
-                //                 {
-                //                     id: 1,
-                //                     type: 'descriptive',
-                //                     question_text: '',
-                //                     options: null,
-                //                 }, {
-                //                     id: 2,
-                //                     type: 'multi_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 }, {
-                //                     id: 3,
-                //                     type: 'single_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 },
-                //                 {
-                //                     id: 4,
-                //                     type: 'dropdown',
-                //                     question_text: '',
-                //                     options: []
-                //                 }
-                //             ]
-                //         }
-                //     ])
-                //     setErrors('')
-                // } else {
-                //     setErrors(res)
-                //     console.log('error')
-                // }
+                        {
+                            id: 3,
+                            title: 'Question 1',
+                            questions: [
+                                {
+                                    id: 1,
+                                    type: 'descriptive',
+                                    question_text: '',
+                                    options: null,
+                                }, {
+                                    id: 2,
+                                    type: 'multi_choice',
+                                    question_text: '',
+                                    options: []
+                                }, {
+                                    id: 3,
+                                    type: 'single_choice',
+                                    question_text: '',
+                                    options: []
+                                },
+                                {
+                                    id: 4,
+                                    type: 'dropdown',
+                                    question_text: '',
+                                    options: []
+                                }
+                            ]
+                        },
+                        {
+                            id: 4,
+                            title: 'Question 1',
+                            questions: [
+                                {
+                                    id: 1,
+                                    type: 'descriptive',
+                                    question_text: '',
+                                    options: null,
+                                }, {
+                                    id: 2,
+                                    type: 'multi_choice',
+                                    question_text: '',
+                                    options: []
+                                }, {
+                                    id: 3,
+                                    type: 'single_choice',
+                                    question_text: '',
+                                    options: []
+                                },
+                                {
+                                    id: 4,
+                                    type: 'dropdown',
+                                    question_text: '',
+                                    options: []
+                                }
+                            ]
+                        },
+                        {
+                            id: 5,
+                            title: 'Question 1',
+                            questions: [
+                                {
+                                    id: 1,
+                                    type: 'descriptive',
+                                    question_text: '',
+                                    options: null,
+                                }, {
+                                    id: 2,
+                                    type: 'multi_choice',
+                                    question_text: '',
+                                    options: []
+                                }, {
+                                    id: 3,
+                                    type: 'single_choice',
+                                    question_text: '',
+                                    options: []
+                                },
+                                {
+                                    id: 4,
+                                    type: 'dropdown',
+                                    question_text: '',
+                                    options: []
+                                }
+                            ]
+                        }
+                    ])
+                    setErrors('')
+                } else {
+                    setErrors(res)
+                    console.log('error')
+                }
 
             } catch (err) {
                 console.log(err)
@@ -464,16 +467,16 @@ const CardGameQuestions = () => {
                 } else {
                     formData.append('options', [])
                 }
-                // const res = await editQuestionsInsideQuestionSet(formData, moduleId, id, singleQuestionId, editQuestionId);
-                // if (res?.success) {
-                //     setTabs(0);
-                //     getQuestionSets()
-                //     seteditQuestionId('')
-                //     setsingleQuestionId('')
-                //     seteditErrors('')
-                // } else {
-                //     seteditErrors(res)
-                // }
+                const res = await editQuestionsInsideQuestionSet(formData, moduleId, id, singleQuestionId, editQuestionId);
+                if (res?.success) {
+                    setTabs(0);
+                    getQuestionSets()
+                    seteditQuestionId('')
+                    setsingleQuestionId('')
+                    seteditErrors('')
+                } else {
+                    seteditErrors(res)
+                }
 
             } catch (err) {
                 console.log(err)
@@ -673,14 +676,14 @@ const CardGameQuestions = () => {
         if (data) {
             try {
                 setloading(true)
-                //  const res = await editCardGameQuestionSet({
-                //     title: data
-                // }, moduleId, id, questionId)
+                const res = await editCardGameQuestionSet({
+                    title: data
+                }, moduleId, id, questionId)
 
-                // if (res?.success) {
-                //     seteditTitleModal(false)
-                //     getQuestionSets()
-                // }
+                if (res?.success) {
+                    seteditTitleModal(false)
+                    getQuestionSets()
+                }
             } catch (err) {
                 console.log(err)
             } finally {
@@ -705,12 +708,12 @@ const CardGameQuestions = () => {
     const deleteFunc = async () => {
         try {
             setloading(true)
-            // const res = await deleteQuestionsInsideSet(moduleId, id, deleteId, questionId)
-            // console.log(res)
-            // if (res?.success) {
-            //     setdeleteModal(false)
-            //     getQuestionSets()
-            // }
+            const res = await deleteQuestionsInsideSet(moduleId, id, deleteId, questionId)
+            console.log(res)
+            if (res?.success) {
+                setdeleteModal(false)
+                getQuestionSets()
+            }
         } catch (err) {
             console.log(err)
         } finally {
@@ -722,8 +725,8 @@ const CardGameQuestions = () => {
     const fetchSingleProgram = async () => {
         try {
             setloading(true)
-            // const res = await getprogramById(id);
-            // setsingleProgramData(res?.data)
+            const res = await getCoachSinglePrograms(id);
+            setsingleProgramData(res?.data)
         } catch (err) {
             console.log(err)
         } finally {
@@ -735,22 +738,12 @@ const CardGameQuestions = () => {
         if (id) {
             fetchSingleProgram()
         }
-    }, [id])
-
-    const [faqIndex, setFaqIndex] = useState([])
-    const openFaq = (i) => {
-        if (faqIndex.includes(i)) {
-            setFaqIndex(faqIndex.filter((e) => e !== i));
-        } else {
-            setFaqIndex([...faqIndex, i]);
-        }
-    };
-
+    }, [])
     return (
         <>
             {loading && <Loaders />}
             {deleteModal && <DeleteModal setdeleteModal={setdeleteModal} onClick={deleteFunc} title={'Delete question?'} details={'Do you really want to delete this question?'} />}
-
+            {editTitletModal && <EditQuestionTitleModal singleSet={singleSet} seteditTitleModal={seteditTitleModal} editQuestionSet={editQuestionSet} />}
             {tabs.editmultiChoice && <EditMultiChoiceModal editQuestions={editQuestions} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleQuestion} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
             {tabs.editropdown && <EditDropdownModal editQuestions={editQuestions} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleQuestion} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
@@ -775,26 +768,91 @@ const CardGameQuestions = () => {
                 </div>
 
                 <div className='card_game_questions_list_wrapper'>
-                    {[1, 2, 3, 4, 5]?.map((e, i) => (
+                    {allQuestionSets?.length > 0 && allQuestionSets?.map((e, i) => (
                         <>
 
                             <div className='card_game_questions_wrapper' key={e?.id}>
+                                <i onClick={(() => {
+                                    seteditTitleModal(true)
+                                    setquestionId(e?.id)
+                                    singleQuestionSet(e?.id)
+                                })} style={{
+                                    marginLeft: 'auto',
+                                    color: 'var(--primary-color)',
+                                    cursor: 'pointer'
+                                }} className="fa-solid fa-pen-to-square"></i>
                                 <div className='question_set_heading'>
-                                    <h2>{e?.title || `Question ${i + 1}`}</h2>
+                                    <h2>{e?.title}</h2>
                                     <hr />
-                                    <div className='faq_head_wrapper'>
-                                        {faqIndex.includes(i) && <div onClick={(() => openFaq(i))} className='down_img56'>
-                                            <img src={down} />
-                                        </div>}
-
-                                        {!faqIndex.includes(i) && <div onClick={(() => openFaq(i))} className='down_img57'>
-                                            <img src={right} />
-                                        </div>}
-                                    </div>
-
                                 </div>
+                                <div className='questions_buttons_wrapper466'>
+                                    <h4>Questions</h4>
+                                    <div className='question_button'>
+                                        <div onClick={(() => {
+                                            setselectedIndex(i)
+                                            tabsFunction(1)
+                                            setquestionId(e?.id)
+                                        })}>
+                                            <Button styles={{
+                                                border: '1px solid var(--primary-color)',
+                                                borderRadius: '8px',
+                                                backgroundColor: 'transparent',
+                                                color: 'var(--text-color)',
+                                                padding: '10px',
+                                                fontSize: '13px'
+                                            }} children={'Add Descriptive'} />
+                                        </div>
 
-                                {faqIndex.includes(i) && 
+                                        <div onClick={(() => {
+                                            setselectedIndex(i)
+                                            tabsFunction(2)
+                                            setquestionId(e?.id)
+
+                                        })}>
+                                            <Button styles={{
+                                                border: '1px solid var(--primary-color)',
+                                                borderRadius: '8px',
+                                                backgroundColor: 'transparent',
+                                                color: 'var(--text-color)',
+                                                padding: '10px',
+                                                fontSize: '13px'
+                                            }} children={'Add Multi Choice'} />
+                                        </div>
+
+
+                                        <div onClick={(() => {
+                                            setselectedIndex(i)
+                                            tabsFunction(3)
+                                            setquestionId(e?.id)
+
+                                        })}>
+                                            <Button styles={{
+                                                border: '1px solid var(--primary-color)',
+                                                borderRadius: '8px',
+                                                backgroundColor: 'transparent',
+                                                color: 'var(--text-color)',
+                                                padding: '10px',
+                                                fontSize: '13px'
+                                            }} children={'Add Single Choice'} />
+                                        </div>
+
+                                        <div onClick={(() => {
+                                            setselectedIndex(i)
+                                            tabsFunction(4)
+                                            setquestionId(e?.id)
+
+                                        })}>
+                                            <Button styles={{
+                                                border: '1px solid var(--primary-color)',
+                                                borderRadius: '8px',
+                                                backgroundColor: 'transparent',
+                                                color: 'var(--text-color)',
+                                                padding: '10px',
+                                                fontSize: '13px'
+                                            }} children={'Add Dropdown'} />
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className='questions_list_wrapper4562'>
                                     {e?.questions?.length <= 0 && <p style={{
                                         fontWeight: '600',
@@ -841,7 +899,7 @@ const CardGameQuestions = () => {
                                         )
                                     })}
 
-                                </div>}
+                                </div>
                             </div>
 
                         </>
