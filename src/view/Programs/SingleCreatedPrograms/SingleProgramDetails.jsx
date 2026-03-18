@@ -41,7 +41,8 @@ const SingleProgramDetails = ({ singleProgramData }) => {
                     }}>{singleProgramData?.tag}</small>}
 
                     <h1 style={{
-                        color:'#000'
+                        color:'#000',
+                        textTransform:'capitalize'
                     }}>{singleProgramData?.name}</h1>
                     <div>
                         {singleProgramData?.original_price
