@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import Button from '../../../../../Components/Button.jsx'
+import Button from '../../../../../Components/Button'
 import menu from '../../../../../assets/menu.svg'
 import edit from '../../../../../assets/Pencil.svg'
 import deleteicon from '../../../../../assets/delete.svg'
+import eye from '../../../../../assets/icon.svg'
 import './ValuesModule.css'
+import DescriptiveModal from '../../../../Modal/DescriptiveModal'
+import MultiChoiceModal from '../../../../Modal/MultiChoiceModal'
+import SingleChoiceModal from '../../../../Modal/SingleChoiceModal'
+import DropdownModal from '../../../../Modal/DropdownModal'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
+import { deleteValuesQuestion, editValuesQuestion, getCoachProgramsStructure, getCoachSinglePrograms, getValuesQuestion, postValuesQuestion } from '../../../../../utils/Program'
 import EditMultiChoiceModal from '../../../../Modal/EditMultiChoiceModal.jsx'
 import DeleteModal from '../../../../../Components/DeleteModal/DeleteModal.jsx'
 import toast from 'react-hot-toast'
@@ -14,6 +20,7 @@ import EditSingleChoiceModal from '../../../../Modal/EditSingleChoiceModal.jsx'
 import EditDescriptiveModal from '../../../../Modal/EditDescriptiveModal.jsx'
 const ValuesModule = () => {
     const navigate = useNavigate();
+    const [programStructureData, setprogramStructureData] = useState([])
     const [loading, setloading] = useState(false);
     const { id, moduleId } = useParams();
     const [allQuestions, setallQuestions] = useState([]);
@@ -170,37 +177,37 @@ const ValuesModule = () => {
                         }
                     }
                 })
-                // const res = await postValuesQuestion(formData, moduleId, id);
-                // if (res?.success) {
-                //     setTabs(0);
-                //     fetchAllQuestions()
+                const res = await postValuesQuestion(formData, moduleId, id);
+                if (res?.success) {
+                    setTabs(0);
+                    fetchAllQuestions()
 
-                //     setdynamicOptions([
-                //         {
-                //             id: 1,
-                //             type: 'descriptive',
-                //             question_text: '',
-                //             options: null,
-                //         }, {
-                //             id: 2,
-                //             type: 'multi_choice',
-                //             question_text: '',
-                //             options: []
-                //         }, {
-                //             id: 3,
-                //             type: 'single_choice',
-                //             question_text: '',
-                //             options: []
-                //         },
-                //         {
-                //             id: 4,
-                //             type: 'dropdown',
-                //             question_text: '',
-                //             options: []
-                //         }
-                //     ])
-                // }
-                // setErrors(res)
+                    setdynamicOptions([
+                        {
+                            id: 1,
+                            type: 'descriptive',
+                            question_text: '',
+                            options: null,
+                        }, {
+                            id: 2,
+                            type: 'multi_choice',
+                            question_text: '',
+                            options: []
+                        }, {
+                            id: 3,
+                            type: 'single_choice',
+                            question_text: '',
+                            options: []
+                        },
+                        {
+                            id: 4,
+                            type: 'dropdown',
+                            question_text: '',
+                            options: []
+                        }
+                    ])
+                }
+                setErrors(res)
             } catch (err) {
                 console.log(err)
             } finally {
@@ -224,13 +231,13 @@ const ValuesModule = () => {
                 } else {
                     formData.append('options', [])
                 }
-                // const res = await editValuesQuestion(formData, moduleId, id, questionId);
-                // if (res?.success) {
-                //     setTabs(0);
-                //     fetchAllQuestions()
+                const res = await editValuesQuestion(formData, moduleId, id, questionId);
+                if (res?.success) {
+                    setTabs(0);
+                    fetchAllQuestions()
 
-                // }
-                // seteditErrors(res)
+                }
+                seteditErrors(res)
             } catch (err) {
                 console.log(err)
             } finally {
@@ -242,8 +249,8 @@ const ValuesModule = () => {
     const fetchSingleProgram = async () => {
         try {
             setloading(true)
-            // const res = await getprogramById(id);
-            // setsingleProgramData(res?.data)
+            const res = await getCoachSinglePrograms(id);
+            setsingleProgramData(res?.data)
         } catch (err) {
             console.log(err)
         } finally {
@@ -289,11 +296,10 @@ const ValuesModule = () => {
     const fetchAllQuestions = async () => {
         try {
             setloading(true)
-            // const res = await getValuesQuestion(id, moduleId)
-            // console.log(res)
-            // if (res?.success) {
-            //     setallQuestions(res?.data?.data)
-            // }
+            const res = await getValuesQuestion(id, moduleId)
+            if (res?.success) {
+                setallQuestions(res?.data?.data)
+            }
         } catch (err) {
             console.log(err)
         } finally {
@@ -316,12 +322,12 @@ const ValuesModule = () => {
         if (deleteId) {
             try {
                 setloading(true)
-                // const res = await deleteValuesQuestion(moduleId, id, deleteId);
-                // if (res?.success) {
-                //     setdeleteModal(false)
-                //     fetchAllQuestions()
-                //     setTabs(0)
-                // }
+                const res = await deleteValuesQuestion(moduleId, id, deleteId);
+                if (res?.success) {
+                    setdeleteModal(false)
+                    fetchAllQuestions()
+                    setTabs(0)
+                }
             } catch (err) {
                 console.log(err)
             } finally {
@@ -337,19 +343,40 @@ const ValuesModule = () => {
         setdeleteModal(true)
     }
 
+    const fetchProgramStructure = async () => {
+        try {
+            setloading(true);
+            const res = await getCoachProgramsStructure(id)
+            setprogramStructureData(res?.data?.data?.filter((e) => e?.id == moduleId))
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setloading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchProgramStructure()
+    }, [])
+
     return (
         <>
             {deleteModal && <DeleteModal onClick={deleteQuestions} title={'Delete Questions'} details={'Do you really want to delete this question?'} setdeleteModal={setdeleteModal} />}
-            
+            {tabs.descriptive && <DescriptiveModal errors={errors} updateQuestionText={updateQuestionText} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
+            {tabs.multiChoice && <MultiChoiceModal errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
+
+            {tabs.singleChoice && <SingleChoiceModal errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
+
+            {tabs.dropdown && <DropdownModal errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
 
 
-            {tabs.editmultiChoice && <EditMultiChoiceModal editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editmultiChoice && <EditMultiChoiceModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editropdown && <EditDropdownModal editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editropdown && <EditDropdownModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editsingleChoice && <EditSingleChoiceModal editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editsingleChoice && <EditSingleChoiceModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editdescriptive && <EditDescriptiveModal editErrors={editErrors} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editdescriptive && <EditDescriptiveModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
             {loading && <Loaders />}
             <div className='dashboard_container'>
                 <div className='coaches_head_wrapper'>
@@ -368,7 +395,7 @@ const ValuesModule = () => {
                                 fontSize: '13px'
                             }} />
                         </div> */}
-                        <div onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>
+                        <div onClick={(() => navigate(`/dashboard/programs/single-program/${id}`))}>
                             <Button children={'Save'} styles={{
                                 fontSize: '13px'
                             }} />
@@ -376,7 +403,56 @@ const ValuesModule = () => {
                     </div>
                 </div>
 
-             
+                {programStructureData[0]?.can_edit && <div className='questions_wrapper'>
+                    <h3>Questions</h3>
+                    <div className='questions_tabs_wrapper'>
+                        <div onClick={(() => tabsFunction(1))}>
+
+                            <Button children={'Descriptive'} styles={{
+                                border: '1px solid var(--primary-color)',
+                                fontSize: '14px',
+                                color: 'var(--text-color)',
+                                borderRadius: '5px',
+                                padding: '8px 20px',
+                                backgroundColor: 'transparent'
+                            }} />
+                        </div>
+
+                        <div onClick={(() => tabsFunction(2))}>
+                            <Button children={'Multi Choice'} styles={{
+                                border: '1px solid var(--primary-color)',
+                                fontSize: '14px',
+                                color: 'var(--text-color)',
+                                borderRadius: '5px',
+                                padding: '8px 20px',
+                                backgroundColor: 'transparent'
+                            }} />
+                        </div>
+
+
+                        <div onClick={(() => tabsFunction(3))}>
+                            <Button children={'Single Choice'} styles={{
+                                border: '1px solid var(--primary-color)',
+                                fontSize: '14px',
+                                color: 'var(--text-color)',
+                                borderRadius: '5px',
+                                padding: '8px 20px',
+                                backgroundColor: 'transparent'
+                            }} />
+                        </div>
+
+                        <div onClick={(() => tabsFunction(4))}>
+                            <Button children={'Dropdown'} styles={{
+                                border: '1px solid var(--primary-color)',
+                                fontSize: '14px',
+                                color: 'var(--text-color)',
+                                borderRadius: '5px',
+                                padding: '8px 20px',
+                                backgroundColor: 'transparent'
+                            }} />
+                        </div>
+                    </div>
+                </div>}
 
                 <div className='questions_list_wrapper4562'>
                     {allQuestions?.length <= 0 && <p style={{
@@ -394,7 +470,7 @@ const ValuesModule = () => {
                                 }}>{element?.type}</small></p>
                             </div>
                             <div className='edit_modules_wrapper'>
-                                <img onClick={(() => {
+                                {programStructureData[0]?.can_edit && <img onClick={(() => {
                                     getSingleData(index)
                                     if (element?.type === 'descriptive') {
                                         tabsFunction(5)
@@ -409,7 +485,24 @@ const ValuesModule = () => {
                                     if (element?.type === 'dropdown') {
                                         tabsFunction(8)
                                     }
-                                })} src={edit} />
+                                })} src={edit} />}
+
+                                {!programStructureData[0]?.can_edit && <img onClick={(() => {
+                                    getSingleData(index)
+                                    if (element?.type === 'descriptive') {
+                                        tabsFunction(5)
+                                    }
+                                    if (element?.type == 'multi_choice') {
+                                        tabsFunction(6)
+                                    }
+                                    if (element?.type === 'single_choice') {
+                                        tabsFunction(7)
+                                    }
+
+                                    if (element?.type === 'dropdown') {
+                                        tabsFunction(8)
+                                    }
+                                })} src={eye} />}
                                 <img onClick={(() => handleChange(element?.id))} src={deleteicon} />
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import img from '../../../assets/Rectangle 6716.png'
-const Benefits = () => {
+const Benefits = ({ singleProgramData }) => {
     return (
         <>
 
@@ -13,15 +13,21 @@ const Benefits = () => {
                             color: 'var(--text-color)'
                         }}>Benefits</h3>
                         <div className='faq_accordion_wrapper'>
-                            <div className='faq_accordion' >
-                                <div className='faq_head_wrapper'>
-                                    <h3>Hello </h3>
+                            {singleProgramData?.benefits?.length <= 0 && <p style={{
+                                color: 'var(--primary-color)'
+                            }}>No how it works data added...</p>}
+                            {singleProgramData?.benefits?.map((element, index) => (
+                                <div className='faq_accordion' key={index}>
+                                    <div className='faq_head_wrapper'>
+                                        <h3>{element?.description} </h3>
+                                    </div>
                                 </div>
-                            </div>
+                            ))}
+
                         </div>
                     </div>
                     <div className='service_expert_right service_long_img'>
-                        <img src={img} />
+                        <img src={singleProgramData?.benefits_section_image || img} />
                     </div>
                 </div>
             </>

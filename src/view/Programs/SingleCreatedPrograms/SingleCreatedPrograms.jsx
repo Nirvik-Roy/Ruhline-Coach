@@ -11,13 +11,53 @@ import icon4 from '../../../assets/Frame (1).svg'
 import icon5 from '../../../assets/Icon (3).svg'
 import icon6 from '../../../assets/Layer_1 (6).svg'
 import icon7 from '../../../assets/Group 1597882969 (1).svg'
-import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import EditDocumentModal from '../../Modal/EditDocumentModal.jsx'
 import UploadDocumentsModal from '../../Modal/UploadDocumentsModal.jsx'
+import { getCoachProgramsStructure, getCoachSinglePrograms } from '../../../utils/Program.js'
+import Loaders from '../../../Components/Loaders/Loaders.jsx'
 const SingleCreatedPrograms = () => {
     const navigate = useNavigate()
-    const [uploadModal, setuploadModal] = useState(false)
+    const [uploadModal, setuploadModal] = useState(false);
+    const [programStructureData, setprogramStructureData] = useState([])
+    const [singleProgramData, setsingleProgramData] = useState([]);
+    const { id } = useParams()
+    const [loading, setloading] = useState(false)
+    const fetchSinglePrograms = async () => {
+        try {
+            setloading(true)
+            const res = await getCoachSinglePrograms(id);
+            if (res?.success) {
+                setsingleProgramData(res?.data)
+            }
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setloading(false)
+        }
+    }
+
+    const fetchProgramStructure = async () => {
+        try {
+            setloading(true)
+            const res = await getCoachProgramsStructure(id);
+            if (res?.success) {
+                setprogramStructureData(res?.data?.data)
+            }
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setloading(false)
+        }
+    }
+
+    useEffect(() => {
+        if (id) {
+            fetchSinglePrograms()
+            fetchProgramStructure()
+        }
+    }, [id])
     const [programData, setProgramData] = useState([
         {
             id: 1,
@@ -73,10 +113,11 @@ const SingleCreatedPrograms = () => {
         },
 
     ])
+
     return (
         <>
             {uploadModal && <UploadDocumentsModal setuploadModal={setuploadModal} />}
-
+            {loading && <Loaders />}
             <div className='dashboard_container one_time_content_wrapper'>
                 <div className='appointes_head_wrapper'>
                     <div>
@@ -86,8 +127,8 @@ const SingleCreatedPrograms = () => {
                         }}><span onClick={(() => navigate('/dashboard/appoinments'))}>Programs</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1'))}>Program 1</span> </small>
                     </div>
                 </div>
-                <SingleProgramDetails />
-                <ProgramTabs />
+                <SingleProgramDetails singleProgramData={singleProgramData} />
+                <ProgramTabs singleProgramData={singleProgramData} />
 
                 <div className='module_box_main_wrapper'>
                     <h3 style={{
@@ -97,7 +138,12 @@ const SingleCreatedPrograms = () => {
 
                     <div className='customer_journey_cards_wrapper' style={{
                     }}>
-                        {programData.map((e) => (
+                        {programStructureData?.length <= 0 && <p style={{
+                            color: 'var(--primary-color)',
+                            fontWeight: '600',
+                            textAlign: 'center'
+                        }}>No modules added....</p>}
+                        {programStructureData?.map((e) => (
                             <div className='customer_journey_card' style={{
                                 position: 'relative',
                                 width: '140px',
@@ -113,26 +159,21 @@ const SingleCreatedPrograms = () => {
                                     rowGap: '5px'
                                 }}>
                                     <img onClick={(() => {
-                                        if (e?.title === 'Documents') {
-                                            setuploadModal(true)
-                                        } else {
-                                            navigate(e?.link)
+                                        const data = {
+                                            'Values': `/dashboard/program/single-program/${id}/values/${e?.id}`,
+                                            'Find your Motivation': `/dashboard/program/single-program/${id}/motivation/${e?.id}`,
+                                            'Who am I':`/dashboard/program/single-program/${id}/who-Am-I/${e?.id}`
                                         }
+                                        navigate(data[e?.title])
                                     })} src={pencil} />
-                                    <img onClick={(() => {
-                                        if (e?.title === 'Documents') {
-                                            setuploadModal(true)
-                                        } else {
-                                            navigate(e?.link)
-                                        }
-                                    })} src={eye} />
+                                    <img src={eye} />
                                 </div>
                                 <img style={{
                                     position: 'absolute',
                                     top: '8px',
                                     right: '8px'
                                 }} />
-                                <img src={e.img} />
+                                <img src={icon1} />
                                 <p style={{
                                     width: '100px'
                                 }}>{e.title}</p>

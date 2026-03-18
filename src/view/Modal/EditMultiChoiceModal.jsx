@@ -3,13 +3,13 @@ import crossIcon from '../../assets/Frame 1984078314.svg'
 import Textarea from '../../Components/Textarea'
 import Button from '../../Components/Button'
 
-const EditMultiChoiceModal = ({ tabsFunction, singleData, editAddEmptyOption, editdeleteOption, editOptionValue, editQuestionText, editQuestions, editErrors }) => {
+const EditMultiChoiceModal = ({ tabsFunction, singleData, editAddEmptyOption, editdeleteOption, editOptionValue, editQuestionText, editQuestions, editErrors, title }) => {
 
   return (
     <>
       <div className='modal_wrapper' onClick={(() => tabsFunction(0))}></div>
       <div className='modal_div'>
-        <h4>Edit Multi Choice</h4>
+        <h4>{title} Multi Choice</h4>
         <i class="fa-solid fa-xmark" onClick={(() => tabsFunction(0))}></i>
 
 
@@ -31,7 +31,7 @@ const EditMultiChoiceModal = ({ tabsFunction, singleData, editAddEmptyOption, ed
           {/* Options Header + Add Button */}
           <div className="options_wrapper466885">
             <h3>Options</h3>
-            <Button
+            {title == 'Edit' && <Button
               onClick={editAddEmptyOption}
               children="Add Option"
               styles={{
@@ -41,7 +41,7 @@ const EditMultiChoiceModal = ({ tabsFunction, singleData, editAddEmptyOption, ed
                 padding: "10px",
                 fontSize: "12px",
               }}
-            />
+            />}
           </div>
 
           {/* Render Each Option */}
@@ -63,12 +63,12 @@ const EditMultiChoiceModal = ({ tabsFunction, singleData, editAddEmptyOption, ed
                 </div>
 
                 <div className="option_right_wrapper">
-                  <img
+                  {title == 'Edit' &&   <img
                     src={crossIcon}
                     alt="remove"
                     style={{ cursor: "pointer" }}
                     onClick={(() => editdeleteOption(optIndex))}
-                  />
+                  />}
                 </div>
               </div>
             ))}
@@ -76,7 +76,7 @@ const EditMultiChoiceModal = ({ tabsFunction, singleData, editAddEmptyOption, ed
               color: 'red',
             }}>*{editErrors?.options[0]}</small>}
             {/* Submit Button */}
-            <div
+            {title == 'Edit' && <div
               className="change_cancel_wrapper"
               style={{ margin: "20px 0 0 0" }}
             >
@@ -84,7 +84,7 @@ const EditMultiChoiceModal = ({ tabsFunction, singleData, editAddEmptyOption, ed
                 onClick={(() => editQuestions(singleData?.id))}
                 children="Update"
               />
-            </div>
+            </div>}
           </div>
 
         </div>

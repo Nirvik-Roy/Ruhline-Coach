@@ -3,12 +3,12 @@ import crossIcon from '../../assets/Frame 1984078314.svg'
 import Textarea from '../../Components/Textarea'
 import Button from '../../Components/Button'
 
-const EditDropdownModal = ({ tabsFunction, singleData, editAddEmptyOption, editdeleteOption, editOptionValue, editQuestionText, editQuestions, editErrors }) => {
+const EditDropdownModal = ({ tabsFunction, singleData, editAddEmptyOption, editdeleteOption, editOptionValue, editQuestionText, editQuestions, editErrors, title }) => {
     return (
         <>
             <div className='modal_wrapper' onClick={(() => tabsFunction(0))}></div>
             <div className='modal_div'>
-                <h4>Edit Dropdown</h4>
+                <h4>{title} Dropdown</h4>
                 <i class="fa-solid fa-xmark" onClick={(() => tabsFunction(0))}></i>
 
 
@@ -31,7 +31,7 @@ const EditDropdownModal = ({ tabsFunction, singleData, editAddEmptyOption, editd
                     {/* Options Header + Add Button */}
                     <div className="options_wrapper466885">
                         <h3>Options</h3>
-                        <Button
+                        {title == 'Edit' && <Button
                             onClick={editAddEmptyOption}
                             children="Add Option"
                             styles={{
@@ -41,7 +41,7 @@ const EditDropdownModal = ({ tabsFunction, singleData, editAddEmptyOption, editd
                                 padding: "10px",
                                 fontSize: "12px",
                             }}
-                        />
+                        />}
                     </div>
 
                     {/* Render Each Option */}

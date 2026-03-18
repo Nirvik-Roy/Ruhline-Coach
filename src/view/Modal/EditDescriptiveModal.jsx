@@ -2,12 +2,12 @@ import React from 'react'
 import Textarea from '../../Components/Textarea'
 import Button from '../../Components/Button'
 
-const EditDescriptiveModal = ({ tabsFunction, singleData, editQuestionText, editQuestions, editErrors }) => {
+const EditDescriptiveModal = ({ tabsFunction, singleData, editQuestionText, editQuestions, editErrors, title }) => {
     return (
         <>
             <div className='modal_wrapper' onClick={(() => tabsFunction(0))}></div>
             <div className='modal_div'>
-                <h4>Edit Descriptive</h4>
+                <h4>{title} Descriptive</h4>
                 <i class="fa-solid fa-xmark" onClick={(() => tabsFunction(0))}></i>
                 <div style={{ margin: "20px 0" }}>
 
@@ -25,7 +25,7 @@ const EditDescriptiveModal = ({ tabsFunction, singleData, editQuestionText, edit
                         color: 'red',
                     }}>*{editErrors?.question_text[0]}</small>}
 
-                    <div
+                    {title == 'Edit' && <div
                         className="change_cancel_wrapper"
                         style={{ margin: "20px 0 0 0" }}
                     >
@@ -33,7 +33,7 @@ const EditDescriptiveModal = ({ tabsFunction, singleData, editQuestionText, edit
                             onClick={(() => editQuestions(singleData?.id))}
                             children="Update"
                         />
-                    </div>
+                    </div>}
                 </div>
             </div>
         </>

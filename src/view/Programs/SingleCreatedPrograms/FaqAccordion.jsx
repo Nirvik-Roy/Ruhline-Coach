@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import down from '../../../assets/Chevron.svg'
 import right from '../../../assets/Chevron Right.svg'
 
-const FaqAccordion = () => {
+const FaqAccordion = ({ singleProgramData }) => {
     const [faqIndex, setfaqIndex] = useState([]);
 
     const setIndex = (i) => {
@@ -47,10 +47,13 @@ const FaqAccordion = () => {
     return (
         <>
             <div className='faq_accordion_wrapper'>
-                {faqData?.map((e, i) => (
+                {singleProgramData?.faqs?.length <= 0 && <p style={{
+                    color: 'var(--primary-color)'
+                }}>No faqs added...</p>}
+                {singleProgramData?.faqs?.map((e, i) => (
                     <div className='faq_accordion' key={i} onClick={(() => { setIndex(e.id) })}>
                         <div className='faq_head_wrapper'>
-                            <h3>{e.title}</h3>
+                            <h3>{e.heading}</h3>
                             {faqIndex.includes(e.id) && <div className='down_img56'>
                                 <img src={down} />
                             </div>}
@@ -60,7 +63,7 @@ const FaqAccordion = () => {
                             </div>}
                         </div>
                         {faqIndex.includes(e.id) && <p dangerouslySetInnerHTML={{
-                            __html: e?.title
+                            __html: e?.description
                         }}></p>}
                     </div>
                 ))}

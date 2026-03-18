@@ -3,7 +3,7 @@ import ProgramFaq from './ProgramFaq'
 import Howitworks from './Howitworks'
 import Benefits from './Benefits'
 
-const ProgramTabs = () => {
+const ProgramTabs = ({ singleProgramData }) => {
     const [toggle, setToggle] = useState({
         toggle1: false,
         toggle2: false,
@@ -30,9 +30,9 @@ const ProgramTabs = () => {
                     toggleFunc(3)
                 })}>FAQs</p>
             </div>
-            {toggle.toggle3 && <ProgramFaq />}
-            {toggle.toggle2 && <Howitworks />}
-            {toggle.toggle1 && <Benefits />}
+            {toggle.toggle3 && <ProgramFaq singleProgramData={singleProgramData} />}
+            {toggle.toggle2 && <Howitworks singleProgramData={singleProgramData}/>}
+            {toggle.toggle1 && <Benefits singleProgramData={singleProgramData} />}
         </>
     )
 }

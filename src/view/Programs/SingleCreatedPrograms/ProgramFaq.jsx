@@ -1,7 +1,7 @@
 import React from 'react'
 import FaqAccordion from './FaqAccordion'
 import img from '../../../assets/Rectangle 6716.png'
-const ProgramFaq = () => {
+const ProgramFaq = ({ singleProgramData }) => {
     return (
         <>
 
@@ -11,10 +11,10 @@ const ProgramFaq = () => {
                         fontSize: '25px',
                         color: 'var(--text-color)'
                     }}>FAQs</h3>
-                    <FaqAccordion />
+                    <FaqAccordion singleProgramData={singleProgramData} />
                 </div>
                 <div className='service_expert_right service_long_img'>
-                    <img src={img} />
+                    <img src={singleProgramData?.faqs_section_image || img} />
                 </div>
             </div>
         </>
