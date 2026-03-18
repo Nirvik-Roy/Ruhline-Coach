@@ -3,7 +3,7 @@ import Button from '../../Components/Button'
 import { Document, Page, pdfjs } from "react-pdf";
 import upload from '../../assets/Vector (8).svg'
 import Loaders from '../../Components/Loaders/Loaders';
-// import { deleteDocuments, getDocuments, postDocuments } from '../../utils/Program';
+import { deleteDocuments, getDocuments, postDocuments } from '../../utils/Program';
 import { useParams } from 'react-router-dom';
 import EditDocumentModal from './EditDocumentModal';
 import DeleteModal from '../../Components/DeleteModal/DeleteModal.jsx'
@@ -46,11 +46,11 @@ const UploadDocumentsModal = ({ setuploadModal, uploadModal, documentModuleId })
     const fetchDocuments = async () => {
         try {
             setloading(true)
-            // const res = await getDocuments(id, documentModuleId)
-            // console.log(res)
-            // if (res?.success) {
-            //     setFiles(res?.data?.data)
-            // }
+            const res = await getDocuments(id, documentModuleId)
+            console.log(res)
+            if (res?.success) {
+                setFiles(res?.data?.data)
+            }
 
         } catch (err) {
             console.log(err)
@@ -84,12 +84,12 @@ const UploadDocumentsModal = ({ setuploadModal, uploadModal, documentModuleId })
                 formData.append('files', []);
             }
 
-            // const res = await postDocuments(formData, id, documentModuleId)
-            // if (res?.success) {
-            //     setuploadModal(false)
-            //     fetchDocuments()
-            // }
-            // setfileErrors(res)
+            const res = await postDocuments(formData, id, documentModuleId)
+            if (res?.success) {
+                setuploadModal(false)
+                fetchDocuments()
+            }
+            setfileErrors(res)
         } catch (err) {
             console.log(err)
         } finally {
@@ -117,11 +117,11 @@ const UploadDocumentsModal = ({ setuploadModal, uploadModal, documentModuleId })
     const deleteFunc = async () => {
         try {
             setloading(true)
-            // const res = await deleteDocuments(id, structureId, documentId)
-            // if (res?.success) {
-            //     fetchDocuments()
-            //     setdeleteModal(false)
-            // }
+            const res = await deleteDocuments(id, structureId, documentId)
+            if (res?.success) {
+                fetchDocuments()
+                setdeleteModal(false)
+            }
         } catch (err) {
             console.log(err)
         } finally {
@@ -294,9 +294,7 @@ const UploadDocumentsModal = ({ setuploadModal, uploadModal, documentModuleId })
                             </div>
                         ))}
                     </div>
-                    <div className='change_cancel_wrapper' style={{
-                        marginTop:'0px'
-                    }}>
+                    <div className='change_cancel_wrapper'>
                         <Button onClick={handleDocumentsApi} children={'Upload'} />
                     </div>
                 </form>

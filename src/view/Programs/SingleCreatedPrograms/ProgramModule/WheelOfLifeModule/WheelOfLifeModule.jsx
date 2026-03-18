@@ -1,729 +1,40 @@
-import React, { useEffect, useState } from 'react'
-import '../ProgramModule.css'
+import React, { useEffect, useRef, useState } from 'react'
 import Button from '../../../../../Components/Button.jsx'
-import menu from '../../../../../assets/menu.svg'
-import edit from '../../../../../assets/Pencil.svg'
-import deleteicon from '../../../../../assets/delete.svg'
-import { useNavigate, useParams } from 'react-router-dom'
-import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
-import CardGameDescriptiveModal from '../../../../Modal/CardGameDescriptiveModal.jsx'
-import CardGameMultichoiceModal from '../../../../Modal/CardGameMultichoiceModal'
-import CardGameSingleChoiceModal from '../../../../Modal/CardGameSingleChoiceModal'
-import CardGameDropdownModal from '../../../../Modal/CardGameDropdownModal'
-import EditMultiChoiceModal from '../../../../Modal/EditMultiChoiceModal.jsx'
-import EditDropdownModal from '../../../../Modal/EditDropdownModal'
-import EditSingleChoiceModal from '../../../../Modal/EditSingleChoiceModal'
-import EditDescriptiveModal from '../../../../Modal/EditDescriptiveModal'
-import EditQuestionTitleModal from '../../../../Modal/EditQuestionTitleModal'
-import DeleteModal from '../../../../../Components/DeleteModal/DeleteModal.jsx'
-import toast from 'react-hot-toast'
-import down from '../../../../../assets/Chevron.svg'
-import right from '../../../../../assets/Chevron Right.svg'
+import laptopImg from '../../../../../assets/Group (2).svg'
+import { useNavigate, useParams } from 'react-router-dom';
+import { deleteWheelofLifelement, getCoachSinglePrograms, getwheelofLifeElements, postwheelofLifeElements, updateWheelofLifeLifeElements } from '../../../../../utils/Program.js';
+import Loaders from '../../../../../Components/Loaders/Loaders.jsx';
+import AddLifeElements from '../../../../Modal/AddLifeElements.jsx';
+import toast from 'react-hot-toast';
+import EditlifeelmentsModal from '../../../../Modal/EditlifeelmentsModal.jsx';
+import DeleteModal from '../../../../../Components/DeleteModal/DeleteModal.jsx';
+
 const WheelOfLifeModule = () => {
-    const navigate = useNavigate();
-    const [allQuestionSets, setallQuestionSets] = useState([]);
-    const [singleQuestion, setsingleQuestion] = useState({})
-    const [selectedIndex, setselectedIndex] = useState(null);
-    const [questionId, setquestionId] = useState()
-    const [errors, setErrors] = useState()
-    const [editErrors, seteditErrors] = useState()
-    const [deleteId, setdeleteId] = useState('')
-    const [deleteModal, setdeleteModal] = useState(false);
-    const [singleQuestionId, setsingleQuestionId] = useState('')
-    const [editQuestionId, seteditQuestionId] = useState('')
-    const [dynamicOptions, setdynamicOptions] = useState(
-        [
-            {
-                id: 1,
-                title: 'Question 1',
-                questions: [
-                    {
-                        id: 1,
-                        type: 'descriptive',
-                        question_text: '',
-                        options: null,
-                    }, {
-                        id: 2,
-                        type: 'multi_choice',
-                        question_text: '',
-                        options: []
-                    }, {
-                        id: 3,
-                        type: 'single_choice',
-                        question_text: '',
-                        options: []
-                    },
-                    {
-                        id: 4,
-                        type: 'dropdown',
-                        question_text: '',
-                        options: []
-                    }
-                ]
-            },
-            {
-                id: 2,
-                title: 'Question 1',
-                questions: [
-                    {
-                        id: 1,
-                        type: 'descriptive',
-                        question_text: '',
-                        options: null,
-                    }, {
-                        id: 2,
-                        type: 'multi_choice',
-                        question_text: '',
-                        options: []
-                    }, {
-                        id: 3,
-                        type: 'single_choice',
-                        question_text: '',
-                        options: []
-                    },
-                    {
-                        id: 4,
-                        type: 'dropdown',
-                        question_text: '',
-                        options: []
-                    }
-                ]
-            },
-
-            {
-                id: 3,
-                title: 'Question 1',
-                questions: [
-                    {
-                        id: 1,
-                        type: 'descriptive',
-                        question_text: '',
-                        options: null,
-                    }, {
-                        id: 2,
-                        type: 'multi_choice',
-                        question_text: '',
-                        options: []
-                    }, {
-                        id: 3,
-                        type: 'single_choice',
-                        question_text: '',
-                        options: []
-                    },
-                    {
-                        id: 4,
-                        type: 'dropdown',
-                        question_text: '',
-                        options: []
-                    }
-                ]
-            },
-            {
-                id: 4,
-                title: 'Question 1',
-                questions: [
-                    {
-                        id: 1,
-                        type: 'descriptive',
-                        question_text: '',
-                        options: null,
-                    }, {
-                        id: 2,
-                        type: 'multi_choice',
-                        question_text: '',
-                        options: []
-                    }, {
-                        id: 3,
-                        type: 'single_choice',
-                        question_text: '',
-                        options: []
-                    },
-                    {
-                        id: 4,
-                        type: 'dropdown',
-                        question_text: '',
-                        options: []
-                    }
-                ]
-            },
-            {
-                id: 5,
-                title: 'Question 1',
-                questions: [
-                    {
-                        id: 1,
-                        type: 'descriptive',
-                        question_text: '',
-                        options: null,
-                    }, {
-                        id: 2,
-                        type: 'multi_choice',
-                        question_text: '',
-                        options: []
-                    }, {
-                        id: 3,
-                        type: 'single_choice',
-                        question_text: '',
-                        options: []
-                    },
-                    {
-                        id: 4,
-                        type: 'dropdown',
-                        question_text: '',
-                        options: []
-                    }
-                ]
-            }
-        ])
-    const [loading, setloading] = useState(false);
-    const { id, moduleId } = useParams();
-    const [tabs, setTabs] = useState({
-        descriptive: false,
-        multiChoice: false,
-        singleChoice: false,
-        dropdown: false,
-        editdescriptive: false,
-        editmultiChoice: false,
-        editsingleChoice: false,
-        editropdown: false
-    })
-    const tabsFunction = (i) => {
-        setTabs({
-            descriptive: i === 1 ? true : false,
-            multiChoice: i === 2 ? true : false,
-            singleChoice: i === 3 ? true : false,
-            dropdown: i === 4 ? true : false,
-            editdescriptive: i === 5 ? true : false,
-            editmultiChoice: i === 6 ? true : false,
-            editsingleChoice: i === 7 ? true : false,
-            editropdown: i === 8 ? true : false
-        })
-    }
-
-    const getQuestionSets = async () => {
-        try {
-            setloading(true)
-            //  const res = await getCardGameQuestionSets(id, moduleId)
-            // if (res?.success) {
-            //     setallQuestionSets(res?.data?.data)
-            // }
-        } catch (err) {
-            console.log(err)
-        } finally {
-            setloading(false)
-        }
-    }
-
-
-
-    useEffect(() => {
-        if (id && moduleId) {
-            getQuestionSets()
-        }
-    }, [id, moduleId])
-
-    const updateQuestionText = (sectionIndex, questionIndex, newText) => {
-        setdynamicOptions(prevOptions => {
-            const updatedOptions = [...prevOptions];
-            updatedOptions[sectionIndex].questions[questionIndex].question_text = newText;
-            return updatedOptions;
-        });
-    }
-    const addEmptyOption = (sectionIndex, questionIndex) => {
-        setdynamicOptions(prev => {
-            const updated = [...prev];
-            const question = updated[sectionIndex].questions[questionIndex];
-
-            // Initialize options array if it doesn't exist
-            if (!question.options) {
-                question.options = [];
-            }
-
-            // Add new option (as string or object based on your needs)
-            question.options.push(''); // If options are strings
-            // OR if options should be objects:
-            // question.options.push({ id: Date.now(), text: '', value: '' });
-
-            return updated;
-        });
-    };
-    const updateOptionText = (sectionIndex, questionIndex, optionIndex, value) => {
-        setdynamicOptions(prev => {
-            const updated = [...prev];
-            const question = updated[sectionIndex].questions[questionIndex];
-
-            question.options[optionIndex] = value;
-
-
-            return updated;
-        });
-    };
-
-    const removeOption = (sectionIndex, questionIndex, optionIndex) => {
-        setdynamicOptions(prev => {
-            const updated = [...prev];
-            const question = updated[sectionIndex].questions[questionIndex];
-            question.options = question.options.filter((_, idx) => idx !== optionIndex);
-            return updated;
-        });
-    };
-
-
-    const postQuestions = async () => {
-        if (id) {
-            try {
-                setloading(true);
-                const formData = new FormData()
-                dynamicOptions[selectedIndex]?.questions.forEach((element) => {
-                    if (element.type && element.question_text) {
-                        formData.append(`type`, element.type)
-                        formData.append('question_text', element.question_text)
-                        if (element.options?.length > 0) {
-                            element.options?.forEach(option => {
-                                formData.append('options[]', option);
-                            });
-                        } else {
-                            formData.append('options', [])
-                        }
-                    }
-                })
-                // const res = await postQuestionsInsideQuestionSet(formData, moduleId, id, questionId);
-                // if (res?.success) {
-                //     setTabs(0);
-                //     getQuestionSets()
-                //     setselectedIndex('')
-                //     setquestionId('')
-                //     setdynamicOptions([
-                //         {
-                //             id: 1,
-                //             title: 'Question 1',
-                //             questions: [
-                //                 {
-                //                     id: 1,
-                //                     type: 'descriptive',
-                //                     question_text: '',
-                //                     options: null,
-                //                 }, {
-                //                     id: 2,
-                //                     type: 'multi_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 }, {
-                //                     id: 3,
-                //                     type: 'single_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 },
-                //                 {
-                //                     id: 4,
-                //                     type: 'dropdown',
-                //                     question_text: '',
-                //                     options: []
-                //                 }
-                //             ]
-                //         },
-                //         {
-                //             id: 2,
-                //             title: 'Question 1',
-                //             questions: [
-                //                 {
-                //                     id: 1,
-                //                     type: 'descriptive',
-                //                     question_text: '',
-                //                     options: null,
-                //                 }, {
-                //                     id: 2,
-                //                     type: 'multi_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 }, {
-                //                     id: 3,
-                //                     type: 'single_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 },
-                //                 {
-                //                     id: 4,
-                //                     type: 'dropdown',
-                //                     question_text: '',
-                //                     options: []
-                //                 }
-                //             ]
-                //         },
-
-                //         {
-                //             id: 3,
-                //             title: 'Question 1',
-                //             questions: [
-                //                 {
-                //                     id: 1,
-                //                     type: 'descriptive',
-                //                     question_text: '',
-                //                     options: null,
-                //                 }, {
-                //                     id: 2,
-                //                     type: 'multi_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 }, {
-                //                     id: 3,
-                //                     type: 'single_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 },
-                //                 {
-                //                     id: 4,
-                //                     type: 'dropdown',
-                //                     question_text: '',
-                //                     options: []
-                //                 }
-                //             ]
-                //         },
-                //         {
-                //             id: 4,
-                //             title: 'Question 1',
-                //             questions: [
-                //                 {
-                //                     id: 1,
-                //                     type: 'descriptive',
-                //                     question_text: '',
-                //                     options: null,
-                //                 }, {
-                //                     id: 2,
-                //                     type: 'multi_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 }, {
-                //                     id: 3,
-                //                     type: 'single_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 },
-                //                 {
-                //                     id: 4,
-                //                     type: 'dropdown',
-                //                     question_text: '',
-                //                     options: []
-                //                 }
-                //             ]
-                //         },
-                //         {
-                //             id: 5,
-                //             title: 'Question 1',
-                //             questions: [
-                //                 {
-                //                     id: 1,
-                //                     type: 'descriptive',
-                //                     question_text: '',
-                //                     options: null,
-                //                 }, {
-                //                     id: 2,
-                //                     type: 'multi_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 }, {
-                //                     id: 3,
-                //                     type: 'single_choice',
-                //                     question_text: '',
-                //                     options: []
-                //                 },
-                //                 {
-                //                     id: 4,
-                //                     type: 'dropdown',
-                //                     question_text: '',
-                //                     options: []
-                //                 }
-                //             ]
-                //         }
-                //     ])
-                //     setErrors('')
-                // } else {
-                //     setErrors(res)
-                //     console.log('error')
-                // }
-
-            } catch (err) {
-                console.log(err)
-            } finally {
-                setloading(false)
-            }
-        }
-    }
-
-    const editQuestions = async () => {
-        if (id && editQuestionId && singleQuestionId) {
-            try {
-                setloading(true);
-                const formData = new FormData()
-                formData.append(`type`, singleQuestion.type)
-                formData.append('question_text', singleQuestion.question_text)
-                if (singleQuestion.options?.length > 0) {
-                    singleQuestion.options?.forEach(option => {
-                        formData.append('options[]', option);
-                    });
-                } else {
-                    formData.append('options', [])
-                }
-                // const res = await editQuestionsInsideQuestionSet(formData, moduleId, id, singleQuestionId, editQuestionId);
-                // if (res?.success) {
-                //     setTabs(0);
-                //     getQuestionSets()
-                //     seteditQuestionId('')
-                //     setsingleQuestionId('')
-                //     seteditErrors('')
-                // } else {
-                //     seteditErrors(res)
-                // }
-
-            } catch (err) {
-                console.log(err)
-            } finally {
-                setloading(false)
-            }
-        }
-    }
-
-    const addSingleQuestion = (id, questionId) => {
-        const filteredData = allQuestionSets?.filter((e) => e.id == id)
-        const questionsFiltered = filteredData[0].questions?.filter((e) => e.id == questionId)
-        setsingleQuestion(...questionsFiltered)
-    }
-    const editQuestionText = (e) => {
-        const { name, value } = e.target;
-        setsingleQuestion({
-            ...singleQuestion,
-            [name]: value
-        })
-    }
-    const editAddEmptyOption = () => {
-        setsingleQuestion(prev => ({
-            ...prev,
-            options: [...(prev.options || []), '']
-        }));
-    };
-
-    const editdeleteOption = (indexToDelete) => {
-        setsingleQuestion(prev => ({
-            ...prev,
-            options: prev.options.filter((_, index) => index !== indexToDelete)
-        }));
-    };
-
-    const editOptionValue = (indexToUpdate, newValue) => {
-        setsingleQuestion(prev => ({
-            ...prev,
-            options: prev.options.map((opt, idx) =>
-                idx === indexToUpdate ? newValue : opt
-            )
-        }));
-    };
-
-    useEffect(() => {
-        if (!tabs.descriptive && !tabs.dropdown && !tabs.editdescriptive && !tabs.editmultiChoice && !tabs.editropdown && !tabs.editsingleChoice && !tabs.multiChoice && !tabs.singleChoice) {
-            setErrors('')
-            seteditErrors('')
-            setdynamicOptions([
-                {
-                    id: 1,
-                    title: 'Question 1',
-                    questions: [
-                        {
-                            id: 1,
-                            type: 'descriptive',
-                            question_text: '',
-                            options: null,
-                        }, {
-                            id: 2,
-                            type: 'multi_choice',
-                            question_text: '',
-                            options: []
-                        }, {
-                            id: 3,
-                            type: 'single_choice',
-                            question_text: '',
-                            options: []
-                        },
-                        {
-                            id: 4,
-                            type: 'dropdown',
-                            question_text: '',
-                            options: []
-                        }
-                    ]
-                },
-                {
-                    id: 2,
-                    title: 'Question 1',
-                    questions: [
-                        {
-                            id: 1,
-                            type: 'descriptive',
-                            question_text: '',
-                            options: null,
-                        }, {
-                            id: 2,
-                            type: 'multi_choice',
-                            question_text: '',
-                            options: []
-                        }, {
-                            id: 3,
-                            type: 'single_choice',
-                            question_text: '',
-                            options: []
-                        },
-                        {
-                            id: 4,
-                            type: 'dropdown',
-                            question_text: '',
-                            options: []
-                        }
-                    ]
-                },
-
-                {
-                    id: 3,
-                    title: 'Question 1',
-                    questions: [
-                        {
-                            id: 1,
-                            type: 'descriptive',
-                            question_text: '',
-                            options: null,
-                        }, {
-                            id: 2,
-                            type: 'multi_choice',
-                            question_text: '',
-                            options: []
-                        }, {
-                            id: 3,
-                            type: 'single_choice',
-                            question_text: '',
-                            options: []
-                        },
-                        {
-                            id: 4,
-                            type: 'dropdown',
-                            question_text: '',
-                            options: []
-                        }
-                    ]
-                },
-                {
-                    id: 4,
-                    title: 'Question 1',
-                    questions: [
-                        {
-                            id: 1,
-                            type: 'descriptive',
-                            question_text: '',
-                            options: null,
-                        }, {
-                            id: 2,
-                            type: 'multi_choice',
-                            question_text: '',
-                            options: []
-                        }, {
-                            id: 3,
-                            type: 'single_choice',
-                            question_text: '',
-                            options: []
-                        },
-                        {
-                            id: 4,
-                            type: 'dropdown',
-                            question_text: '',
-                            options: []
-                        }
-                    ]
-                },
-                {
-                    id: 5,
-                    title: 'Question 1',
-                    questions: [
-                        {
-                            id: 1,
-                            type: 'descriptive',
-                            question_text: '',
-                            options: null,
-                        }, {
-                            id: 2,
-                            type: 'multi_choice',
-                            question_text: '',
-                            options: []
-                        }, {
-                            id: 3,
-                            type: 'single_choice',
-                            question_text: '',
-                            options: []
-                        },
-                        {
-                            id: 4,
-                            type: 'dropdown',
-                            question_text: '',
-                            options: []
-                        }
-                    ]
-                }
-            ])
-        }
-    }, [tabs.descriptive, tabs.dropdown, tabs.editdescriptive, tabs.editmultiChoice, tabs.editropdown, tabs.editsingleChoice, tabs.singleChoice, tabs.multiChoice])
-    const [editTitletModal, seteditTitleModal] = useState(false);
-    const [singleSet, setsingleSet] = useState({})
-    const editQuestionSet = async (data) => {
-        if (data) {
-            try {
-                setloading(true)
-                //  const res = await editCardGameQuestionSet({
-                //     title: data
-                // }, moduleId, id, questionId)
-
-                // if (res?.success) {
-                //     seteditTitleModal(false)
-                //     getQuestionSets()
-                // }
-            } catch (err) {
-                console.log(err)
-            } finally {
-                setloading(false)
-            }
+    const [dropdown, setdropdown] = useState(null);
+    const navigate = useNavigate()
+    const [isModal, setisModal] = useState(false);
+    const [editModal, seteditModal] = useState(false);
+    const [deleteId, setdeletedId] = useState();
+    const [deleteModal, setdeleteModal] = useState(false)
+    const dropdownRef = useRef(null);
+    const [singleData, setsingleData] = useState()
+    const [lifeElements, setlifelements] = useState([])
+    const dropdownFunction = (i) => {
+        if (dropdown === i) {
+            setdropdown(null)
         } else {
-            toast.error('Plz enter the field...')
-        }
-
-    }
-
-    const singleQuestionSet = (id) => {
-        setsingleSet(allQuestionSets?.filter((e) => e?.id == id))
-    }
-
-    const handleDelete = (id, questionId) => {
-        setdeleteId(id)
-        setdeleteModal(true)
-        setquestionId(questionId)
-    }
-
-    const deleteFunc = async () => {
-        try {
-            setloading(true)
-            // const res = await deleteQuestionsInsideSet(moduleId, id, deleteId, questionId)
-            // console.log(res)
-            // if (res?.success) {
-            //     setdeleteModal(false)
-            //     getQuestionSets()
-            // }
-        } catch (err) {
-            console.log(err)
-        } finally {
-            setloading(false)
+            setdropdown(i)
         }
     }
-
+    const { id, moduleId } = useParams()
     const [singleProgramData, setsingleProgramData] = useState([])
+    const [loading, setloading] = useState(false);
+
     const fetchSingleProgram = async () => {
         try {
             setloading(true)
-            // const res = await getprogramById(id);
-            // setsingleProgramData(res?.data)
+            const res = await getCoachSinglePrograms(id);
+            setsingleProgramData(res?.data)
         } catch (err) {
             console.log(err)
         } finally {
@@ -735,122 +46,193 @@ const WheelOfLifeModule = () => {
         if (id) {
             fetchSingleProgram()
         }
-    }, [id])
+    }, [])
 
-    const [faqIndex, setFaqIndex] = useState([])
-    const openFaq = (i) => {
-        if (faqIndex.includes(i)) {
-            setFaqIndex(faqIndex.filter((e) => e !== i));
+    const fetchData = async () => {
+        try {
+            setloading(true)
+            const res = await getwheelofLifeElements(id, moduleId);
+            console.log(res)
+            setlifelements(res?.data?.data)
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setloading(false)
+        }
+    }
+
+    useEffect(() => {
+        if (id && moduleId) {
+            fetchData()
+        }
+    }, [id, moduleId])
+
+    const addFunction = async (data, structureId, id) => {
+        if (data && structureId && id) {
+            try {
+                setloading(true)
+                const res = await postwheelofLifeElements({
+                    name: data
+                }, structureId, id);
+                console.log(res)
+                if (res?.success) {
+                    setisModal(false)
+                    fetchData()
+                }
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setloading(false)
+            }
         } else {
-            setFaqIndex([...faqIndex, i]);
+            toast.error('Required data not found!')
+        }
+    }
+
+
+
+    const updateLifeElements = async (data, elementId) => {
+        if (data && elementId) {
+            try {
+                setloading(true)
+                const res = await updateWheelofLifeLifeElements({
+                    name: data
+                }, moduleId, id, elementId);
+                if (res?.success) {
+                    fetchData()
+                    seteditModal(false)
+                }
+                console.log(res)
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setloading(false)
+            }
+        } else {
+            toast.error('Reuired data not found!')
+        }
+
+    }
+
+    const getSingleData = (id) => {
+        setsingleData(lifeElements[id])
+    }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setsingleData({
+            ...singleData,
+            [name]: value
+        })
+    }
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setdropdown(null);
         }
     };
+
+
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
+
+    const deleteWord = async () => {
+        if (deleteId) {
+            try {
+                setloading(true)
+                const res = await deleteWheelofLifelement(moduleId, id, deleteId);
+                if (res?.success) {
+                    setdeleteModal(false)
+                    fetchData()
+                    setdropdown(null)
+                }
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setloading(false)
+            }
+        } else {
+            toast.error('Reuired data not found!')
+        }
+    }
+    const handleDelete = (id) => {
+        setdeletedId(id)
+        setdeleteModal(true)
+    }
+
 
     return (
         <>
             {loading && <Loaders />}
-            {deleteModal && <DeleteModal setdeleteModal={setdeleteModal} onClick={deleteFunc} title={'Delete question?'} details={'Do you really want to delete this question?'} />}
-
-            {tabs.editmultiChoice && <EditMultiChoiceModal editQuestions={editQuestions} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleQuestion} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
-
-            {tabs.editropdown && <EditDropdownModal editQuestions={editQuestions} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleQuestion} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
-
-            {tabs.editsingleChoice && <EditSingleChoiceModal editQuestions={editQuestions} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleQuestion} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
-
-            {tabs.editdescriptive && <EditDescriptiveModal editQuestions={editQuestions} editErrors={editErrors} singleData={singleQuestion} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
-
-            {tabs.descriptive && <CardGameDescriptiveModal errors={errors} postQuestions={postQuestions} selectedIndex={selectedIndex} updateQuestionText={updateQuestionText} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
-
-            {tabs.multiChoice && <CardGameMultichoiceModal errors={errors} postQuestions={postQuestions} updateOptionText={updateOptionText} dynamicOptions={dynamicOptions} updateQuestionText={updateQuestionText} addEmptyOption={addEmptyOption} removeOption={removeOption} selectedIndex={selectedIndex} tabsFunction={tabsFunction} />}
-
-            {tabs.singleChoice && <CardGameSingleChoiceModal errors={errors} postQuestions={postQuestions} updateOptionText={updateOptionText} dynamicOptions={dynamicOptions} updateQuestionText={updateQuestionText} addEmptyOption={addEmptyOption} removeOption={removeOption} selectedIndex={selectedIndex} tabsFunction={tabsFunction} />}
-
-            {tabs.dropdown && <CardGameDropdownModal errors={errors} postQuestions={postQuestions} updateOptionText={updateOptionText} dynamicOptions={dynamicOptions} updateQuestionText={updateQuestionText} addEmptyOption={addEmptyOption} removeOption={removeOption} selectedIndex={selectedIndex} tabsFunction={tabsFunction} />}
+            {deleteModal && <DeleteModal setdeleteModal={setdeleteModal} title={'Delete element'} details={'Do you really want to delete this life element?'} onClick={deleteWord} />}
+            {isModal && <AddLifeElements setisModal={setisModal} addFunction={addFunction} />}
+            {editModal && <EditlifeelmentsModal updateLifeElements={updateLifeElements} handleChange={handleChange} setsingleData={setsingleData} singleData={singleData} seteditModal={seteditModal} />}
             <div className='dashboard_container'>
                 <div className='coaches_head_wrapper'>
                     <div>
                         <h2>Wheel of Life</h2>
-                        <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}`))}>{singleProgramData?.name}</span> / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}/card-game/${moduleId}`))}>Card Game</span> / <span onClick={(() => navigate(`/dashboard/programs/card-game/${id}/questions/${moduleId}`))}>Questions</span></small>
+                        <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}`))}>{singleProgramData?.name}</span>  / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}/wheeloflife/${moduleId}`))}>Wheel of Life</span></small>
+                    </div>
+
+
+                    <div className='coaches_button_wapper'>
+
+
+                        <div onClick={(() => setisModal(true))}>
+                            <Button children={'Add life element'} styles={{
+                                fontSize: '13px'
+                            }} />
+                        </div>
                     </div>
                 </div>
+
                 <h3 style={{
-                    marginTop: '20px',
+                    fontSize: '18px',
                     color: 'var(--text-color)',
-                    fontSize: '23px'
+                    margin: '20px 0',
+                    fontWeight: '600'
                 }}>Life Elements</h3>
+                {lifeElements?.length <= 0 && <p style={{
+                    textAlign: 'center'
+                }}>No elements found...</p>}
+                <div className='coaches_shift_card_wrapper' style={{
+                    gridTemplateColumns: 'repeat(auto-fill,minmax(170px,1fr)'
+                }}>
+                    {lifeElements?.length > 0 && lifeElements?.map((e, i) => (
+                        <div ref={dropdownRef} key={i} className='coaches_shift_card' style={{
+                            padding: " 30px 0px",
+                            background: 'rgba(144, 155, 109, 0.15)',
+                            border: 'none'
+                        }} onClick={((event) => {
+                            event.stopPropagation()
+                            dropdownFunction(i)
+                        })}>
+                            <img style={{
+                                width: '55px'
+                            }} src={laptopImg} />
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                            <p>{e.name}</p>
 
-                <div className='card_game_questions_list_wrapper'>
-                    {[1, 2, 3, 4, 5]?.map((e, i) => (
-                        <>
+                            {dropdown == i && <div className='dropdown_wrapper662' style={{
+                                bottom: '0',
+                                top: '30px',
+                                right: '-30px',
+                                height: 'fit-content'
+                            }} onClick={((e) => e.stopPropagation())}>
+                                <small onClick={(() => navigate(`/dashboard/programs/single-program/${id}/life-element/${moduleId}/${e?.id}`))}>View</small>
+                                <small onClick={(() => {
+                                    getSingleData(i)
+                                    seteditModal(true)
+                                })}>Edit</small>
+                                <small onClick={(() => handleDelete(e?.id))}>Delete</small>
+                            </div>}
+                        </div>
 
-                            <div className='card_game_questions_wrapper' key={e?.id}>
-                                <div className='question_set_heading'>
-                                    <h2>{e?.title || `Question ${i + 1}`}</h2>
-                                    <hr />
-                                    <div className='faq_head_wrapper'>
-                                        {faqIndex.includes(i) && <div onClick={(() => openFaq(i))} className='down_img56'>
-                                            <img src={down} />
-                                        </div>}
-
-                                        {!faqIndex.includes(i) && <div onClick={(() => openFaq(i))} className='down_img57'>
-                                            <img src={right} />
-                                        </div>}
-                                    </div>
-
-                                </div>
-
-                                {faqIndex.includes(i) && <div className='questions_list_wrapper4562'>
-                                    {e?.questions?.length <= 0 && <p style={{
-                                        fontWeight: '600',
-                                        fontSize: '16px',
-                                        marginTop: '-10px',
-                                        color: 'var(--primary-color)'
-                                    }}>No questions added...</p>}
-                                    {e?.questions?.map((element, index) => {
-                                        return (
-                                            <>
-                                                <div key={index} className='added_modules_wrapper'>
-                                                    <div className='add_modules_enu_wrapper'>
-                                                        <img src={menu} />
-                                                        <p>{element?.question_text} <small style={{
-                                                            fontSize: '10px',
-                                                            marginLeft: '5px'
-                                                        }}>{element?.type}</small></p>
-                                                    </div>
-                                                    <div className='edit_modules_wrapper'>
-                                                        <img onClick={(() => {
-                                                            seteditQuestionId(e?.id)
-                                                            setsingleQuestionId(element?.id)
-                                                            addSingleQuestion(e?.id, element?.id)
-                                                            if (element?.type === 'descriptive') {
-                                                                tabsFunction(5)
-                                                            }
-                                                            if (element?.type == 'multi_choice') {
-                                                                tabsFunction(6)
-                                                            }
-                                                            if (element?.type === 'single_choice') {
-                                                                tabsFunction(7)
-                                                            }
-
-                                                            if (element?.type === 'dropdown') {
-                                                                tabsFunction(8)
-                                                            }
-                                                        })} src={edit} />
-                                                        <img onClick={(() => {
-                                                            handleDelete(element?.id, e?.id)
-                                                        })} src={deleteicon} />
-                                                    </div>
-                                                </div>
-                                            </>
-                                        )
-                                    })}
-
-                                </div>}
-                            </div>
-
-                        </>
                     ))}
-
                 </div>
             </div>
         </>

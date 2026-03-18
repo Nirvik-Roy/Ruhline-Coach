@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Input from '../../Components/Input.jsx'
 import Button from '../../Components/Button.jsx'
 import { useParams } from 'react-router-dom'
-// import { editDocuments } from '../../utils/Program.js'
+import { editDocuments } from '../../utils/Program.js'
 import toast from 'react-hot-toast'
 
 const EditDocumentModal = ({ seteditModal, singleFile, editId, setloading, fetchDocuments }) => {
@@ -17,13 +17,13 @@ const EditDocumentModal = ({ seteditModal, singleFile, editId, setloading, fetch
         if (docName != '') {
             try {
                 setloading(true)
-                // const res = await editDocuments({
-                //     original_name: docName
-                // }, id, singleFile?.program_structure_id, editId)
-                // if (res?.success) {
-                //     seteditModal(false)
-                //     fetchDocuments()
-                // }
+                const res = await editDocuments({
+                    original_name: docName
+                }, id, singleFile?.program_structure_id, editId)
+                if (res?.success) {
+                    seteditModal(false)
+                    fetchDocuments()
+                }
             } catch (err) {
                 console.log(err)
             } finally {

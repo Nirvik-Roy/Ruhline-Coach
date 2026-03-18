@@ -19,6 +19,7 @@ import { getCoachProgramsStructure, getCoachSinglePrograms } from '../../../util
 import Loaders from '../../../Components/Loaders/Loaders.jsx'
 const SingleCreatedPrograms = () => {
     const navigate = useNavigate()
+    const [documentModuleId, setdocumentModuleId] = useState()
     const [uploadModal, setuploadModal] = useState(false);
     const [programStructureData, setprogramStructureData] = useState([])
     const [singleProgramData, setsingleProgramData] = useState([]);
@@ -116,7 +117,7 @@ const SingleCreatedPrograms = () => {
 
     return (
         <>
-            {uploadModal && <UploadDocumentsModal setuploadModal={setuploadModal} />}
+            {uploadModal && <UploadDocumentsModal documentModuleId={documentModuleId} setuploadModal={setuploadModal} />}
             {loading && <Loaders />}
             <div className='dashboard_container one_time_content_wrapper'>
                 <div className='appointes_head_wrapper'>
@@ -158,15 +159,34 @@ const SingleCreatedPrograms = () => {
                                     flexDirection: 'column',
                                     rowGap: '5px'
                                 }}>
+                                    {e?.can_edit && <img onClick={(() => {
+                                        const data = {
+                                            'Values': `/dashboard/program/single-program/${id}/values/${e?.id}`,
+                                            'Find your Motivation': `/dashboard/program/single-program/${id}/motivation/${e?.id}`,
+                                            'Who am I': `/dashboard/program/single-program/${id}/who-Am-I/${e?.id}`,
+                                            'Wheel of Life': `/dashboard/program/single-program/wheel-of-life/${id}/life-elements/${e?.id}`
+                                        }
+                                        if (e?.title == 'Upload Documents') {
+                                            setuploadModal(true)
+                                            setdocumentModuleId(e?.id)
+                                        } else {
+                                            navigate(data[e?.title])
+                                        }
+                                    })} src={pencil} />}
                                     <img onClick={(() => {
                                         const data = {
                                             'Values': `/dashboard/program/single-program/${id}/values/${e?.id}`,
                                             'Find your Motivation': `/dashboard/program/single-program/${id}/motivation/${e?.id}`,
-                                            'Who am I':`/dashboard/program/single-program/${id}/who-Am-I/${e?.id}`
+                                            'Who am I': `/dashboard/program/single-program/${id}/who-Am-I/${e?.id}`,
+                                            'Wheel of Life': `/dashboard/program/single-program/wheel-of-life/${id}/life-elements/${e?.id}`
                                         }
-                                        navigate(data[e?.title])
-                                    })} src={pencil} />
-                                    <img src={eye} />
+                                        if (e?.title == 'Upload Documents') {
+                                            setuploadModal(true)
+                                            setdocumentModuleId(e?.id)
+                                        } else {
+                                            navigate(data[e?.title])
+                                        }
+                                    })} src={eye} />
                                 </div>
                                 <img style={{
                                     position: 'absolute',
