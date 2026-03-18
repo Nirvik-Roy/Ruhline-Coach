@@ -39,6 +39,10 @@ const SingleProgramDetails = ({ singleProgramData }) => {
                     {singleProgramData?.tag && <small style={{
                         textTransform: 'capitalize'
                     }}>{singleProgramData?.tag}</small>}
+
+                    <h1 style={{
+                        color:'#000'
+                    }}>{singleProgramData?.name}</h1>
                     <div>
                         {singleProgramData?.original_price
                             && <del>SAR {singleProgramData?.original_price}</del>}

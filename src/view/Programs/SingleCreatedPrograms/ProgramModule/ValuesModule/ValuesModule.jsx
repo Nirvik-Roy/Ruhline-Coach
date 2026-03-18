@@ -503,7 +503,7 @@ const ValuesModule = () => {
                                         tabsFunction(8)
                                     }
                                 })} src={eye} />}
-                                <img onClick={(() => handleChange(element?.id))} src={deleteicon} />
+                                {programStructureData[0]?.can_edit && <img onClick={(() => handleChange(element?.id))} src={deleteicon} />}
                             </div>
                         </div>
                     ))}

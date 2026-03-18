@@ -62,14 +62,14 @@ const EditDropdownModal = ({ tabsFunction, singleData, editAddEmptyOption, editd
                                     />
                                 </div>
 
-                                <div className="option_right_wrapper">
+                             { title == 'Edit' &&  <div className="option_right_wrapper">
                                     <img
                                         src={crossIcon}
                                         alt="remove"
                                         style={{ cursor: "pointer" }}
                                         onClick={(() => editdeleteOption(optIndex))}
                                     />
-                                </div>
+                                </div>}
                             </div>
                         ))}
                         {editErrors?.options && <small style={{
