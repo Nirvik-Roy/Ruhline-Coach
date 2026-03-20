@@ -8,7 +8,8 @@ import MultiChoiceModal from '../../../../Modal/MultiChoiceModal.jsx'
 import SingleChoiceModal from '../../../../Modal/SingleChoiceModal.jsx'
 import DropdownModal from '../../../../Modal/DropdownModal.jsx'
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteWheelofLifeQuestion, editWheelofLifeQuestion, getprogramById, getwheelofLifeElements, getWheelOfLifeQuestions, postWheelofLifeQuestion } from '../../../../../utils/Program.js'
+import { deleteWheelofLifeQuestion, editWheelofLifeQuestion, getCoachProgramsStructure, getCoachSinglePrograms, getwheelofLifeElements, getWheelOfLifeQuestions, postWheelofLifeQuestion } from '../../../../../utils/Program.js'
+import eye from '../../../../../assets/elements.svg'
 import EditMultiChoiceModal from '../../../../Modal/EditMultiChoiceModal.jsx'
 import DeleteModal from '../../../../../Components/DeleteModal/DeleteModal.jsx'
 import EditDropdownModal from '../../../../Modal/EditDropdownModal.jsx'
@@ -68,7 +69,7 @@ const SinglelifeElement = () => {
     const fetchSingleProgram = async () => {
         try {
             setloading(true)
-            const res = await getprogramById(id);
+            const res = await getCoachSinglePrograms(id);
             setsingleProgramData(res?.data)
         } catch (err) {
             console.log(err)
@@ -367,6 +368,23 @@ const SinglelifeElement = () => {
             toast.error('Reuired data not found!')
         }
     }
+
+    const [programStructureData, setprogramStructureData] = useState([])
+    const fetchProgramStructure = async () => {
+        try {
+            setloading(true);
+            const res = await getCoachProgramsStructure(id)
+            setprogramStructureData(res?.data?.data?.filter((e) => e?.id == moduleId))
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setloading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchProgramStructure()
+    }, [])
     return (
         <>
             {loading && <Loaders />}
@@ -379,23 +397,23 @@ const SinglelifeElement = () => {
             {tabs.dropdown && <DropdownModal errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
 
 
-            {tabs.editmultiChoice && <EditMultiChoiceModal editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editmultiChoice && <EditMultiChoiceModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editropdown && <EditDropdownModal editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editropdown && <EditDropdownModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editsingleChoice && <EditSingleChoiceModal editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editsingleChoice && <EditSingleChoiceModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editdescriptive && <EditDescriptiveModal editErrors={editErrors} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editdescriptive && <EditDescriptiveModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
             <div className='dashboard_container'>
                 <div className='coaches_head_wrapper'>
                     <div>
                         <h2>{finalLifeElements?.length > 0 && finalLifeElements[0]?.name}</h2>
-                        <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}`))}>{singleProgramData?.name}</span>  / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}/wheeloflife/${moduleId}`))}>Wheel of Life</span> / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}/life-element/${moduleId}/${finalLifeElements?.length > 0 && finalLifeElements[0]?.id}`))}>{finalLifeElements?.length > 0 && finalLifeElements[0]?.name}</span></small>
+                        <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>{singleProgramData?.name}</span>  / <span onClick={(() => navigate(`/dashboard/program/single-program/wheel-of-life/${id}/life-elements/${moduleId}`))}>Wheel of Life</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}/wheel-of-life/life-element/${moduleId}/${finalLifeElements?.length > 0 && finalLifeElements[0]?.id}`))}>{finalLifeElements?.length > 0 && finalLifeElements[0]?.name}</span></small>
                     </div>
                 </div>
                 <div className='questions_wrapper'>
                     <h3>Questions</h3>
-                    <div className='questions_tabs_wrapper'>
+                    {programStructureData[0]?.can_edit && <div className='questions_tabs_wrapper'>
                         <div onClick={(() => tabsFunction(1))}>
 
                             <Button children={'Descriptive'} styles={{
@@ -441,7 +459,7 @@ const SinglelifeElement = () => {
                                 backgroundColor: 'transparent'
                             }} />
                         </div>
-                    </div>
+                    </div>}
                 </div>
 
                 <div className='questions_list_wrapper4562'>
@@ -475,8 +493,8 @@ const SinglelifeElement = () => {
                                     if (element?.type === 'dropdown') {
                                         tabsFunction(8)
                                     }
-                                })} src={edit} />
-                                <img onClick={(() => handleChange(element?.id))} src={deleteicon} />
+                                })} src={programStructureData[0]?.can_edit ? edit :eye} />
+                                {programStructureData[0]?.can_edit && <img onClick={(() => handleChange(element?.id))} src={deleteicon} />}
                             </div>
                         </div>
                     ))}

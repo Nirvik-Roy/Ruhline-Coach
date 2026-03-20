@@ -181,6 +181,7 @@ const FindYourMotivationModule = () => {
         fetchProgramStructure()
     }, [])
 
+
     return (
         <>
             {loading && <Loaders />}
@@ -191,7 +192,7 @@ const FindYourMotivationModule = () => {
                 <div className='coaches_head_wrapper'>
                     <div>
                         <h2>Find your Motivation</h2>
-                        <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}`))}>{singleProgramData?.name}</span>  / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}/motivation/${moduleId}`))}>Find your Motivation</span></small>
+                        <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>{singleProgramData?.name}</span>  / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}/motivation/${moduleId}`))}>Find your Motivation</span></small>
 
 
                     </div>
@@ -230,10 +231,10 @@ const FindYourMotivationModule = () => {
                             <img style={{
                                 width: '55px'
                             }} src={laptopImg} />
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                            {programStructureData[0]?.can_edit && <i class="fa-solid fa-ellipsis-vertical"></i>}
                             <p>{e?.word}</p>
 
-                            {dropdown == i && <div className='dropdown_wrapper662' style={{
+                            {(dropdown == i && programStructureData[0]?.can_edit) && <div className='dropdown_wrapper662' style={{
                                 bottom: '0',
                                 top: '30px',
                                 right: '-30px',

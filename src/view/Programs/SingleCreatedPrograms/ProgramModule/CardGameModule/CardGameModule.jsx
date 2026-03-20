@@ -4,7 +4,7 @@ import Button from '../../../../../Components/Button'
 import ellipse from '../../../../../assets/_MoreIcon_.svg'
 import Pagination from '../../../../../Components/Pagination/Pagination';
 import CardViewModal from '../../../../Modal/CardViewModal';
-import { deleteCardGameCards, editCardGamecards, getCardGameQuestions, getCoachSinglePrograms, postCardGamecards } from '../../../../../utils/Program'
+import { deleteCardGameCards, editCardGamecards, getCardGameQuestions, getCoachProgramsStructure, getCoachSinglePrograms, postCardGamecards } from '../../../../../utils/Program'
 import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
 import AddCardModal from '../../../../Modal/AddCardModal.jsx';
 import toast from 'react-hot-toast';
@@ -158,6 +158,24 @@ const CardGameModule = () => {
             document.removeEventListener("click", handleClickOutside);
         };
     }, []);
+
+    const [programStructureData, setprogramStructureData] = useState([])
+    const fetchProgramStructure = async () => {
+        try {
+            setloading(true);
+            const res = await getCoachProgramsStructure(id)
+            setprogramStructureData(res?.data?.data?.filter((e) => e?.id == moduleId))
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setloading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchProgramStructure()
+    }, [])
+
     return (
         <>
             {deleteModal && <DeleteModal onClick={deleteFunc} title={'Delete Card'} details={'Do you really want to delete this card?'} setdeleteModal={setdeleteModal} />}
@@ -169,16 +187,16 @@ const CardGameModule = () => {
                 <div className='coaches_head_wrapper'>
                     <div>
                         <h2>Card Game</h2>
-                        <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}`))}>{singleProgramData?.name}</span> / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}/card-game/${moduleId}`))}>Card Game</span></small>
+                        <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>{singleProgramData?.name}</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}/card-game/${moduleId}`))}>Card Game</span></small>
 
 
                     </div>
 
                     <div className='coaches_button_wapper'>
-                        <Button onClick={(() => setisModal(true))} styles={{
+                        {programStructureData[0]?.can_edit && <Button onClick={(() => setisModal(true))} styles={{
                             fontSize: '13px'
-                        }} children={'Add Cards'} />
-                        <div onClick={(() => navigate(`/dashboard/programs/card-game/${id}/questions/${moduleId}`))}>
+                        }} children={'Add Cards'} />}
+                        <div onClick={(() => navigate(`/dashboard/program/single-program/card-game/${id}/questions/${moduleId}`))}>
                             <Button children={'Questions'} styles={{
                                 fontSize: '13px'
                             }} />
@@ -251,7 +269,6 @@ const CardGameModule = () => {
                         </tbody>
                     </table>
                 </div>
-
                 <Pagination />
             </div>
         </>

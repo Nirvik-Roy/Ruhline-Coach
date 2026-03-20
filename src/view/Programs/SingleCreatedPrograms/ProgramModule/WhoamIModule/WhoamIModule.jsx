@@ -8,7 +8,7 @@ import MultiChoiceModal from '../../../../Modal/MultiChoiceModal'
 import SingleChoiceModal from '../../../../Modal/SingleChoiceModal'
 import DropdownModal from '../../../../Modal/DropdownModal'
 import { useNavigate, useParams } from 'react-router-dom'
-import { deleteWhoAmiQuestions, editWhoAmiQuestions, getCoachSinglePrograms, getWhoAmiQuestions, postWhoAmiQuestions } from '../../../../../utils/Program.js'
+import { deleteWhoAmiQuestions, editWhoAmiQuestions, getCoachProgramsStructure, getCoachSinglePrograms, getWhoAmiQuestions, postWhoAmiQuestions } from '../../../../../utils/Program.js'
 import DeleteModal from '../../../../../Components/DeleteModal/DeleteModal.jsx'
 import toast from 'react-hot-toast'
 import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
@@ -16,7 +16,7 @@ import EditDescriptiveModal from '../../../../Modal/EditDescriptiveModal.jsx'
 import EditSingleChoiceModal from '../../../../Modal/EditSingleChoiceModal.jsx'
 import EditDropdownModal from '../../../../Modal/EditDropdownModal.jsx'
 import EditMultiChoiceModal from '../../../../Modal/EditMultiChoiceModal.jsx'
-
+import eye from '../../../../../assets/elements.svg'
 const WhoamIModule = () => {
     const navigate = useNavigate()
     const [loading, setloading] = useState(false);
@@ -342,6 +342,24 @@ const WhoamIModule = () => {
         }
     }
 
+
+    const [programStructureData, setprogramStructureData] = useState([])
+    const fetchProgramStructure = async () => {
+        try {
+            setloading(true);
+            const res = await getCoachProgramsStructure(id)
+            setprogramStructureData(res?.data?.data?.filter((e) => e?.id == moduleId))
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setloading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchProgramStructure()
+    }, [])
+
     return (
         <>
             {deleteModal && <DeleteModal onClick={deleteQuestions} title={'Delete Questions'} details={'Do you really want to delete this question?'} setdeleteModal={setdeleteModal} />}
@@ -353,19 +371,19 @@ const WhoamIModule = () => {
             {tabs.dropdown && <DropdownModal errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
 
 
-            {tabs.editmultiChoice && <EditMultiChoiceModal editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editmultiChoice && <EditMultiChoiceModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editropdown && <EditDropdownModal editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editropdown && <EditDropdownModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editsingleChoice && <EditSingleChoiceModal editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editsingleChoice && <EditSingleChoiceModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editdescriptive && <EditDescriptiveModal editErrors={editErrors} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editdescriptive && <EditDescriptiveModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
             {loading && <Loaders />}
             <div className='dashboard_container'>
                 <div className='coaches_head_wrapper'>
                     <div>
                         <h2>Who am I?</h2>
-                        <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}`))}>{singleProgramData?.name}</span>  / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}/whoami/${moduleId}`))}>Who am I?</span></small>
+                        <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>{singleProgramData?.name}</span>  / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}/who-Am-I/${moduleId}`))}>Who am I?</span></small>
                     </div>
 
 
@@ -373,7 +391,7 @@ const WhoamIModule = () => {
 
                 <div className='questions_wrapper'>
                     <h3>Questions</h3>
-                    <div className='questions_tabs_wrapper'>
+                    {programStructureData[0]?.can_edit && <div className='questions_tabs_wrapper'>
                         <div onClick={(() => tabsFunction(1))}>
 
                             <Button children={'Descriptive'} styles={{
@@ -419,7 +437,7 @@ const WhoamIModule = () => {
                                 backgroundColor: 'transparent'
                             }} />
                         </div>
-                    </div>
+                    </div>}
                 </div>
 
                 <div className='questions_list_wrapper4562'>
@@ -453,8 +471,8 @@ const WhoamIModule = () => {
                                     if (element?.type === 'dropdown') {
                                         tabsFunction(8)
                                     }
-                                })} src={edit} />
-                                <img onClick={(() => handleChange(element?.id))} src={deleteicon} />
+                                })} src={programStructureData[0]?.can_edit ? edit : eye} />
+                                {programStructureData[0]?.can_edit && <img onClick={(() => handleChange(element?.id))} src={deleteicon} />}
                             </div>
                         </div>
                     ))}

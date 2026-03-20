@@ -31,6 +31,7 @@ import ProgramTable from './view/Programs/ProgramTable/ProgramTable.jsx'
 import FindYourMotivationModule from './view/Programs/SingleCreatedPrograms/ProgramModule/FindYourMotivationModule/FindYourMotivationModule.jsx'
 import WhoamIModule from './view/Programs/SingleCreatedPrograms/ProgramModule/WhoamIModule/WhoamIModule.jsx'
 import ValuesModule from './view/Programs/SingleCreatedPrograms/ProgramModule/ValuesModule/ValuesModule.jsx'
+import SinglelifeElement from './view/Programs/SingleCreatedPrograms/ProgramModule/WheelOfLifeModule/SinglelifeElement.jsx'
 function App() {
   return (
     <>
@@ -66,6 +67,7 @@ function App() {
                   <Route path='single-program/:id/card-game/:moduleId' element={<CardGameModule />} />
                   <Route path='single-program/card-game/:id/questions/:moduleId' element={<CardGameQuestions />} />
                   <Route path='single-program/wheel-of-life/:id/life-elements/:moduleId' element={<WheelOfLifeModule />} />
+                  <Route path='single-program/:id/wheel-of-life/life-element/:moduleId/:elementId' element={<SinglelifeElement />} />
                   <Route path='single-program/:id/motivation/:moduleId' element={<FindYourMotivationModule />} />
                   <Route path='single-program/:id/who-Am-I/:moduleId' element={<WhoamIModule />} />
                   <Route path='single-program/:id/values/:moduleId' element={<ValuesModule />} />

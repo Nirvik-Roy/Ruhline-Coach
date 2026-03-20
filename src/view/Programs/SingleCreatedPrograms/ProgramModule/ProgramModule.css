@@ -106,4 +106,51 @@ margin-top: 20px;
     font-size: 14px;
 }
 
+.coaches_shift_card {
+    display: flex
+;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 10px;
+    border: 1px solid rgba(144, 155, 109, 1);
+    border-radius: 10px;
+    padding: 15px 20px;
+    position: relative;
+}
+.coaches_shift_card_wrapper {
+    display: grid
+;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+.dropdown_wrapper662 {
+    position: absolute;
+    background-color: #fff;
+    display: flex
+;
+    flex-direction: column;
+    row-gap: 0px;
+    width: fit-content;
+    border-radius: 5px;
+    box-shadow: 0 8px 12px #091e4226;
+    padding: 10px 0;
+    z-index: 9;
+    cursor: pointer;
+    bottom: 0px;
+    top: 30px;
+    right: -30px;
+    height: fit-content;
+}
+.coaches_shift_card i {
+    color: var(--primary-color);
+    position: absolute;
+    top: 8px;
+    right: 3px;
+}
+.dropdown_wrapper662 small {
+    font-size: 12px;
+    transition: .2s linear all;
+    padding: 5px 15px;
 }

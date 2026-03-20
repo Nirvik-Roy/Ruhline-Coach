@@ -1,9 +1,9 @@
-import React, {  useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '../../Components/Button'
 import { Document, Page, pdfjs } from "react-pdf";
 import upload from '../../assets/Vector (8).svg'
 import Loaders from '../../Components/Loaders/Loaders';
-import { deleteDocuments, getDocuments, postDocuments } from '../../utils/Program';
+import { deleteDocuments, getCoachProgramsStructure, getDocuments, postDocuments } from '../../utils/Program';
 import { useParams } from 'react-router-dom';
 import EditDocumentModal from './EditDocumentModal';
 import DeleteModal from '../../Components/DeleteModal/DeleteModal.jsx'
@@ -135,6 +135,23 @@ const UploadDocumentsModal = ({ setuploadModal, uploadModal, documentModuleId })
         const filteredData = dummyData.filter((e, i) => i != index)
         setFiles(filteredData)
     }
+
+    const [programStructureData, setprogramStructureData] = useState([])
+    const fetchProgramStructure = async () => {
+        try {
+            setloading(true);
+            const res = await getCoachProgramsStructure(id)
+            setprogramStructureData(res?.data?.data?.filter((e) => e?.id == documentModuleId))
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setloading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchProgramStructure()
+    }, [])
     return (
         <>
             {editModal && <EditDocumentModal fetchDocuments={fetchDocuments} setloading={setloading} editId={editId} singleFile={singleFile} seteditModal={seteditModal} />}
@@ -150,8 +167,8 @@ const UploadDocumentsModal = ({ setuploadModal, uploadModal, documentModuleId })
                             <img src={upload} />
                             <p>Drag your files or <span>Browse</span></p>
                             <h5>PDF supported | file size: 2MB</h5>
-                            <input onChange={(e) => handleFile(e)}
-                                accept='.pdf' type='file' multiple />
+                            {programStructureData[0]?.can_edit && <input onChange={(e) => handleFile(e)}
+                                accept='.pdf' type='file' multiple />}
                         </div>
                     </div>
                     {fileErrors?.file && <small style={{
@@ -226,7 +243,7 @@ const UploadDocumentsModal = ({ setuploadModal, uploadModal, documentModuleId })
                                     gap: '12px',
                                     alignItems: 'center'
                                 }}>
-                                    {file?.url && <i
+                                    {(file?.url && programStructureData[0]?.can_edit) && <i
                                         className="fa-regular fa-pen-to-square"
                                         title="Edit"
                                         style={{
@@ -243,9 +260,11 @@ const UploadDocumentsModal = ({ setuploadModal, uploadModal, documentModuleId })
                                             handleSingleFile(index)
 
                                         }}
-                                    ></i>}
+                                    ></i>
 
-                                    {file?.url && <i
+                                    }
+
+                                    {(file?.url && programStructureData[0]?.can_edit) && <i
                                         className="fa-regular fa-trash-can"
                                         title="Delete"
                                         style={{
@@ -294,9 +313,9 @@ const UploadDocumentsModal = ({ setuploadModal, uploadModal, documentModuleId })
                             </div>
                         ))}
                     </div>
-                    <div className='change_cancel_wrapper'>
+                    {programStructureData[0]?.can_edit && <div className='change_cancel_wrapper'>
                         <Button onClick={handleDocumentsApi} children={'Upload'} />
-                    </div>
+                    </div>}
                 </form>
             </div>
         </>

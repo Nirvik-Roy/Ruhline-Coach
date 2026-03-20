@@ -59,61 +59,7 @@ const SingleCreatedPrograms = () => {
             fetchProgramStructure()
         }
     }, [id])
-    const [programData, setProgramData] = useState([
-        {
-            id: 1,
-            img: icon1,
-            title: 'Values',
-            link: '/dashboard/program/single-program/1/values/2'
-        },
-        {
-            id: 2,
-            img: icon2,
-            title: 'Card Game',
-            link: '/dashboard/program/single-program/1/card-game/2'
-        },
-        {
-            id: 3,
-            img: icon3,
-            title: 'Wheel of Life',
-            link: '/dashboard/program/single-program/wheel-of-life/1/life-elements/3'
-        },
-        {
-            id: 4,
-            img: icon4,
-            title: 'Goal Settings',
 
-            link: '/dashboard/appoinments/program/1/goal'
-        },
-        {
-            id: 5,
-            img: icon5,
-            title: 'Find your Motivation',
-
-            link: '/dashboard/program/single-program/1/motivation/5'
-        },
-        {
-            id: 6,
-            img: icon6,
-            title: 'Habit Tracker',
-
-            link: '/dashboard/appoinments/program/1/habit-tracker'
-        },
-        {
-            id: 1,
-            img: icon1,
-            title: 'Documents',
-            link: '/dashboard/appoinments/program/1/values'
-        },
-        {
-            id: 6,
-            img: icon7,
-            title: 'Who am I?',
-
-            link: '/dashboard/program/single-program/1/who-Am-I/3'
-        },
-
-    ])
 
     return (
         <>
@@ -164,7 +110,8 @@ const SingleCreatedPrograms = () => {
                                             'Values': `/dashboard/program/single-program/${id}/values/${e?.id}`,
                                             'Find your Motivation': `/dashboard/program/single-program/${id}/motivation/${e?.id}`,
                                             'Who am I': `/dashboard/program/single-program/${id}/who-Am-I/${e?.id}`,
-                                            'Wheel of Life': `/dashboard/program/single-program/wheel-of-life/${id}/life-elements/${e?.id}`
+                                            'Wheel of Life': `/dashboard/program/single-program/wheel-of-life/${id}/life-elements/${e?.id}`,
+                                            'Card Game': `/dashboard/program/single-program/${id}/card-game/${e?.id}`
                                         }
                                         if (e?.title == 'Upload Documents') {
                                             setuploadModal(true)
@@ -173,12 +120,13 @@ const SingleCreatedPrograms = () => {
                                             navigate(data[e?.title])
                                         }
                                     })} src={pencil} />}
-                                    <img onClick={(() => {
+                                    { <img onClick={(() => {
                                         const data = {
                                             'Values': `/dashboard/program/single-program/${id}/values/${e?.id}`,
                                             'Find your Motivation': `/dashboard/program/single-program/${id}/motivation/${e?.id}`,
                                             'Who am I': `/dashboard/program/single-program/${id}/who-Am-I/${e?.id}`,
-                                            'Wheel of Life': `/dashboard/program/single-program/wheel-of-life/${id}/life-elements/${e?.id}`
+                                            'Wheel of Life': `/dashboard/program/single-program/wheel-of-life/${id}/life-elements/${e?.id}`,
+                                            'Card Game': `/dashboard/program/single-program/${id}/card-game/${e?.id}`
                                         }
                                         if (e?.title == 'Upload Documents') {
                                             setuploadModal(true)
@@ -186,7 +134,7 @@ const SingleCreatedPrograms = () => {
                                         } else {
                                             navigate(data[e?.title])
                                         }
-                                    })} src={eye} />
+                                    })} src={eye} />}
                                 </div>
                                 <img style={{
                                     position: 'absolute',

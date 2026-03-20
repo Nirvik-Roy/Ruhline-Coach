@@ -558,7 +558,7 @@ export const getCardGameQuestionSets = async (id, structureId) => {
     const Token = localStorage.getItem('token');
     if (Token && id && structureId) {
         try {
-            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/admin/program/${id}/structure/${structureId}/card-game/question-sets`, {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/program/${id}/structure/${structureId}/card-game/question-sets`, {
                 headers: {
                     'Authorization': `Bearer ${Token}`
                 }
@@ -577,7 +577,7 @@ export const editCardGameQuestionSet = async (data, structureId, id, setId) => {
     const Token = localStorage.getItem('token');
     if (Token && data && structureId && id && setId) {
         try {
-            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/admin/program/${id}/structure/${structureId}/card-game/question-sets/${setId}`, data, {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/program/${id}/structure/${structureId}/card-game/question-sets/${setId}`, data, {
                 headers: {
                     'Authorization': `Bearer ${Token}`
                 }
@@ -598,7 +598,7 @@ export const postQuestionsInsideQuestionSet = async (data, structureId, id, setI
     const Token = localStorage.getItem('token');
     if (Token && data && structureId && id) {
         try {
-            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/admin/program/${id}/structure/${structureId}/card-game/question-sets/${setId}/questions`, data, {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/program/${id}/structure/${structureId}/card-game/question-sets/${setId}/questions`, data, {
                 headers: {
                     'Authorization': `Bearer ${Token}`
                 }
@@ -619,7 +619,7 @@ export const editQuestionsInsideQuestionSet = async (data, structureId, id, ques
     const Token = localStorage.getItem('token');
     if (Token && data && structureId && id && setId && questionId) {
         try {
-            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/admin/program/${id}/structure/${structureId}/card-game/question-sets/${setId}/questions/${questionId}`, data, {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/program/${id}/structure/${structureId}/card-game/question-sets/${setId}/questions/${questionId}`, data, {
                 headers: {
                     'Authorization': `Bearer ${Token}`
                 }
@@ -640,7 +640,7 @@ export const deleteQuestionsInsideSet = async (structureId, id, questionId, setI
     const Token = localStorage.getItem('token');
     if (Token && structureId && id && questionId && setId) {
         try {
-            const res = await axios.delete(`${import.meta.env.VITE_BASE_URL}/admin/program/${id}/structure/${structureId}/card-game/question-sets/${setId}/questions/${questionId}`, {
+            const res = await axios.delete(`${import.meta.env.VITE_BASE_URL}/program/${id}/structure/${structureId}/card-game/question-sets/${setId}/questions/${questionId}`, {
                 headers: {
                     'Authorization': `Bearer ${Token}`
                 }
@@ -661,7 +661,7 @@ export const getCardGameQuestions = async (id, structureId) => {
     const Token = localStorage.getItem('token');
     if (Token && id && structureId) {
         try {
-            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/admin/program/${id}/structure/${structureId}/card-game/cards`, {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/program/${id}/structure/${structureId}/card-game/cards`, {
                 headers: {
                     'Authorization': `Bearer ${Token}`
                 }
@@ -680,7 +680,7 @@ export const postCardGamecards = async (data, id, structureId) => {
     const Token = localStorage.getItem('token');
     if (Token && data && id) {
         try {
-            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/admin/program/${id}/structure/${structureId}/card-game/cards`, data, {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/program/${id}/structure/${structureId}/card-game/cards`, data, {
                 headers: {
                     'Authorization': `Bearer ${Token}`
                 }
@@ -700,7 +700,7 @@ export const editCardGamecards = async (data, id, structureId, cardId) => {
     const Token = localStorage.getItem('token');
     if (Token && data && id && cardId) {
         try {
-            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/admin/program/${id}/structure/${structureId}/card-game/cards/${cardId}`, data, {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/program/${id}/structure/${structureId}/card-game/cards/${cardId}`, data, {
                 headers: {
                     'Authorization': `Bearer ${Token}`
                 }
@@ -721,7 +721,7 @@ export const deleteCardGameCards = async (id, structureId, cardId) => {
     const Token = localStorage.getItem('token');
     if (Token && id && cardId) {
         try {
-            const res = await axios.delete(`${import.meta.env.VITE_BASE_URL}/admin/program/${id}/structure/${structureId}/card-game/cards/${cardId}`, {
+            const res = await axios.delete(`${import.meta.env.VITE_BASE_URL}/program/${id}/structure/${structureId}/card-game/cards/${cardId}`, {
                 headers: {
                     'Authorization': `Bearer ${Token}`
                 }

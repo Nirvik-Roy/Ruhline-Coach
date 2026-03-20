@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import Button from '../../../../../Components/Button.jsx'
 import laptopImg from '../../../../../assets/Group (2).svg'
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteWheelofLifelement, getCoachSinglePrograms, getwheelofLifeElements, postwheelofLifeElements, updateWheelofLifeLifeElements } from '../../../../../utils/Program.js';
+import { deleteWheelofLifelement, getCoachProgramsStructure, getCoachSinglePrograms, getwheelofLifeElements, postwheelofLifeElements, updateWheelofLifeLifeElements } from '../../../../../utils/Program.js';
 import Loaders from '../../../../../Components/Loaders/Loaders.jsx';
 import AddLifeElements from '../../../../Modal/AddLifeElements.jsx';
 import toast from 'react-hot-toast';
@@ -163,7 +163,22 @@ const WheelOfLifeModule = () => {
         setdeletedId(id)
         setdeleteModal(true)
     }
+    const [programStructureData, setprogramStructureData] = useState([])
+    const fetchProgramStructure = async () => {
+        try {
+            setloading(true);
+            const res = await getCoachProgramsStructure(id)
+            setprogramStructureData(res?.data?.data?.filter((e) => e?.id == moduleId))
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setloading(false)
+        }
+    }
 
+    useEffect(() => {
+        fetchProgramStructure()
+    }, [])
 
     return (
         <>
@@ -175,11 +190,11 @@ const WheelOfLifeModule = () => {
                 <div className='coaches_head_wrapper'>
                     <div>
                         <h2>Wheel of Life</h2>
-                        <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}`))}>{singleProgramData?.name}</span>  / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}/wheeloflife/${moduleId}`))}>Wheel of Life</span></small>
+                        <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>{singleProgramData?.name}</span>  / <span onClick={(() => navigate(`/dashboard/program/single-program//wheel-of-life/${id}/life-elements/${moduleId}`))}>Wheel of Life</span></small>
                     </div>
 
 
-                    <div className='coaches_button_wapper'>
+                    {programStructureData[0]?.can_edit && <div className='coaches_button_wapper'>
 
 
                         <div onClick={(() => setisModal(true))}>
@@ -187,7 +202,7 @@ const WheelOfLifeModule = () => {
                                 fontSize: '13px'
                             }} />
                         </div>
-                    </div>
+                    </div>}
                 </div>
 
                 <h3 style={{
@@ -223,12 +238,15 @@ const WheelOfLifeModule = () => {
                                 right: '-30px',
                                 height: 'fit-content'
                             }} onClick={((e) => e.stopPropagation())}>
-                                <small onClick={(() => navigate(`/dashboard/programs/single-program/${id}/life-element/${moduleId}/${e?.id}`))}>View</small>
-                                <small onClick={(() => {
-                                    getSingleData(i)
-                                    seteditModal(true)
-                                })}>Edit</small>
-                                <small onClick={(() => handleDelete(e?.id))}>Delete</small>
+                                <small onClick={(() => navigate(`/dashboard/program/single-program/${id}/wheel-of-life/life-element/${moduleId}/${e?.id}`))}>View</small>
+                                {programStructureData[0]?.can_edit && <>
+                                    <small onClick={(() => {
+                                        getSingleData(i)
+                                        seteditModal(true)
+                                    })}>Edit</small>
+                                    <small onClick={(() => handleDelete(e?.id))}>Delete</small>
+                                </>
+                                }
                             </div>}
                         </div>
 
