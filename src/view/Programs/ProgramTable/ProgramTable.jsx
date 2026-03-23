@@ -28,6 +28,28 @@ const ProgramTable = () => {
     }, [])
 
 
+    // Pagination logic & Search Logic...
+    const [searchTerm, setSearchTerm] = useState("");
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+        }, 500); // 500ms delay
+        return () => clearTimeout(timer); // cleanup
+    }, [searchTerm]);
+    const filteredData = programData?.filter((item) =>
+        item?.name?.toLowerCase().includes(debouncedSearch.toLowerCase())
+    );
+    const itemsPerPage = 10;
+    const [currentPage, setCurrentPage] = useState(0);
+    const offset = currentPage * itemsPerPage;
+    const currentItems = filteredData?.slice(offset, offset + itemsPerPage);
+    const pageCount = Math.ceil(filteredData?.length / itemsPerPage);
+    const handlePageChange = (selectedItem) => {
+        setCurrentPage(selectedItem.selected);
+    };
+
+
     return (
         <>
             {loading && <Loaders />}
@@ -35,6 +57,12 @@ const ProgramTable = () => {
                 <div className='coaches_head_wrapper'>
                     <div>
                         <h2>Programs</h2>
+                    </div>
+                    <div className='coaches_button_wapper'>
+                        <div className='coaches_search_wrapper'>
+                            <input onChange={((e) => setSearchTerm(e?.target?.value))} placeholder='Search' />
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
                     </div>
                 </div>
                 <div className='table_container'>
@@ -46,14 +74,14 @@ const ProgramTable = () => {
                                 {/* <th>Program Sub-Category</th> */}
                                 <th>Occurrence Type</th>
                                 <th style={{
-                                    textAlign:'center'
+                                    textAlign: 'center'
                                 }}>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {(programData?.length <= 0 && loading) && <td colSpan={12}>Searching programs...</td>}
-                            {(programData?.length <= 0 && !loading) && <td colSpan={12}>No programs found...</td>}
-                            {programData?.map((element, index) => (
+                            {(currentItems?.length <= 0 && loading) && <td colSpan={12}>Searching programs...</td>}
+                            {(currentItems?.length <= 0 && !loading) && <td colSpan={12}>No programs found...</td>}
+                            {currentItems?.map((element, index) => (
                                 <tr key={index}>
                                     <td>
                                         <div className='customer_wrapper' style={{
@@ -84,7 +112,9 @@ const ProgramTable = () => {
                         </tbody>
                     </table>
                 </div>
-                {programData?.length > 0 && <Pagination />}
+                <Pagination pageCount={pageCount}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange} />
             </div>
         </>
     )
