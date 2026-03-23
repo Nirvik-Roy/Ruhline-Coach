@@ -9,3 +9,25 @@
     grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
     gap: 15px;
 }
+.cms_faq_wrapper{
+    margin-bottom: 20px;
+}
+
+.cms_faq_list{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e1e1e1;
+    padding-bottom: 30px;
+}
+.cms_faq_list:last-child{
+    border-bottom: none;
+}
+.cms_faq_questions_wrapper{
+    width: 82%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}

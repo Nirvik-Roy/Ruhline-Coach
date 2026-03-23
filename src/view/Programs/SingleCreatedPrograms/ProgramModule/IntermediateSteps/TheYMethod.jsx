@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import Button from '../../../Components/Button'
+import Button from '../../../../../Components/Button.jsx'
 import './IntermediateSteps.css'
-import Input from '../../../Components/Input'
-import crossIcon from '../../../assets/content.svg'
+import Input from '../../../../../Components/Input.jsx'
+import crossIcon from '../../../../../assets/content (1).svg'
 import { useNavigate } from 'react-router-dom'
-import CustomTextEditor from '../../../Components/CustomTextEditor/CustomTextEditor'
+import CustomTextEditor from '../../../../../Components/CustomTextEditor/CustomTextEditor.jsx'
 import toast from 'react-hot-toast'
-import { getYMethod, postYMethod } from '../../../utils/Program'
-import Loaders from '../../../Components/Loaders/Loaders'
+// import { getYMethod, postYMethod } from '../../../../../utils/Program'
+import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
 
 const TheYMethod = () => {
     const navigate = useNavigate();
     const [headline, setheadLine] = useState('');
-    const [ymethodData,setymethodData] = useState({})
+    const [ymethodData, setymethodData] = useState({})
     const [loading, setloading] = useState(false)
     const [stepOptions, setstepOptions] = useState([
         {
-            id: 0 + 1,
+            id: 1,
             description: "",
         }
     ])
@@ -30,14 +30,14 @@ const TheYMethod = () => {
     }
 
     const addSteps = () => {
-        setstepOptions([
-            ...stepOptions,
+        setstepOptions(prev => [
+            ...prev,
             {
-                id: stepOptions.length + 1,
+                id: prev.length + 1,
                 description: ""
             }
-        ])
-    }
+        ]);
+    };
 
     const deleteSteps = (id) => {
         if (stepOptions.length != 1) {
@@ -59,8 +59,8 @@ const TheYMethod = () => {
                         formData.append(`steps[${index}][sort_order]`, index)
                     })
                 }
-                const res = await postYMethod(formData);
-                console.log(res)
+                // const res = await postYMethod(formData);
+                // console.log(res)
             } catch (err) {
                 console.log(err)
             } finally {
@@ -75,8 +75,8 @@ const TheYMethod = () => {
     const fetchData = async () => {
         try {
             setloading(true)
-            const res = await getYMethod();
-            setymethodData(res?.data)
+            // const res = await getYMethod();
+            // setymethodData(res?.data)
         } catch (err) {
             console.log(err)
         } finally {
@@ -88,14 +88,14 @@ const TheYMethod = () => {
         fetchData()
     }, [])
 
-    useEffect(()=>{
-      setheadLine(ymethodData?.headline || "")
-        setstepOptions(ymethodData?.steps || {
-            id:0+1,
-            title:"",
-            description:""
-        })
-    },[ymethodData])
+    useEffect(() => {
+        setheadLine(ymethodData?.headline || "")
+        setstepOptions(ymethodData?.steps || [{
+            id: 0 + 1,
+            title: "",
+            description: ""
+        }])
+    }, [ymethodData])
 
     return (
         <>

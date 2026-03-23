@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import Button from '../../../Components/Button'
+import Button from '../../../../../Components/Button.jsx'
 import './IntermediateSteps.css'
-import Input from '../../../Components/Input'
-import crossIcon from '../../../assets/content.svg'
-import Textarea from '../../../Components/Textarea'
+import Input from '../../../../../Components/Input.jsx'
+import crossIcon from '../../../../../assets/content (1).svg'
+import Textarea from '../../../../../Components/Textarea.jsx'
 import { useNavigate } from 'react-router-dom'
-import CustomTextEditor from '../../../Components/CustomTextEditor/CustomTextEditor'
+import CustomTextEditor from '../../../../../Components/CustomTextEditor/CustomTextEditor.jsx'
 import toast from 'react-hot-toast'
-import Loaders from '../../../Components/Loaders/Loaders'
-import { getValuesIntermediate, postValuesIntermediate } from '../../../utils/Program'
+import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
+// import { getValuesIntermediate, postValuesIntermediate } from '../../../../../utils/Program'
 const ValuesIntermediate = () => {
     const navigate = useNavigate()
     const [headline, setheadLine] = useState('');
@@ -58,7 +58,7 @@ const ValuesIntermediate = () => {
                         formData.append(`points[${index}][sort_order] `, index)
                     })
                 }
-                const res = await postValuesIntermediate(formData)
+                // const res = await postValuesIntermediate(formData)
             } catch (err) {
                 console.log(err)
             } finally {
@@ -73,8 +73,8 @@ const ValuesIntermediate = () => {
     const fetchData = async () => {
         try {
             setloading(true);
-            const res = await getValuesIntermediate()
-            setvaluesData(res?.data)
+            // const res = await getValuesIntermediate()
+            // setvaluesData(res?.data)
         } catch (err) {
             console.log(err)
         } finally {

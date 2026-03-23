@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import Button from '../../../Components/Button'
+import Button from '../../../../../Components/Button.jsx'
 import './IntermediateSteps.css'
-import Input from '../../../Components/Input'
-import crossIcon from '../../../assets/content.svg'
-import Textarea from '../../../Components/Textarea'
-import CustomTextEditor from '../../../Components/CustomTextEditor/CustomTextEditor'
+import Input from '../../../../../Components/Input.jsx'
+import crossIcon from '../../../../../assets/content (1).svg'
+import Textarea from '../../../../../Components/Textarea.jsx'
+import CustomTextEditor from '../../../../../Components/CustomTextEditor/CustomTextEditor.jsx'
 import { useNavigate } from 'react-router-dom'
-import Loaders from '../../../Components/Loaders/Loaders'
-import { getEachGoal, postEachGoal } from '../../../utils/Program'
+import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
+// import { getEachGoal, postEachGoal } from '../../../../../utils/Program'
 import toast from 'react-hot-toast'
 const EachGoalQuestions = () => {
     const navigate = useNavigate();
@@ -53,8 +53,8 @@ const EachGoalQuestions = () => {
                 formData.append("question_heading_3", questionHeading3 || "")
                 formData.append("question_description_3", description3 || "");
                 formData.append("quote", staticData.quote || "")
-                const res = await postEachGoal(formData);
-                console.log(res)
+                // const res = await postEachGoal(formData);
+                // console.log(res)
             } catch (err) {
                 console.log(err)
             } finally {
@@ -69,8 +69,8 @@ const EachGoalQuestions = () => {
     const fetchData = async () => {
         try {
             setloading(true)
-            const res = await getEachGoal();
-            seteachGoalData(res?.data)
+            // const res = await getEachGoal();
+            // seteachGoalData(res?.data)
         } catch (err) {
             console.log(err)
         } finally {

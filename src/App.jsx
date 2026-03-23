@@ -35,63 +35,78 @@ import SinglelifeElement from './view/Programs/SingleCreatedPrograms/ProgramModu
 import QuotesCategories from './view/Programs/SingleCreatedPrograms/ProgramModule/QuotesCategories/QuotesCategories.jsx'
 import SingleQutoesCategories from './view/Programs/SingleCreatedPrograms/ProgramModule/QuotesCategories/SingleQutoesCategories.jsx'
 import { useEffect } from 'react'
+import ValuesIntermediate from './view/Programs/SingleCreatedPrograms/ProgramModule/IntermediateSteps/ValuesIntermediate.jsx'
+import CommonMistakes from './view/Programs/SingleCreatedPrograms/ProgramModule/IntermediateSteps/CommonMistakes.jsx'
+import EachGoalQuestions from './view/Programs/SingleCreatedPrograms/ProgramModule/IntermediateSteps/EachGoalQuestions.jsx'
+import GoalSettingsPage from './view/Programs/SingleCreatedPrograms/ProgramModule/IntermediateSteps/GoalSettingsPage.jsx'
+import TheYMethod from './view/Programs/SingleCreatedPrograms/ProgramModule/IntermediateSteps/TheYMethod.jsx'
 function App() {
   const location = useLocation()
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
-      top:'0',
-      behavior:'instant'
+      top: '0',
+      behavior: 'instant'
     })
   }, [location.pathname])
   return (
     <>
-      
-        <LocationProvider>
-          <Toaster />
-          <ScrollTop />
-          <Routes>
-            <Route path='/' element={<Register />} />
-            <Route path='/verify-email' element={<Register />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/associate-email' element={<EmailAssociate />} />
-            <Route path='/resend-email' element={<ResendEmail />} />
-            <Route path='/reset-password' element={<Createpassword />} />
-            <Route path='/forgot-password' element={<ForgotPassword />} />
-            <Route path='/dashboard' element={<PrivateRoute />}>
-              <Route path='/dashboard' element={<MainLayout />}>
-                <Route path='coach-profile' element={<CoachProfile />} />
-                <Route path='appoinments' element={<Appoinments />} />
-                <Route path='appoinments/program/:id' element={<AppoinmentPrograms />} />
-                <Route path='appoinments/program/:id/values' element={<ProgramValues />} />
-                <Route path='appoinments/program/:id/goal' element={<ProgramGoal />} />
-                <Route path='appoinments/program/:id/create-goal' element={<CreateGoal />} />
-                <Route path='appoinments/goal/view-goal/:id' element={<ViewGoal />} />
-                <Route path='appoinments/program/:id/who-am-i' element={<Whoami />} />
-                <Route path='appoinments/program/:id/card-game' element={<Cardgame />} />
-                <Route path='appoinments/program/:id/wheel-life' element={<WheelOfLife />} />
-                <Route path='appoinments/program/:id/habit-tracker' element={<Habitracker />} />
-                <Route path='edit-profile/:id' element={<EditCoachProfile />} />
-                <Route path='program' >
-                  <Route path='' element={<ProgramTable />} />
-                  <Route path='single-program/:id' element={<SingleCreatedPrograms />} />
-                  <Route path='single-program/:id/card-game/:moduleId' element={<CardGameModule />} />
-                  <Route path='single-program/card-game/:id/questions/:moduleId' element={<CardGameQuestions />} />
-                  <Route path='single-program/wheel-of-life/:id/life-elements/:moduleId' element={<WheelOfLifeModule />} />
-                  <Route path='single-program/:id/wheel-of-life/life-element/:moduleId/:elementId' element={<SinglelifeElement />} />
-                  <Route path='single-program/:id/motivation/:moduleId' element={<FindYourMotivationModule />} />
-                  <Route path='single-program/:id/who-Am-I/:moduleId' element={<WhoamIModule />} />
-                  <Route path='single-program/:id/values/:moduleId' element={<ValuesModule />} />
 
-                  <Route path='single-program/:id/quote-categories/:moduleId' element={<QuotesCategories/>}/>
+      <LocationProvider>
+        <Toaster />
+        <ScrollTop />
+        <Routes>
+          <Route path='/' element={<Register />} />
+          <Route path='/verify-email' element={<Register />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/associate-email' element={<EmailAssociate />} />
+          <Route path='/resend-email' element={<ResendEmail />} />
+          <Route path='/reset-password' element={<Createpassword />} />
+          <Route path='/forgot-password' element={<ForgotPassword />} />
+          <Route path='/dashboard' element={<PrivateRoute />}>
+            <Route path='/dashboard' element={<MainLayout />}>
+              <Route path='coach-profile' element={<CoachProfile />} />
+              <Route path='appoinments' element={<Appoinments />} />
+              <Route path='appoinments/program/:id' element={<AppoinmentPrograms />} />
+              <Route path='appoinments/program/:id/values' element={<ProgramValues />} />
+              <Route path='appoinments/program/:id/goal' element={<ProgramGoal />} />
+              <Route path='appoinments/program/:id/create-goal' element={<CreateGoal />} />
+              <Route path='appoinments/goal/view-goal/:id' element={<ViewGoal />} />
+              <Route path='appoinments/program/:id/who-am-i' element={<Whoami />} />
+              <Route path='appoinments/program/:id/card-game' element={<Cardgame />} />
+              <Route path='appoinments/program/:id/wheel-life' element={<WheelOfLife />} />
+              <Route path='appoinments/program/:id/habit-tracker' element={<Habitracker />} />
+              <Route path='edit-profile/:id' element={<EditCoachProfile />} />
+              <Route path='program' >
+                <Route path='' element={<ProgramTable />} />
+                <Route path='single-program/:id' element={<SingleCreatedPrograms />} />
+                <Route path='single-program/:id/card-game/:moduleId' element={<CardGameModule />} />
+                <Route path='single-program/card-game/:id/questions/:moduleId' element={<CardGameQuestions />} />
+                <Route path='single-program/wheel-of-life/:id/life-elements/:moduleId' element={<WheelOfLifeModule />} />
+                <Route path='single-program/:id/wheel-of-life/life-element/:moduleId/:elementId' element={<SinglelifeElement />} />
+                <Route path='single-program/:id/motivation/:moduleId' element={<FindYourMotivationModule />} />
+                <Route path='single-program/:id/who-Am-I/:moduleId' element={<WhoamIModule />} />
+                <Route path='single-program/:id/values/:moduleId' element={<ValuesModule />} />
 
-                  <Route path='single-program/:id/quote-categories/:moduleId/quotes/:elementId' element={<SingleQutoesCategories />} />
-                </Route>
+                <Route path='single-program/:id/quote-categories/:moduleId' element={<QuotesCategories />} />
+
+                <Route path='single-program/:id/quote-categories/:moduleId/quotes/:elementId' element={<SingleQutoesCategories />} />
+
+                <Route path='single-program/:id/values-itermediate/:moduleId' element={<ValuesIntermediate />} />
+
+                <Route path='single-program/:id/common-mistakes/:moduleId' element={<CommonMistakes />} />
+
+                <Route path='single-program/:id/each-goal/:moduleId' element={<EachGoalQuestions />} />
+
+                <Route path='single-program/:id/goal-settings/:moduleId' element={<GoalSettingsPage />} />
+
+                <Route path='single-program/:id/y-method/:moduleId' element={<TheYMethod />} />
               </Route>
             </Route>
-          </Routes>
-        </LocationProvider>
-      </>
-    
+          </Route>
+        </Routes>
+      </LocationProvider>
+    </>
+
   )
 }
 

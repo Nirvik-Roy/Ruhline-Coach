@@ -1,13 +1,13 @@
-import React, { use, useEffect, useState } from 'react'
-import Button from '../../../Components/Button'
+import React, { useEffect, useState } from 'react'
+import Button from '../../../../../Components/Button.jsx'
 import './IntermediateSteps.css'
-import Input from '../../../Components/Input'
-import crossIcon from '../../../assets/content.svg'
-import Textarea from '../../../Components/Textarea'
-import CustomTextEditor from '../../../Components/CustomTextEditor/CustomTextEditor'
+import Input from '../../../../../Components/Input.jsx'
+import crossIcon from '../../../../../assets/content (1).svg'
+import Textarea from '../../../../../Components/Textarea.jsx'
+import CustomTextEditor from '../../../../../Components/CustomTextEditor/CustomTextEditor.jsx'
 import { useNavigate } from 'react-router-dom'
-import Loaders from '../../../Components/Loaders/Loaders'
-import { getCommonMistakes, postCommonMistakes } from '../../../utils/Program'
+import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
+// import { getCommonMistakes, postCommonMistakes } from '../../../../../utils/Program'
 import toast from 'react-hot-toast'
 const CommonMistakes = () => {
     const navigate = useNavigate();
@@ -59,7 +59,7 @@ const CommonMistakes = () => {
                         formData.append(`mistakes[${index}][sort_order] `, index)
                     })
                 }
-                const res = await postCommonMistakes(formData)
+                // const res = await postCommonMistakes(formData)
             } catch (err) {
                 console.log(err)
             } finally {
@@ -74,8 +74,8 @@ const CommonMistakes = () => {
     const fetchData = async () => {
         try {
             setloading(true);
-            const res = await getCommonMistakes()
-            setallMistakesData(res?.data)
+            // const res = await getCommonMistakes()
+            // setallMistakesData(res?.data)
         } catch (err) {
             console.log(err)
         } finally {
@@ -145,8 +145,8 @@ const CommonMistakes = () => {
                 </div>
 
 
-                <div onClick={addMistakes}>
-                    <Button children={'Add Mistake'} styles={{
+                <div>
+                    <Button onClick={addMistakes} children={'Add Mistake'} styles={{
                         color: 'var(--text-color)',
                         border: '1px solid var(--primary-color)',
                         padding: '12px 15px',

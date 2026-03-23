@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Button from '../../../Components/Button'
-import crossIcon from '../../../assets/content.svg'
-import CustomTextEditor from '../../../Components/CustomTextEditor/CustomTextEditor'
-import Input from '../../../Components/Input'
-import Loaders from '../../../Components/Loaders/Loaders'
-import { getGoalSettings, postGoalSettings } from '../../../utils/Program'
+import Button from '../../../../../Components/Button.jsx'
+import crossIcon from '../../../../../assets/content (1).svg'
+import CustomTextEditor from '../../../../../Components/CustomTextEditor/CustomTextEditor.jsx'
+import Input from '../../../../../Components/Input.jsx'
+import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
+// import { getGoalSettings, postGoalSettings } from '../../../../../utils/Program'
 import toast from 'react-hot-toast'
 const GoalSettingsPage = () => {
     const navigate = useNavigate();
@@ -75,7 +75,7 @@ const GoalSettingsPage = () => {
                         formData.append(`options[${index}][sort_order]`, index)
                     })
                 }
-                const res = await postGoalSettings(formData)
+                // const res = await postGoalSettings(formData)
             } catch (err) {
                 console.log(err)
             } finally {
@@ -90,8 +90,8 @@ const GoalSettingsPage = () => {
     const fetchData = async () => {
         try {
             setloading(true);
-            const res = await getGoalSettings()
-            setgoalSettingsData(res?.data)
+            // const res = await getGoalSettings()
+            // setgoalSettingsData(res?.data)
         } catch (err) {
             console.log(err)
         } finally {
