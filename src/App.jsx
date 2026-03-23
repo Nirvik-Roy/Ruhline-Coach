@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import './App.css'
 import { LocationProvider } from './context/locationContext'
 import Login from './view/Auth/Login'
@@ -32,10 +32,20 @@ import FindYourMotivationModule from './view/Programs/SingleCreatedPrograms/Prog
 import WhoamIModule from './view/Programs/SingleCreatedPrograms/ProgramModule/WhoamIModule/WhoamIModule.jsx'
 import ValuesModule from './view/Programs/SingleCreatedPrograms/ProgramModule/ValuesModule/ValuesModule.jsx'
 import SinglelifeElement from './view/Programs/SingleCreatedPrograms/ProgramModule/WheelOfLifeModule/SinglelifeElement.jsx'
+import QuotesCategories from './view/Programs/SingleCreatedPrograms/ProgramModule/QuotesCategories/QuotesCategories.jsx'
+import SingleQutoesCategories from './view/Programs/SingleCreatedPrograms/ProgramModule/QuotesCategories/SingleQutoesCategories.jsx'
+import { useEffect } from 'react'
 function App() {
+  const location = useLocation()
+  useEffect(()=>{
+    window.scrollTo({
+      top:'0',
+      behavior:'instant'
+    })
+  }, [location.pathname])
   return (
     <>
-      <BrowserRouter>
+      
         <LocationProvider>
           <Toaster />
           <ScrollTop />
@@ -71,13 +81,17 @@ function App() {
                   <Route path='single-program/:id/motivation/:moduleId' element={<FindYourMotivationModule />} />
                   <Route path='single-program/:id/who-Am-I/:moduleId' element={<WhoamIModule />} />
                   <Route path='single-program/:id/values/:moduleId' element={<ValuesModule />} />
+
+                  <Route path='single-program/:id/quote-categories/:moduleId' element={<QuotesCategories/>}/>
+
+                  <Route path='single-program/:id/quote-categories/:moduleId/quotes/:elementId' element={<SingleQutoesCategories />} />
                 </Route>
               </Route>
             </Route>
           </Routes>
         </LocationProvider>
-      </BrowserRouter>
-    </>
+      </>
+    
   )
 }
 

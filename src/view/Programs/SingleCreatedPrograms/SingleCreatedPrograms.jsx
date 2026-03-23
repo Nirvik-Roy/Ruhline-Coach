@@ -111,7 +111,8 @@ const SingleCreatedPrograms = () => {
                                             'Find your Motivation': `/dashboard/program/single-program/${id}/motivation/${e?.id}`,
                                             'Who am I': `/dashboard/program/single-program/${id}/who-Am-I/${e?.id}`,
                                             'Wheel of Life': `/dashboard/program/single-program/wheel-of-life/${id}/life-elements/${e?.id}`,
-                                            'Card Game': `/dashboard/program/single-program/${id}/card-game/${e?.id}`
+                                            'Card Game': `/dashboard/program/single-program/${id}/card-game/${e?.id}`,
+                                            'Quote':`/dashboard/program/single-program/${id}/quote-categories/${e?.id}`
                                         }
                                         if (e?.title == 'Upload Documents') {
                                             setuploadModal(true)
@@ -126,7 +127,8 @@ const SingleCreatedPrograms = () => {
                                             'Find your Motivation': `/dashboard/program/single-program/${id}/motivation/${e?.id}`,
                                             'Who am I': `/dashboard/program/single-program/${id}/who-Am-I/${e?.id}`,
                                             'Wheel of Life': `/dashboard/program/single-program/wheel-of-life/${id}/life-elements/${e?.id}`,
-                                            'Card Game': `/dashboard/program/single-program/${id}/card-game/${e?.id}`
+                                            'Card Game': `/dashboard/program/single-program/${id}/card-game/${e?.id}`,
+                                            'Quote': `/dashboard/program/single-program/${id}/quote-categories/${e?.id}`
                                         }
                                         if (e?.title == 'Upload Documents') {
                                             setuploadModal(true)

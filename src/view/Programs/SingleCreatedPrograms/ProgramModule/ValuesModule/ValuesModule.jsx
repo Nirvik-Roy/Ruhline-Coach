@@ -395,7 +395,7 @@ const ValuesModule = () => {
                                 fontSize: '13px'
                             }} />
                         </div> */}
-                        <div onClick={(() => navigate(`/dashboard/programs/single-program/${id}`))}>
+                        <div onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>
                             <Button children={'Save'} styles={{
                                 fontSize: '13px'
                             }} />

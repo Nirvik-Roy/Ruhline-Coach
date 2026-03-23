@@ -1,25 +1,38 @@
-import React from 'react'
-import './Pagination.css'
-const Pagination = () => {
-    return (
-        <>
-            <div className='pagination_wrapper'>
-                <i style={{
-                    color: '#a7a7a7ff'
-                }} class="fa-solid fa-angle-left"></i>
-                <p style={{
-                    border: '1px solid #c6c6c6ff '
-                }}>1</p>
-                <p>2</p>
-                <p>3</p>
-                <p>4</p>
-                <p>5</p>
-                <p>...</p>
-                <p>10</p>
-                <i class="fa-solid fa-angle-right"></i>
-            </div>
-        </>
-    )
-}
+import React from "react";
+import "./Pagination.css";
+import ReactPaginate from "react-paginate";
 
-export default Pagination
+const Pagination = ({ pageCount = 0, currentPage, onPageChange }) => {
+    if (pageCount != 0) {
+        return (
+            <>
+                <ReactPaginate
+                    previousLabel={<i className="fa-solid fa-chevron-left"></i>}
+                    nextLabel={<i className="fa-solid fa-chevron-right"></i>}
+                    breakLabel={"..."}
+                    pageCount={pageCount}
+                    forcePage={currentPage}
+                    onPageChange={onPageChange}
+                    marginPagesDisplayed={1}
+                    pageRangeDisplayed={3}
+                    containerClassName="pagination"
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item prev-item"
+                    nextClassName="page-item next-item"
+                    previousLinkClassName="page-link nav-link"
+                    nextLinkClassName="page-link nav-link"
+                    breakClassName="page-item break-item"
+                    breakLinkClassName="page-link break-link"
+                    activeClassName="active"
+                    disabledClassName="disabled"
+                />
+            </>
+        );
+    } else {
+        return null;
+    }
+
+};
+
+export default Pagination;
