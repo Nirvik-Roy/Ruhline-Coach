@@ -57,7 +57,6 @@ const CardGameModule = () => {
     useEffect(() => {
         if (id && moduleId) {
             fetchCardGameQuestions()
-
         }
     }, [id, moduleId])
 
@@ -176,6 +175,9 @@ const CardGameModule = () => {
         fetchProgramStructure()
     }, [])
 
+
+    
+
     return (
         <>
             {deleteModal && <DeleteModal onClick={deleteFunc} title={'Delete Card'} details={'Do you really want to delete this card?'} setdeleteModal={setdeleteModal} />}
@@ -187,7 +189,7 @@ const CardGameModule = () => {
                 <div className='coaches_head_wrapper'>
                     <div>
                         <h2>Card Game</h2>
-                        <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>{singleProgramData?.name}</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}/card-game/${moduleId}`))}>Card Game</span></small>
+                        <small><span onClick={(() => navigate('/dashboard/program'))}>Programs</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>{singleProgramData?.name}</span> / <span >Card Game</span></small>
 
 
                     </div>
@@ -204,8 +206,10 @@ const CardGameModule = () => {
                     </div>
                 </div>
 
-                <div className='table_container'>
-                    <table className='total_table_order_wrapper coaches_table_wrapper'>
+                <div className='table_container' style={{
+                    minHeight: '80vh'
+                }}>
+                    <table  className='total_table_order_wrapper coaches_table_wrapper'>
                         <thead>
                             <tr>
                                 <th>Card Name</th>
@@ -214,7 +218,7 @@ const CardGameModule = () => {
                                     width: '170px',
                                     minWidth: '170px',
                                     textAlign: 'center'
-                                }}>Edit</th>
+                                }}>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -244,13 +248,14 @@ const CardGameModule = () => {
                                                 indexFunction(i)
                                             })} src={ellipse} />
                                             {index.includes(i) && <div className='actions_wrapper' style={{
-                                                top: '20px'
+                                                top: '20px',
+                                                height:'fit-content'
                                             }}>
                                                 <p onClick={(() => {
                                                     Modalfunc(1)
                                                     setsingleData(allQuestions[i])
                                                 })}>View</p>
-                                                <p onClick={(() => {
+                                                {/* <p onClick={(() => {
                                                     setsingleData(allQuestions[i])
                                                     setcardName(allQuestions[i]?.name)
                                                     setcardDescription(allQuestions[i]?.description)
@@ -259,7 +264,7 @@ const CardGameModule = () => {
 
                                                 <p onClick={(() => {
                                                     handleDelete(e?.id)
-                                                })}>Delete</p>
+                                                })}>Delete</p> */}
                                             </div>}
 
                                         </div>

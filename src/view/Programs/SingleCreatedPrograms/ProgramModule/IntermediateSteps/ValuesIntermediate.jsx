@@ -4,13 +4,14 @@ import './IntermediateSteps.css'
 import Input from '../../../../../Components/Input.jsx'
 import crossIcon from '../../../../../assets/content (1).svg'
 import Textarea from '../../../../../Components/Textarea.jsx'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import CustomTextEditor from '../../../../../Components/CustomTextEditor/CustomTextEditor.jsx'
 import toast from 'react-hot-toast'
 import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
-// import { getValuesIntermediate, postValuesIntermediate } from '../../../../../utils/Program'
+import { getCoachSinglePrograms, getValuesIntermediate, postValuesIntermediate } from '../../../../../utils/Program'
 const ValuesIntermediate = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const { id, moduleId } = useParams()
     const [headline, setheadLine] = useState('');
     const [valuesData, setvaluesData] = useState({})
     const [loading, setloading] = useState(false)
@@ -58,7 +59,7 @@ const ValuesIntermediate = () => {
                         formData.append(`points[${index}][sort_order] `, index)
                     })
                 }
-                // const res = await postValuesIntermediate(formData)
+                const res = await postValuesIntermediate(formData)
             } catch (err) {
                 console.log(err)
             } finally {
@@ -73,8 +74,8 @@ const ValuesIntermediate = () => {
     const fetchData = async () => {
         try {
             setloading(true);
-            // const res = await getValuesIntermediate()
-            // setvaluesData(res?.data)
+            const res = await getValuesIntermediate(id, moduleId)
+            setvaluesData(res?.data?.page)
         } catch (err) {
             console.log(err)
         } finally {
@@ -82,8 +83,11 @@ const ValuesIntermediate = () => {
         }
     }
     useEffect(() => {
-        fetchData()
-    }, [])
+        if (id && moduleId) {
+            fetchData()
+
+        }
+    }, [id, moduleId])
 
 
     useEffect(() => {
@@ -95,14 +99,33 @@ const ValuesIntermediate = () => {
             }
         ])
     }, [valuesData])
+
+    const [singleProgramData, setsingleProgramData] = useState([])
+    const fetchSingleProgram = async () => {
+        try {
+            setloading(true)
+            const res = await getCoachSinglePrograms(id);
+            setsingleProgramData(res?.data)
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setloading(false)
+        }
+    }
+
+    useEffect(() => {
+        if (id) {
+            fetchSingleProgram()
+        }
+    }, [])
     return (
         <>
             {loading && <Loaders />}
             <div className='dashboard_container'>
                 <div className='coaches_head_wrapper'>
                     <div>
-                        <h2>Values Intermediate Page</h2>
-                        <small><span onClick={(() => navigate('/dashboard/programs'))}>Programs</span> / <span onClick={(() => navigate('/dashboard/programs/intermediate'))}>Intermediate Steps</span> / <span onClick={(() => navigate('/dashboard/programs/intermediate/values-intermediate'))}>Values Intermediate Page</span></small>
+                        <h2>Values Intermediate</h2>
+                        <small><span onClick={(() => navigate('/dashboard/program'))}>Programs</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>{singleProgramData?.name}</span> / <span>Values Intermediate</span></small>
                     </div>
                     <div className='coaches_button_wapper'>
 
@@ -114,16 +137,16 @@ const ValuesIntermediate = () => {
                                 border: 'none'
                             }} />
                         </div> */}
-                        <div onClick={handleSubmit}>
+                        {/* <div onClick={handleSubmit}>
                             <Button children={'Save'} styles={{
                                 fontSize: '13px'
                             }} />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
                 <div className='values_inputs_wrapper462'>
-                    <Input onChange={((e) => setheadLine(e.target.value))} value={headline} label={'Headline'} required={'true'} placeholder={'Enter headline'} />
+                    <Input readOnly={true} onChange={((e) => setheadLine(e.target.value))} value={headline} label={'Headline'} required={'true'} placeholder={'Enter headline'} />
                 </div>
 
 
@@ -132,7 +155,7 @@ const ValuesIntermediate = () => {
                         <div className='cms_faq_list'>
                             <p>Point {i + 1}</p>
                             <div className='cms_faq_questions_wrapper'>
-                                <CustomTextEditor defaultValue={e?.description} onChange={((data) => handlePoints(data, e?.id))} label={'Description'} />
+                                <CustomTextEditor readOnly defaultValue={e?.description} onChange={((data) => handlePoints(data, e?.id))} label={'Description'} />
                             </div>
                             <img onClick={(() => deletePoints(e?.id))} style={i != 0 ? { visibility: 'visible' } : {
                                 visibility: 'hidden'
@@ -143,7 +166,7 @@ const ValuesIntermediate = () => {
                 </div>
 
 
-                <div onClick={addPoints}>
+                {/* <div onClick={addPoints}>
                     <Button children={'Add Point'} styles={{
                         color: 'var(--text-color)',
                         border: '1px solid var(--primary-color)',
@@ -151,7 +174,7 @@ const ValuesIntermediate = () => {
                         background: 'transparent',
                         fontSize: '13px'
                     }} />
-                </div>
+                </div> */}
             </div>
         </>
     )

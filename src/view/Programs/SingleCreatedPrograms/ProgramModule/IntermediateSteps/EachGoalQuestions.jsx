@@ -5,12 +5,13 @@ import Input from '../../../../../Components/Input.jsx'
 import crossIcon from '../../../../../assets/content (1).svg'
 import Textarea from '../../../../../Components/Textarea.jsx'
 import CustomTextEditor from '../../../../../Components/CustomTextEditor/CustomTextEditor.jsx'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
-// import { getEachGoal, postEachGoal } from '../../../../../utils/Program'
+import { getCoachSinglePrograms, getEachGoal, postEachGoal } from '../../../../../utils/Program'
 import toast from 'react-hot-toast'
 const EachGoalQuestions = () => {
     const navigate = useNavigate();
+    const { id, moduleId } = useParams()
     const [eachGoalData, seteachGoalData] = useState({})
     const [questionHeading1, setquestionHeading1] = useState("")
     const [questionHeading2, setquestionHeading2] = useState("")
@@ -53,24 +54,24 @@ const EachGoalQuestions = () => {
                 formData.append("question_heading_3", questionHeading3 || "")
                 formData.append("question_description_3", description3 || "");
                 formData.append("quote", staticData.quote || "")
-                // const res = await postEachGoal(formData);
-                // console.log(res)
+                const res = await postEachGoal(formData);
+                console.log(res)
             } catch (err) {
                 console.log(err)
             } finally {
                 setloading(false)
             }
-        }else{
+        } else {
             toast.error("Plz enter the headline field...")
         }
-       
+
     }
 
     const fetchData = async () => {
         try {
             setloading(true)
-            // const res = await getEachGoal();
-            // seteachGoalData(res?.data)
+            const res = await getEachGoal(id, moduleId);
+            seteachGoalData(res?.data?.page)
         } catch (err) {
             console.log(err)
         } finally {
@@ -79,7 +80,9 @@ const EachGoalQuestions = () => {
     }
 
     useEffect(() => {
-        fetchData()
+        if (id && moduleId) {
+            fetchData()
+        }
     }, [])
 
     useEffect(() => {
@@ -101,7 +104,24 @@ const EachGoalQuestions = () => {
 
     }, [eachGoalData])
 
-    console.log(eachGoalData)
+    const [singleProgramData, setsingleProgramData] = useState([])
+    const fetchSingleProgram = async () => {
+        try {
+            setloading(true)
+            const res = await getCoachSinglePrograms(id);
+            setsingleProgramData(res?.data)
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setloading(false)
+        }
+    }
+
+    useEffect(() => {
+        if (id) {
+            fetchSingleProgram()
+        }
+    }, [])
     return (
         <>
             {loading && <Loaders />}
@@ -109,7 +129,7 @@ const EachGoalQuestions = () => {
                 <div className='coaches_head_wrapper'>
                     <div>
                         <h2>Questions for each goal - why? Intermediate Page</h2>
-                        <small><span onClick={(() => navigate('/dashboard/programs'))}>Programs</span> / <span onClick={(() => navigate('/dashboard/programs/intermediate'))}>Intermediate Steps</span> / <span onClick={(() => navigate('/dashboard/programs/intermediate/each-goal'))}>Questions for each goal - why? Intermediate Page</span></small>
+                        <small><span onClick={(() => navigate('/dashboard/program'))}>Programs</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>{singleProgramData?.name}</span> / <span>Questions for each goal - why? Intermediate</span></small>
                     </div>
                     <div className='coaches_button_wapper'>
 
@@ -121,18 +141,18 @@ const EachGoalQuestions = () => {
                                 border: 'none'
                             }} />
                         </div> */}
-                        <div onClick={handleSubmit}>
+                        {/* <div onClick={handleSubmit}>
                             <Button children={'Save'} styles={{
                                 fontSize: '13px'
                             }} />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
                 <div className='values_inputs_wrapper462'>
                     <div>
 
-                        <Input onChange={handleChange} value={staticData.headline_1} name={'headline_1'} label={'Headline'} required={'true'} placeholder={'Enter headline'} />
+                        <Input readOnly={true} onChange={handleChange} value={staticData.headline_1} name={'headline_1'} label={'Headline'} required={'true'} placeholder={'Enter headline'} />
                     </div>
 
                     {/* <div>
@@ -141,20 +161,20 @@ const EachGoalQuestions = () => {
 
                     <div className='each_goal_grid_wrapper'>
                         <div>
-                            <Input onChange={handleChange} value={staticData.headline_2} name={'headline_2'} label={'Headline 2'} placeholder={'Enter headline 2'} />
+                            <Input readOnly={true} onChange={handleChange} value={staticData.headline_2} name={'headline_2'} label={'Headline 2'} placeholder={'Enter headline 2'} />
                         </div>
 
                         <div>
-                            <Input onChange={handleChange} value={staticData.headline_3} name={'headline_3'} label={'Headline 3'} placeholder={'Enter Headline 3'} />
+                            <Input readOnly={true} onChange={handleChange} value={staticData.headline_3} name={'headline_3'} label={'Headline 3'} placeholder={'Enter Headline 3'} />
                         </div>
 
                         <div>
-                            <Input onChange={handleChange} value={staticData.headline_4} name={'headline_4'} label={'Headline 4'} placeholder={'Enter Headline 4'} />
+                            <Input readOnly={true} onChange={handleChange} value={staticData.headline_4} name={'headline_4'} label={'Headline 4'} placeholder={'Enter Headline 4'} />
                         </div>
                     </div>
 
                     <div>
-                        <Input onChange={handleChange} value={staticData.headline_5} name={'headline_5'} label={'Headline 5'} placeholder={'Enter Headline 5'} />
+                        <Input readOnly={true} onChange={handleChange} value={staticData.headline_5} name={'headline_5'} label={'Headline 5'} placeholder={'Enter Headline 5'} />
                     </div>
                 </div>
 
@@ -163,8 +183,8 @@ const EachGoalQuestions = () => {
                     <div className='cms_faq_list'>
                         <p>Question 1</p>
                         <div className='cms_faq_questions_wrapper'>
-                            <Input value={questionHeading1} onChange={((e) => setquestionHeading1(e.target.value))} label={'Heading'} placeholder={'Enter question Heading'} />
-                            <CustomTextEditor defaultValue={description1} onChange={((data) => setdescription1(data))} label={'Description'} />
+                            <Input readOnly={true} value={questionHeading1} onChange={((e) => setquestionHeading1(e.target.value))} label={'Heading'} placeholder={'Enter question Heading'} />
+                            <CustomTextEditor readOnly defaultValue={description1} onChange={((data) => setdescription1(data))} label={'Description'} />
                         </div>
                     </div>
 
@@ -172,8 +192,8 @@ const EachGoalQuestions = () => {
                     <div className='cms_faq_list'>
                         <p>Question 2</p>
                         <div className='cms_faq_questions_wrapper'>
-                            <Input value={questionHeading2} onChange={((e) => setquestionHeading2(e.target.value))} label={'Heading'} placeholder={'Enter question Heading'} />
-                            <CustomTextEditor defaultValue={description2} onChange={((data) => setdescription2(data))} label={'Description'} />
+                            <Input readOnly={true} value={questionHeading2} onChange={((e) => setquestionHeading2(e.target.value))} label={'Heading'} placeholder={'Enter question Heading'} />
+                            <CustomTextEditor readOnly defaultValue={description2} onChange={((data) => setdescription2(data))} label={'Description'} />
                         </div>
                     </div>
 
@@ -181,15 +201,15 @@ const EachGoalQuestions = () => {
                     <div className='cms_faq_list'>
                         <p>Question 3</p>
                         <div className='cms_faq_questions_wrapper'>
-                            <Input value={questionHeading3} onChange={((e) => setquestionHeading3(e.target.value))} label={'Heading'} placeholder={'Enter question Heading'} />
-                            <CustomTextEditor defaultValue={description3} onChange={((data) => setdescription3(data))} label={'Description'} />
+                            <Input readOnly={true} value={questionHeading3} onChange={((e) => setquestionHeading3(e.target.value))} label={'Heading'} placeholder={'Enter question Heading'} />
+                            <CustomTextEditor readOnly defaultValue={description3} onChange={((data) => setdescription3(data))} label={'Description'} />
                         </div>
                     </div>
                 </div>
 
                 <div className='values_inputs_wrapper462'>
 
-                    <Input onChange={handleChange} value={staticData.quote} name={'quote'} label={'Quote'} placeholder={'Enter quote'} />
+                    <Input readOnly={true} onChange={handleChange} value={staticData.quote} name={'quote'} label={'Quote'} placeholder={'Enter quote'} />
                 </div>
             </div>
         </>

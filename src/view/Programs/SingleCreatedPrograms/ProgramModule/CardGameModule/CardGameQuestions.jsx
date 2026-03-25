@@ -763,7 +763,7 @@ const CardGameQuestions = () => {
                 <div className='coaches_head_wrapper'>
                     <div>
                         <h2>Questions</h2>
-                        <small><span onClick={(() => navigate('/dashboard/programs/create-program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}`))}>{singleProgramData?.name}</span> / <span onClick={(() => navigate(`/dashboard/programs/single-program/${id}/card-game/${moduleId}`))}>Card Game</span> / <span onClick={(() => navigate(`/dashboard/programs/card-game/${id}/questions/${moduleId}`))}>Questions</span></small>
+                        <small><span onClick={(() => navigate('/dashboard/program'))}>Program Creation</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>{singleProgramData?.name}</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}/card-game/${moduleId}`))}>Card Game</span> / <span>Questions</span></small>
                     </div>
                 </div>
 
@@ -772,7 +772,7 @@ const CardGameQuestions = () => {
                         <>
 
                             <div className='card_game_questions_wrapper' key={e?.id}>
-                                <i onClick={(() => {
+                                {/* <i onClick={(() => {
                                     seteditTitleModal(true)
                                     setquestionId(e?.id)
                                     singleQuestionSet(e?.id)
@@ -780,14 +780,14 @@ const CardGameQuestions = () => {
                                     marginLeft: 'auto',
                                     color: 'var(--primary-color)',
                                     cursor: 'pointer'
-                                }} className="fa-solid fa-pen-to-square"></i>
+                                }} className="fa-solid fa-pen-to-square"></i> */}
                                 <div className='question_set_heading'>
                                     <h2>{e?.title}</h2>
                                     <hr />
                                 </div>
                                 <div className='questions_buttons_wrapper466'>
                                     <h4>Questions</h4>
-                                    <div className='question_button'>
+                                    {/* <div className='question_button'>
                                         <div onClick={(() => {
                                             setselectedIndex(i)
                                             tabsFunction(1)
@@ -851,7 +851,7 @@ const CardGameQuestions = () => {
                                                 fontSize: '13px'
                                             }} children={'Add Dropdown'} />
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className='questions_list_wrapper4562'>
                                     {e?.questions?.length <= 0 && <p style={{
@@ -871,7 +871,7 @@ const CardGameQuestions = () => {
                                                             marginLeft: '5px'
                                                         }}>{element?.type}</small></p>
                                                     </div>
-                                                    <div className='edit_modules_wrapper'>
+                                                    {/* <div className='edit_modules_wrapper'>
                                                         <img onClick={(() => {
                                                             seteditQuestionId(e?.id)
                                                             setsingleQuestionId(element?.id)
@@ -893,7 +893,7 @@ const CardGameQuestions = () => {
                                                         <img onClick={(() => {
                                                             handleDelete(element?.id, e?.id)
                                                         })} src={deleteicon} />
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             </>
                                         )

@@ -68,10 +68,10 @@ const SingleCreatedPrograms = () => {
             <div className='dashboard_container one_time_content_wrapper'>
                 <div className='appointes_head_wrapper'>
                     <div>
-                        <h2>Program123</h2>
+                        <h2>{singleProgramData?.name}</h2>
                         <small style={{
                             cursor: 'pointer'
-                        }}><span onClick={(() => navigate('/dashboard/appoinments'))}>Programs</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1'))}>Program 1</span> </small>
+                        }}><span onClick={(() => navigate('/dashboard/program'))}>Programs</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>{singleProgramData?.name}</span> </small>
                     </div>
                 </div>
                 <SingleProgramDetails singleProgramData={singleProgramData} />
@@ -112,7 +112,11 @@ const SingleCreatedPrograms = () => {
                                             'Who am I': `/dashboard/program/single-program/${id}/who-Am-I/${e?.id}`,
                                             'Wheel of Life': `/dashboard/program/single-program/wheel-of-life/${id}/life-elements/${e?.id}`,
                                             'Card Game': `/dashboard/program/single-program/${id}/card-game/${e?.id}`,
-                                            'Quote':`/dashboard/program/single-program/${id}/quote-categories/${e?.id}`
+                                            'Quote': `/dashboard/program/single-program/${id}/quote-categories/${e?.id}`,
+                                            'Intermediate - Values': `/dashboard/program/single-program/${id}/values-itermediate/${e?.id}`,
+                                            'Intermediate - Eight most common mistakes': `/dashboard/program/single-program/${id}/common-mistakes/${e?.id}`,
+                                            'Intermediate - Questions for each goal - why?': `/dashboard/program/single-program/${id}/each-goal/${e?.id}`,
+                                            'Intermediate - The Y Method': `/dashboard/program/single-program/${id}/y-method/${e?.id}`
                                         }
                                         if (e?.title == 'Upload Documents') {
                                             setuploadModal(true)
@@ -121,14 +125,21 @@ const SingleCreatedPrograms = () => {
                                             navigate(data[e?.title])
                                         }
                                     })} src={pencil} />}
-                                    { <img onClick={(() => {
+
+                                    
+                                    { (e?.title != 'Goal Settings' && e?.title !='Habit Tracker') && <img onClick={(() => {
                                         const data = {
                                             'Values': `/dashboard/program/single-program/${id}/values/${e?.id}`,
                                             'Find your Motivation': `/dashboard/program/single-program/${id}/motivation/${e?.id}`,
                                             'Who am I': `/dashboard/program/single-program/${id}/who-Am-I/${e?.id}`,
                                             'Wheel of Life': `/dashboard/program/single-program/wheel-of-life/${id}/life-elements/${e?.id}`,
                                             'Card Game': `/dashboard/program/single-program/${id}/card-game/${e?.id}`,
-                                            'Quote': `/dashboard/program/single-program/${id}/quote-categories/${e?.id}`
+                                            'Quote': `/dashboard/program/single-program/${id}/quote-categories/${e?.id}`,
+                                            'Intermediate - Values': `/dashboard/program/single-program/${id}/values-itermediate/${e?.id}`,
+                                            'Intermediate - Goal Settings': `/dashboard/program/single-program/${id}/goal-settings/${e?.id}`,
+                                            'Intermediate - Eight most common mistakes': `/dashboard/program/single-program/${id}/common-mistakes/${e?.id}`,
+                                            'Intermediate - Questions for each goal - why?': `/dashboard/program/single-program/${id}/each-goal/${e?.id}`,
+                                            'Intermediate - The Y Method': `/dashboard/program/single-program/${id}/y-method/${e?.id}`
                                         }
                                         if (e?.title == 'Upload Documents') {
                                             setuploadModal(true)
@@ -145,13 +156,18 @@ const SingleCreatedPrograms = () => {
                                 }} />
                                 <img src={icon1} />
                                 <p style={{
-                                    width: '100px'
+                                    width: '100px',
+                                    overflow: 'hidden',
+                                    display: '-webkit-box',
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: 'vertical',
+                                    textOverflow: 'ellipsis',
                                 }}>{e.title}</p>
                             </div>
                         ))}
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }

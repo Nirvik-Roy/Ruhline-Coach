@@ -5,12 +5,13 @@ import Input from '../../../../../Components/Input.jsx'
 import crossIcon from '../../../../../assets/content (1).svg'
 import Textarea from '../../../../../Components/Textarea.jsx'
 import CustomTextEditor from '../../../../../Components/CustomTextEditor/CustomTextEditor.jsx'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
-// import { getCommonMistakes, postCommonMistakes } from '../../../../../utils/Program'
+import { getCoachSinglePrograms, getCommonMistakes, postCommonMistakes } from '../../../../../utils/Program'
 import toast from 'react-hot-toast'
 const CommonMistakes = () => {
     const navigate = useNavigate();
+    const {id,moduleId} = useParams()
     const [allMistakesData, setallMistakesData] = useState({})
     const [headline, setheadline] = useState("");
     const [loading, setloading] = useState(false)
@@ -59,7 +60,7 @@ const CommonMistakes = () => {
                         formData.append(`mistakes[${index}][sort_order] `, index)
                     })
                 }
-                // const res = await postCommonMistakes(formData)
+                const res = await postCommonMistakes(formData)
             } catch (err) {
                 console.log(err)
             } finally {
@@ -74,8 +75,8 @@ const CommonMistakes = () => {
     const fetchData = async () => {
         try {
             setloading(true);
-            // const res = await getCommonMistakes()
-            // setallMistakesData(res?.data)
+            const res = await getCommonMistakes(id,moduleId)
+            setallMistakesData(res?.data?.page)
         } catch (err) {
             console.log(err)
         } finally {
@@ -83,7 +84,9 @@ const CommonMistakes = () => {
         }
     }
     useEffect(() => {
-        fetchData()
+        if(id && moduleId){
+            fetchData()
+        }
     }, [])
 
     useEffect(() => {
@@ -95,14 +98,32 @@ const CommonMistakes = () => {
             }
         ])
     }, [allMistakesData])
+        const [singleProgramData, setsingleProgramData] = useState([])
+        const fetchSingleProgram = async () => {
+            try {
+                setloading(true)
+                const res = await getCoachSinglePrograms(id);
+                setsingleProgramData(res?.data)
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setloading(false)
+            }
+        }
+    
+        useEffect(() => {
+            if (id) {
+                fetchSingleProgram()
+            }
+        }, [])
     return (
         <>
             {loading && <Loaders />}
             <div className='dashboard_container'>
                 <div className='coaches_head_wrapper'>
                     <div>
-                        <h2>Eight most common mistakes Intermediate Page</h2>
-                        <small><span onClick={(() => navigate('/dashboard/programs'))}>Programs</span> / <span onClick={(() => navigate('/dashboard/programs/intermediate'))}>Intermediate Steps</span> / <span onClick={(() => navigate('/dashboard/programs/intermediate/common-mistakes'))}>Eight most common mistakes Intermediate Page</span></small>
+                        <h2>Eight most common mistakes Intermediate</h2>
+                        <small><span onClick={(() => navigate('/dashboard/program'))}>Programs</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>{singleProgramData?.name}</span> / <span>Eight most common mistakes Intermediate</span></small>
                     </div>
                     <div className='coaches_button_wapper'>
 
@@ -114,16 +135,16 @@ const CommonMistakes = () => {
                                 border: 'none'
                             }} />
                         </div> */}
-                        <div onClick={handleSubmit}>
+                        {/* <div onClick={handleSubmit}>
                             <Button children={'Save'} styles={{
                                 fontSize: '13px'
                             }} />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
                 <div className='values_inputs_wrapper462'>
-                    <Input value={headline} onChange={((e) => setheadline(e.target.value))} label={'Headline'} required={'true'} placeholder={'Enter headline'} />
+                    <Input readOnly={true} value={headline} onChange={((e) => setheadline(e.target.value))} label={'Headline'} required={'true'} placeholder={'Enter headline'} />
                 </div>
 
 
@@ -132,20 +153,20 @@ const CommonMistakes = () => {
                         <div className='cms_faq_list'>
                             <p>Mistake {i + 1}</p>
                             <div className='cms_faq_questions_wrapper'>
-                                <CustomTextEditor defaultValue={e?.description} onChange={((data) => handleMistakes(data, e?.id))} label={'Description'} />
+                                <CustomTextEditor readOnly defaultValue={e?.description} onChange={((data) => handleMistakes(data, e?.id))} label={'Description'} />
                             </div>
-                            <img onClick={(() => deleteOptions(e?.id))} style={i != 0 ? {
+                            {/* <img onClick={(() => deleteOptions(e?.id))} style={i != 0 ? {
                                 visibility: 'visible'
                             } : {
                                 visibility: 'hidden'
-                            }} src={crossIcon} />
+                            }} src={crossIcon} /> */}
                         </div>
                     ))}
 
                 </div>
 
 
-                <div>
+                {/* <div>
                     <Button onClick={addMistakes} children={'Add Mistake'} styles={{
                         color: 'var(--text-color)',
                         border: '1px solid var(--primary-color)',
@@ -153,7 +174,7 @@ const CommonMistakes = () => {
                         background: 'transparent',
                         fontSize: '13px'
                     }} />
-                </div>
+                </div> */}
             </div>
         </>
     )

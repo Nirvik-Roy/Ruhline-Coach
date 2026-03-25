@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Button from '../../../../../Components/Button.jsx'
 import crossIcon from '../../../../../assets/content (1).svg'
 import CustomTextEditor from '../../../../../Components/CustomTextEditor/CustomTextEditor.jsx'
 import Input from '../../../../../Components/Input.jsx'
 import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
-// import { getGoalSettings, postGoalSettings } from '../../../../../utils/Program'
+import { getCoachSinglePrograms, getGoalSettings, postGoalSettings } from '../../../../../utils/Program'
 import toast from 'react-hot-toast'
 const GoalSettingsPage = () => {
     const navigate = useNavigate();
+    const { id, moduleId } = useParams()
     const [description2, setdescription2] = useState("");
-    const [goalSettingsData,setgoalSettingsData] = useState({})
+    const [goalSettingsData, setgoalSettingsData] = useState({})
     const [loading, setloading] = useState(false)
     const [goalData, setgoalData] = useState({
         headline: "",
@@ -60,7 +61,7 @@ const GoalSettingsPage = () => {
     }
 
     const handleSubmit = async () => {
-        if(goalData?.headline != '' && goalData?.quote !='' && goalData?.sub_heading_1 && goalData?.sub_heading_2){
+        if (goalData?.headline != '' && goalData?.quote != '' && goalData?.sub_heading_1 && goalData?.sub_heading_2) {
             try {
                 setloading(true)
                 const formData = new FormData()
@@ -75,23 +76,23 @@ const GoalSettingsPage = () => {
                         formData.append(`options[${index}][sort_order]`, index)
                     })
                 }
-                // const res = await postGoalSettings(formData)
+                const res = await postGoalSettings(formData)
             } catch (err) {
                 console.log(err)
             } finally {
                 setloading(false)
             }
-        }else{
+        } else {
             toast.error("Plz enter all the required fileds")
         }
-       
+
     }
 
     const fetchData = async () => {
         try {
             setloading(true);
-            // const res = await getGoalSettings()
-            // setgoalSettingsData(res?.data)
+            const res = await getGoalSettings(id, moduleId)
+            setgoalSettingsData(res?.data?.page)
         } catch (err) {
             console.log(err)
         } finally {
@@ -99,31 +100,54 @@ const GoalSettingsPage = () => {
         }
     }
     useEffect(() => {
-        fetchData()
+        if (id && moduleId) {
+            fetchData()
+
+        }
     }, [])
 
-    useEffect(()=>{
-     setgoalData({
-         headline: goalSettingsData?.headline || "",
-         quote: goalSettingsData?.quote || "",
-         sub_heading_1: goalSettingsData?.sub_heading_1 || "",
-         sub_heading_2: goalSettingsData?.sub_heading_2 || ""
-     })
+    useEffect(() => {
+        setgoalData({
+            headline: goalSettingsData?.headline || "",
+            quote: goalSettingsData?.quote || "",
+            sub_heading_1: goalSettingsData?.sub_heading_1 || "",
+            sub_heading_2: goalSettingsData?.sub_heading_2 || ""
+        })
 
         setdescription2(goalSettingsData?.description_2 || "")
         setoptionsData(goalSettingsData?.options || [{
-            id:0+1,
-            description:""
+            id: 0 + 1,
+            description: ""
         }])
-    },[goalSettingsData])
+    }, [goalSettingsData])
+
+
+    const [singleProgramData, setsingleProgramData] = useState([])
+        const fetchSingleProgram = async () => {
+            try {
+                setloading(true)
+                const res = await getCoachSinglePrograms(id);
+                setsingleProgramData(res?.data)
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setloading(false)
+            }
+        }
+    
+        useEffect(() => {
+            if (id) {
+                fetchSingleProgram()
+            }
+        }, [])
     return (
         <>
             {loading && <Loaders />}
             <div className='dashboard_container'>
                 <div className='coaches_head_wrapper'>
                     <div>
-                        <h2>Goal Settings Intermediate Page</h2>
-                        <small><span onClick={(() => navigate('/dashboard/programs'))}>Programs</span> / <span onClick={(() => navigate('/dashboard/programs/intermediate'))}>Intermediate Steps</span> / <span onClick={(() => navigate('/dashboard/programs/intermediate/goal-settings'))}>Goal Settings Intermediate Page</span></small>
+                        <h2>Goal Settings Intermediate</h2>
+                        <small><span onClick={(() => navigate('/dashboard/program'))}>Programs</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>{singleProgramData?.name}</span> / <span>Goal Settings Intermediate</span></small>
                     </div>
                     <div className='coaches_button_wapper'>
 
@@ -135,24 +159,24 @@ const GoalSettingsPage = () => {
                                 border: 'none'
                             }} />
                         </div> */}
-                        <div>
+                        {/* <div>
                             <Button onClick={handleSubmit} children={'Save'} styles={{
                                 fontSize: '13px'
                             }} />
-                        </div>
+                        </div> */}
                     </div>
 
 
                 </div>
                 <div className='values_inputs_wrapper462'>
-                    <Input value={goalData.headline} name={'headline'} onChange={handleChange} label={'Headline'} required={'true'} placeholder={'Enter headline'} />
+                    <Input readOnly={true} value={goalData.headline} name={'headline'} onChange={handleChange} label={'Headline'} required={'true'} placeholder={'Enter headline'} />
                 </div>
                 <div className='values_inputs_wrapper462'>
-                    <Input value={goalData.quote} name={'quote'} onChange={handleChange} label={'Quote'} required={'true'} placeholder={'Enter quote'} />
+                    <Input readOnly={true} value={goalData.quote} name={'quote'} onChange={handleChange} label={'Quote'} required={'true'} placeholder={'Enter quote'} />
                 </div>
 
                 <div className='values_inputs_wrapper462'>
-                    <Input value={goalData.sub_heading_1} name={'sub_heading_1'} onChange={handleChange} label={'Sub Heading 1'} required={'true'} placeholder={'Enter sub heading 1'} />
+                    <Input readOnly={true} value={goalData.sub_heading_1} name={'sub_heading_1'} onChange={handleChange} label={'Sub Heading 1'} required={'true'} placeholder={'Enter sub heading 1'} />
                 </div>
 
 
@@ -162,17 +186,17 @@ const GoalSettingsPage = () => {
                         <div className='cms_faq_list'>
                             <p>Option {i + 1}</p>
                             <div className='cms_faq_questions_wrapper'>
-                                <CustomTextEditor onChange={((data) => handleOptions(data, e?.id))} defaultValue={e?.description} label={'Description'} />
+                                <CustomTextEditor readOnly onChange={((data) => handleOptions(data, e?.id))} defaultValue={e?.description} label={'Description'} />
                             </div>
-                            <img onClick={(() => deleteOptions(e?.id))} style={i != 0 ? { visibility: "visible" } : {
+                            {/* <img onClick={(() => deleteOptions(e?.id))} style={i != 0 ? { visibility: "visible" } : {
                                 visibility: 'hidden'
-                            }} src={crossIcon} />
+                            }} src={crossIcon} /> */}
                         </div>
                     ))}
                 </div>
 
 
-                <div onClick={addOptions}>
+                {/* <div onClick={addOptions}>
                     <Button children={'Add Options'} styles={{
                         color: 'var(--text-color)',
                         border: '1px solid var(--primary-color)',
@@ -180,15 +204,15 @@ const GoalSettingsPage = () => {
                         background: 'transparent',
                         fontSize: '13px'
                     }} />
-                </div>
+                </div> */}
 
                 <div className='values_inputs_wrapper462'>
-                    <Input label={'Sub Heading 2'} value={goalData.sub_heading_2} name={'sub_heading_2'} onChange={handleChange} required={'true'} placeholder={'Enter sub heading 2'} />
+                    <Input readOnly={true} label={'Sub Heading 2'} value={goalData.sub_heading_2} name={'sub_heading_2'} onChange={handleChange} required={'true'} placeholder={'Enter sub heading 2'} />
                 </div>
 
 
                 <div className='values_inputs_wrapper462'>
-                    <CustomTextEditor defaultValue={description2} onChange={((data) => setdescription2(data))} label={'Description 2'} />
+                    <CustomTextEditor readOnly defaultValue={description2} onChange={((data) => setdescription2(data))} label={'Description 2'} />
                 </div>
             </div>
         </>
