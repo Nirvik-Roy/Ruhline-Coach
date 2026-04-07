@@ -1100,3 +1100,43 @@ export const putSpecificYmethod = async (data, id, structureId) => {
         }
     }
 }
+
+export const updateProgramCoachAvailablity = async (data, programId) => {
+    const Token = localStorage.getItem('token');
+    if (Token && data && programId) {
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/program/${programId}/availability`, data, {
+                headers: {
+                    'Authorization': `Bearer ${Token}`
+                }
+            },);
+            if (res.data.success == true) {
+                toast.success(res.data?.message || 'Coach availablity updated succesfully');
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data.errors
+        }
+    }
+}
+
+export const getProgramCoachAvailablity = async ( programId) => {
+    const Token = localStorage.getItem('token');
+    if (Token && programId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/program/${programId}/availability`, {
+                headers: {
+                    'Authorization': `Bearer ${Token}`
+                }
+            },);
+            if (res.data.success == true) {
+               
+                return res.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err.response.data.errors
+        }
+    }
+}

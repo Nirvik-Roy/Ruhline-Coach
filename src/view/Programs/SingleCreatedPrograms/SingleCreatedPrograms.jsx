@@ -73,6 +73,8 @@ const SingleCreatedPrograms = () => {
                             cursor: 'pointer'
                         }}><span onClick={(() => navigate('/dashboard/program'))}>Programs</span> / <span onClick={(() => navigate(`/dashboard/program/single-program/${id}`))}>{singleProgramData?.name}</span> </small>
                     </div>
+
+                    <Button onClick={(() => navigate(`/dashboard/program/single-program/${id}/check-availiablity`))} children={'Check Availablity'}/>
                 </div>
                 <SingleProgramDetails singleProgramData={singleProgramData} />
                 <ProgramTabs singleProgramData={singleProgramData} />
@@ -167,7 +169,7 @@ const SingleCreatedPrograms = () => {
                         ))}
                     </div>
                 </div>
-            </div >
+            </div>
         </>
     )
 }

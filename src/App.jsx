@@ -40,6 +40,7 @@ import CommonMistakes from './view/Programs/SingleCreatedPrograms/ProgramModule/
 import EachGoalQuestions from './view/Programs/SingleCreatedPrograms/ProgramModule/IntermediateSteps/EachGoalQuestions.jsx'
 import GoalSettingsPage from './view/Programs/SingleCreatedPrograms/ProgramModule/IntermediateSteps/GoalSettingsPage.jsx'
 import TheYMethod from './view/Programs/SingleCreatedPrograms/ProgramModule/IntermediateSteps/TheYMethod.jsx'
+import CoachAvailabilityTable from './view/Programs/SingleCreatedPrograms/CoachAvailablityTable/CoachAvailabilityTable.jsx'
 function App() {
   const location = useLocation()
   useEffect(() => {
@@ -100,6 +101,8 @@ function App() {
                 <Route path='single-program/:id/goal-settings/:moduleId' element={<GoalSettingsPage />} />
 
                 <Route path='single-program/:id/y-method/:moduleId' element={<TheYMethod />} />
+
+                <Route path='single-program/:id/check-availiablity' element={<CoachAvailabilityTable />} />
               </Route>
             </Route>
           </Route>
