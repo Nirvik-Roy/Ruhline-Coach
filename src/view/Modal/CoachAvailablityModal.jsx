@@ -5,7 +5,7 @@ import { updateProgramCoachAvailablity } from '../../utils/Program'
 import { useParams } from 'react-router-dom'
 import Loaders from '../../Components/Loaders/Loaders'
 import toast from 'react-hot-toast'
-const CoachAvailablityModal = ({ setavailablityModal, fetchCoachAvailablity }) => {
+const CoachAvailablityModal = ({ setavailablityModal, fetchCoachAvailablity, singleProgramData }) => {
     const [loading, setloading] = useState(false);
     const { id } = useParams()
     const [daysWeek, setdaysWeek] = useState([])
@@ -16,16 +16,34 @@ const CoachAvailablityModal = ({ setavailablityModal, fetchCoachAvailablity }) =
 
 
     const isValid = () => {
-        // check date
+        // ✅ check date
         if (startDate && endDate && startDate > endDate) {
             toast.error("Start date should be before or equal to end date");
             return false;
         }
 
-        // check time
+        // ❌ basic time order check
         if (startTime && endTime && startTime >= endTime) {
             toast.error("Start time should be less than end time");
             return false;
+        }
+
+        // ✅ duration check (UPDATED)
+        if (startTime && endTime) {
+            const [sh, sm] = startTime.split(":").map(Number);
+            const [eh, em] = endTime.split(":").map(Number);
+
+            const start = new Date(2024, 0, 1, sh, sm);
+            const end = new Date(2024, 0, 1, eh, em);
+
+            const diffInMinutes = (end - start) / (1000 * 60);
+            // JS subtracts dates in milliseconds, then we convert to minutes :contentReference[oaicite:0]{index=0}
+
+            // 🔥 CHANGE HERE
+            if (diffInMinutes < singleProgramData?.session_duration_minutes) {
+                toast.error("Time should not be less than program duration");
+                return false;
+            }
         }
 
         return true;
@@ -94,6 +112,10 @@ const CoachAvailablityModal = ({ setavailablityModal, fetchCoachAvailablity }) =
                 <h4 onClick={(() => setavailablityModal(false))}>Update Availability</h4>
                 <i onClick={(() => setavailablityModal(false))} className="fa-solid fa-xmark"></i>
                 <form className='modal_form'>
+                    {singleProgramData?.session_duration_minutes && <p style={{
+                        fontWeight: '600',
+                        color: 'var(--text-color)'
+                    }}>Program Duration - {singleProgramData?.session_duration_minutes} mins</p>}
                     <Input type={'date'} value={startDate} onChange={((e) => setstartDate(e.target.value))} label={'Start Date'} required={true} />
                     <Input type={'date'} value={endDate} onChange={((e) => setendDate(e.target.value))} label={'End Date'} required={true} />
                     <h4 style={{

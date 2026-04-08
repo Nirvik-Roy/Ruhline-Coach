@@ -61,11 +61,12 @@ const CoachAvailabilityTable = () => {
     const handlePageChange = (selectedItem) => {
         setCurrentPage(selectedItem.selected);
     };
+    
 
     return (
         <>
             {loading && <Loaders />}
-            {availablityModal && <CoachAvailablityModal fetchCoachAvailablity={fetchCoachAvailablity} setavailablityModal={setavailablityModal} />}
+            {availablityModal && <CoachAvailablityModal singleProgramData={singleProgramData} fetchCoachAvailablity={fetchCoachAvailablity} setavailablityModal={setavailablityModal} />}
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
                     <div>
