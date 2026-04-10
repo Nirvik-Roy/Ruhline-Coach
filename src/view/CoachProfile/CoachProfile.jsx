@@ -13,7 +13,7 @@ const CoachProfile = () => {
     const navigate = useNavigate()
     const [profile, setProfile] = useState(null);
     const [bankDetails, setbankdetails] = useState({})
-    const [loaders,setloaders] = useState(false)
+    const [loaders, setloaders] = useState(false)
     const [loading, setLoading] = useState(true)
 
     const fetchBankDetails = async () => {
@@ -67,8 +67,6 @@ const CoachProfile = () => {
             {loaders && <Loaders />}
             {changePassword && <ChangePasswordModal setchangePassword={setchangePassword} />}
             {updateBankDetails && <UpdateBankDetails bankDetails={bankDetails} setupdateBankDetails={setupdateBankDetails} />}
-
-
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
                     <div>
@@ -122,13 +120,21 @@ const CoachProfile = () => {
                                     profile.profile?.postal_code
                                 ].filter(Boolean).join(', ') || '—'}</p>
                             </div>
-                            {/* <div className='banking_details_wrapper'>
+                            {(bankDetails?.country != '' && bankDetails?.bank_name != '' && bankDetails?.swiss_code != '' && bankDetails?.account_holder_name != '') && <div className='banking_details_wrapper'>
                                 <h4>Banking Details</h4>
-                                <p><strong>Payment Receive Mode:</strong>Bank Transfer</p>
-                                <p><strong>Country:</strong>Germany</p>
-                                <p><strong>Bank Name:</strong>Commerzbank</p>
-                                <p><strong>Swiss Code:</strong>156d699</p>
-                            </div> */}
+                                <p><strong>Payment Receive Mode:</strong> Bank Transfer</p>
+                             
+                                {bankDetails?.account_holder_name && <p> <strong>
+                                    Account Holder Name:
+                                </strong> {bankDetails?.account_holder_name}</p>}
+                                {bankDetails?.account_number && <p> <strong>
+                                    Account Holder Name:
+                                </strong> {bankDetails?.account_number}</p>}
+                                {bankDetails?.country && <p><strong>Country: </strong>{bankDetails?.country}</p>}
+                                {bankDetails?.bank_name && <p><strong>Bank Name: </strong>{bankDetails?.bank_name}</p>}
+                                {bankDetails?.swiss_code && <p><strong>Swiss Code: </strong>{bankDetails?.swiss_code}</p>}
+                               
+                            </div>}
                         </div>
                     </div>
                 </div>
