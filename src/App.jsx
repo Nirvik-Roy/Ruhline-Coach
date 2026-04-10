@@ -53,7 +53,7 @@ function App() {
     <>
 
       <LocationProvider>
-        <Toaster />
+        <Toaster position='top-right'/>
         <ScrollTop />
         <Routes>
           <Route path='/' element={<Register />} />

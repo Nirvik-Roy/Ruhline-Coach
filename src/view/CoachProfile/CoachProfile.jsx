@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Activity } from 'react'
 import Button from '../../Components/Button'
 import defaultProfileImg from '../../assets/User Info.png'
 import ChangePasswordModal from '../Modal/ChangePasswordModal'
@@ -6,23 +6,43 @@ import UpdateBankDetails from '../Modal/UpdateBankDetails'
 import { useNavigate } from 'react-router-dom'
 import { getCoachProfile } from '../../Services/GetCoachProfile'
 import Loaders from '../../Components/Loaders/Loaders'
+import { getBankDetails } from '../../Services/bankdetails'
 const CoachProfile = () => {
     const [changePassword, setchangePassword] = useState(false)
     const [updateBankDetails, setupdateBankDetails] = useState(false);
     const navigate = useNavigate()
-    const [profile, setProfile] = useState(null)
+    const [profile, setProfile] = useState(null);
+    const [bankDetails, setbankdetails] = useState({})
+    const [loaders,setloaders] = useState(false)
     const [loading, setLoading] = useState(true)
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const res = await getCoachProfile()
-                setProfile(res?.data?.user ?? null)
-            } catch (err) {
-                setProfile(null)
-            } finally {
-                setLoading(false)
+
+    const fetchBankDetails = async () => {
+        try {
+            setloaders(true)
+            const res = await getBankDetails()
+            if (res?.success) {
+                setbankdetails(res?.data?.payment_details)
             }
+        } catch (err) {
+            console.log(err)
+            setProfile(null)
+        } finally {
+            setloaders(false)
         }
+    }
+    const fetchProfile = async () => {
+        try {
+            const res = await getCoachProfile()
+            setProfile(res?.data?.user ?? null)
+        } catch (err) {
+            console.log(err)
+            setProfile(null)
+        } finally {
+            setLoading(false)
+        }
+    }
+    useEffect(() => {
+        fetchBankDetails()
         fetchProfile()
     }, [])
     if (loading) {
@@ -39,25 +59,33 @@ const CoachProfile = () => {
             </div>
         )
     }
+
+
+
     return (
         <>
-            {loading && <Loaders />}
+            {loaders && <Loaders />}
             {changePassword && <ChangePasswordModal setchangePassword={setchangePassword} />}
-            {updateBankDetails && <UpdateBankDetails setupdateBankDetails={setupdateBankDetails} />}
+            {updateBankDetails && <UpdateBankDetails bankDetails={bankDetails} setupdateBankDetails={setupdateBankDetails} />}
+
+
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
                     <div>
                         <h2>My profile</h2>
                     </div>
                     <div className='appointments_button_wrapper'>
-                        {/* <div onClick={(() => setupdateBankDetails(true))}>
+                        <div onClick={(() => {
+                            fetchBankDetails()
+                            setupdateBankDetails(true)
+                        })}>
                             <Button styles={{
                                 border: '1px solid var(--primary-color)',
                                 borderRadius: '8px',
                                 background: 'transparent',
                                 color: 'var(--primary-color)'
                             }} children={'Update Bank details'} />
-                        </div> */}
+                        </div>
 
 
                         <div onClick={(() => setchangePassword(true))}>
