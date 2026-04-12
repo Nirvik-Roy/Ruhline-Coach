@@ -24,7 +24,7 @@ const Sidebar = () => {
                 </NavLink>
 
 
-                <NavLink to={'/dashboard/coaches'}>
+                <NavLink to={'/dashboard/payouts'}>
                     <img src={kingIcon} />
                     <p>Payouts</p>
                 </NavLink>
