@@ -29,7 +29,7 @@ const Sidebar = () => {
                     <p>Payouts</p>
                 </NavLink>
 
-                <NavLink to={'/dashboard/coaches'}>
+                <NavLink to={'/dashboard/support'}>
                     <img src={settings} />
                     <p>Support</p>
                 </NavLink>

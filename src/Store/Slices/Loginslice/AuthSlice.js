@@ -60,13 +60,17 @@ const AuthSlice = createSlice({
     },
     reducers: {
         verifyToken(state,) {
-            const token = localStorage.getItem('token');
-            if (token) {
-                state.isLogin = true,
-                    state.isChecking = false;
-            }else{
-                state.isChecking = false,
-                state.isLogin = false
+            const token = localStorage.getItem("token");
+            const expiry = Number(localStorage.getItem("expiry"));
+
+            if (token && expiry && Date.now() < expiry) {
+                state.isLogin = true;
+                state.isChecking = false;
+            } else {
+                localStorage.removeItem("token");
+                localStorage.removeItem("expiry");
+                state.isLogin = false;
+                state.isChecking = false;
             }
         },
     },
@@ -96,7 +100,8 @@ const AuthSlice = createSlice({
                 state.isLogin = true;
                 state.isLoading = false;
                 state.errors = '';
-                localStorage.setItem('token', action.payload.token)
+                localStorage.setItem('token', action.payload.token);
+                localStorage.setItem("expiry", Date.now() + 24 * 60 * 60 * 1000);
             }
         })
         builder.addCase(Auth.rejected, (state, action) => {

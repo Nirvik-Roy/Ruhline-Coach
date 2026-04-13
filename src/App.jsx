@@ -42,6 +42,7 @@ import GoalSettingsPage from './view/Programs/SingleCreatedPrograms/ProgramModul
 import TheYMethod from './view/Programs/SingleCreatedPrograms/ProgramModule/IntermediateSteps/TheYMethod.jsx'
 import CoachAvailabilityTable from './view/Programs/SingleCreatedPrograms/CoachAvailablityTable/CoachAvailabilityTable.jsx'
 import Payouts from './view/Dashboard/Payouts/Payouts.jsx'
+import SupportTable from './view/Dashboard/Support/SupportTable.jsx'
 function App() {
   const location = useLocation()
   useEffect(() => {
@@ -68,6 +69,7 @@ function App() {
             <Route path='/dashboard' element={<MainLayout />}>
               <Route path='coach-profile' element={<CoachProfile />} />
               <Route path='payouts' element={<Payouts/>}/>
+              <Route path='support' element={<SupportTable/>}/>
               <Route path='appoinments' element={<Appoinments />} />
               <Route path='appoinments/program/:id' element={<AppoinmentPrograms />} />
               <Route path='appoinments/program/:id/values' element={<ProgramValues />} />
