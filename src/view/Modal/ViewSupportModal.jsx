@@ -18,8 +18,6 @@ const ViewSupportModal = ({ setviewModal, viewId }) => {
         }
     }, [])
 
-    console.log(singleDispute)
-
     return (
         <>
             {loading && <Loaders />}
