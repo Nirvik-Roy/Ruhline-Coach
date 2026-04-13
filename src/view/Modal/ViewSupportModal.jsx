@@ -1,10 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { getSingleDispute } from '../../utils/dispute'
 import Loaders from '../../Components/Loaders/Loaders'
+import Button from '../../Components/Button'
 
-const ViewSupportModal = ({ setviewModal, viewId }) => {
+const ViewSupportModal = ({ setviewModal, viewId, setedit, seteditId, setmodalIsopen }) => {
     const [singleDispute, setsingleDispute] = useState({})
-    const [loading, setloading] = useState(false)
+    const [loading, setloading] = useState(false);
+    
+
+    const downloadAllImages = async () => {
+        const files = singleDispute?.attachments || [];
+        for (let i = 0; i < files.length; i++) {
+            await new Promise(res => setTimeout(res, 500)); // delay
+            const a = document.createElement("a");
+            a.href = files[i].url;
+            a.download = "";
+            a.click();
+        }
+    };
     const fetchSingleDipute = async () => {
         setloading(true)
         const res = await getSingleDispute(viewId)
@@ -124,6 +137,23 @@ const ViewSupportModal = ({ setviewModal, viewId }) => {
                         <strong>Dispute Description:</strong>
                         <span>{singleDispute?.description}</span>
                     </p>
+
+                    <Button onClick={downloadAllImages} styles={{
+                        background:'transparent',
+                        color:'var(--primary-color)',
+                        border:'1px solid var(--primary-color)',
+                        marginTop:"20px"
+                    }} children={'View Attachments'}/>
+
+
+                    <Button onClick={(()=>{
+                        setedit(true)
+                        setmodalIsopen(true)
+                        seteditId(viewId)
+                        setviewModal(false)
+                    })} styles={{
+                        marginLeft:'auto'
+                    }} children={'Edit'}/>
                 </div>
             </div>
         </>

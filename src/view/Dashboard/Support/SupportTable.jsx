@@ -79,7 +79,7 @@ const SupportTable = () => {
         <>
             {deleteModal && <DeleteModal setdeleteModal={setdeleteModal} onClick={handleDelete} title={'Delete dispute'} details={'Do you really want to delete this dispute?'} />}
             {loading && <Loaders />}
-            {viewModal && <ViewSupportModal viewId={viewId} setviewModal={setviewModal}/>}
+            {viewModal && <ViewSupportModal setedit={setedit} setmodalIsopen={setmodalIsopen} seteditId={seteditId}  viewId={viewId} setviewModal={setviewModal}/>}
             {modalIsopen && <SupportModal callDisputeList={callDisputeList} setedit={setedit} seteditId={seteditId} isEdit={edit} editId={editId} setmodalIsopen={setmodalIsopen} />}
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
