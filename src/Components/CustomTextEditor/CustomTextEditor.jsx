@@ -15,103 +15,76 @@ function CustomTextEditor({
     const [isFocused, setIsFocused] = useState(false);
     const isInternalChange = useRef(false);
 
-    // Configure DOMPurify to allow basic formatting
     const purifyConfig = {
         ALLOWED_TAGS: [
             'b', 'i', 'u', 'strong', 'em', 'ul', 'ol', 'li',
             'p', 'br', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
         ],
-        ALLOWED_ATTR: ['style'], // Allow style attributes for basic formatting
+        ALLOWED_ATTR: [],
         FORBID_TAGS: ['script', 'style', 'iframe', 'object', 'embed', 'form', 'input'],
-        FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover'], // Remove event handlers
-        ALLOWED_STYLE: ['font-weight', 'font-style', 'text-decoration'], // Only allow these styles
-        KEEP_CONTENT: true // Keep content even if tags are removed
+        FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'style', 'class',
+            'color', 'bgcolor', 'width', 'height', 'font', 'align'],
+        KEEP_CONTENT: true
     };
 
-    // Helper function to normalize empty content
+    // ✅ Recursively strips ALL presentation attributes from every node
+    const stripInlineStyles = useCallback((element) => {
+        const attributesToRemove = ['style', 'class', 'color', 'bgcolor',
+            'width', 'height', 'align', 'valign', 'font'];
+        attributesToRemove.forEach(attr => element.removeAttribute(attr));
+        Array.from(element.children).forEach(child => stripInlineStyles(child));
+    }, []);
+
     const normalizeContent = useCallback((htmlContent) => {
         if (!htmlContent) return "";
 
-        // First sanitize with DOMPurify to ensure clean HTML
         const sanitized = DOMPurify.sanitize(htmlContent, purifyConfig);
 
         const testDiv = document.createElement('div');
         testDiv.innerHTML = sanitized;
 
-        const hasContent = testDiv.textContent && testDiv.textContent.trim().length > 0;
-        const meaningfulElements = testDiv.querySelectorAll('*');
-        let hasMeaningfulElements = false;
+        // ✅ Strip styles from normalized content too, not just pasted content
+        Array.from(testDiv.querySelectorAll('*')).forEach(el => stripInlineStyles(el));
 
-        meaningfulElements.forEach(el => {
-            if (el.textContent && el.textContent.trim().length > 0) {
-                hasMeaningfulElements = true;
-            }
-            if (el.hasAttributes() && el.attributes.length > 0) {
-                hasMeaningfulElements = true;
-            }
-        });
+        const hasContent = testDiv.textContent?.trim().length > 0;
+        if (!hasContent && !testDiv.querySelector('br, img')) return "";
 
-        if (!hasContent && !hasMeaningfulElements) {
-            return "";
-        }
+        return testDiv.innerHTML;
+    }, [stripInlineStyles]);
 
-        return sanitized;
-    }, []);
-
-    // Sync content to parent
     const syncContent = useCallback(() => {
         if (!editorRef.current) return;
-
         const rawContent = editorRef.current.innerHTML;
         const normalizedContent = normalizeContent(rawContent);
-
-        if (textareaRef.current) {
-            textareaRef.current.value = normalizedContent;
-        }
-
-        if (onChange) {
-            onChange(normalizedContent);
-        }
+        if (textareaRef.current) textareaRef.current.value = normalizedContent;
+        if (onChange) onChange(normalizedContent);
     }, [onChange, normalizeContent]);
 
-    // Clean up empty content
     const cleanEditorContent = useCallback(() => {
         if (!editorRef.current) return;
-
         const html = editorRef.current.innerHTML;
         const normalized = normalizeContent(html);
-
-        if (html !== normalized) {
-            editorRef.current.innerHTML = normalized;
-        }
+        if (html !== normalized) editorRef.current.innerHTML = normalized;
     }, [normalizeContent]);
 
-    // Handle defaultValue changes from parent - ONLY when not focused
     useEffect(() => {
-        // Only update from parent if the editor is not focused
-        // This prevents cursor jumps while typing
         if (!isFocused && editorRef.current) {
             const normalizedDefault = normalizeContent(defaultValue);
             if (editorRef.current.innerHTML !== normalizedDefault) {
                 isInternalChange.current = false;
                 editorRef.current.innerHTML = normalizedDefault;
-                if (textareaRef.current) {
-                    textareaRef.current.value = normalizedDefault;
-                }
+                if (textareaRef.current) textareaRef.current.value = normalizedDefault;
             }
         }
     }, [defaultValue, normalizeContent, isFocused]);
 
-    // Initialize on mount
     useEffect(() => {
         if (editorRef.current) {
             const normalizedDefault = normalizeContent(defaultValue);
             editorRef.current.innerHTML = normalizedDefault;
-            if (textareaRef.current) {
-                textareaRef.current.value = normalizedDefault;
-            }
+            if (textareaRef.current) textareaRef.current.value = normalizedDefault;
         }
-    }, []); // Empty deps - only run once
+    }, []);
 
     const applyStyle = (command, value = null) => {
         if (readOnly) return;
@@ -127,9 +100,7 @@ function CustomTextEditor({
         syncContent();
     };
 
-    const handleEditorFocus = () => {
-        setIsFocused(true);
-    };
+    const handleEditorFocus = () => setIsFocused(true);
 
     const handleEditorBlur = () => {
         setIsFocused(false);
@@ -138,32 +109,29 @@ function CustomTextEditor({
     };
 
     const handleEditorPaste = (e) => {
-        if (readOnly) {
-            e.preventDefault();
-            return;
-        }
-
+        if (readOnly) { e.preventDefault(); return; }
         e.preventDefault();
 
-        // Try to get HTML content first
-        let html = e.clipboardData.getData('text/html');
+        const html = e.clipboardData.getData('text/html');
 
         if (html) {
-            // Sanitize the HTML with DOMPurify
-            const cleanHtml = DOMPurify.sanitize(html, purifyConfig);
+            // Step 1: Sanitize with DOMPurify (removes forbidden tags/attrs)
+            const sanitized = DOMPurify.sanitize(html, purifyConfig);
 
-            // Insert the cleaned HTML
-            document.execCommand('insertHTML', false, cleanHtml);
+            // Step 2: DOM-level strip (catches anything DOMPurify missed)
+            const temp = document.createElement('div');
+            temp.innerHTML = sanitized;
+            Array.from(temp.querySelectorAll('*')).forEach(el => stripInlineStyles(el)); // ✅ Now actually called
+
+            // Step 3: Insert clean HTML at cursor
+            document.execCommand('insertHTML', false, temp.innerHTML);
         } else {
-            // Fallback to plain text if no HTML is available
+            // Fallback: plain text (no formatting at all)
             const text = e.clipboardData.getData('text/plain');
             document.execCommand('insertText', false, text);
         }
 
-        setTimeout(() => {
-            cleanEditorContent();
-            syncContent();
-        }, 0);
+        setTimeout(() => { cleanEditorContent(); syncContent(); }, 0);
     };
 
     return (
@@ -211,16 +179,9 @@ function CustomTextEditor({
                     onBlur={handleEditorBlur}
                     onPaste={handleEditorPaste}
                     onKeyDown={(e) => {
-                        if (readOnly) {
-                            e.preventDefault();
-                            return;
-                        }
-
+                        if (readOnly) { e.preventDefault(); return; }
                         if (e.key === 'Backspace' || e.key === 'Delete') {
-                            setTimeout(() => {
-                                cleanEditorContent();
-                                syncContent();
-                            }, 0);
+                            setTimeout(() => { cleanEditorContent(); syncContent(); }, 0);
                         }
                     }}
                     placeholder={readOnly ? "" : "Type here..."}
