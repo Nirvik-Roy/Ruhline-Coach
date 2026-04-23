@@ -77,7 +77,7 @@ const AppoinmentCalendar = () => {
         setloading(true)
         const res = await getCoachAppoinments()
         if(res?.success){
-            setEvents(res?.event)
+            // setEvents(res?.event)
         }
         console.log(res)
         setloading(false)
@@ -187,7 +187,7 @@ const AppoinmentCalendar = () => {
                         // count events for this date
                         const dateStr = args.date.toISOString().split("T")[0];
 
-                        const count = events.filter(
+                        const count = events?.filter(
                             (ev) => ev.start.split("T")[0] === dateStr
                         ).length;
 
