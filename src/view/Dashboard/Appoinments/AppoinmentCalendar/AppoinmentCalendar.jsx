@@ -1,5 +1,5 @@
 import './AppoinmentCalendar.css'
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -9,10 +9,13 @@ import { useNavigate } from "react-router-dom";
 import AppoinmentViewModal from '../../../Modal/AppoinmentViewModal.jsx'
 import AddBreakModal from '../../../Modal/AddBreakModal.jsx';
 import WorkingHoursModal from '../../../Modal/WorkingHoursModal.jsx';
+import { getCoachAppoinments } from '../../../../utils/Program.js';
+import Loaders from '../../../../Components/Loaders/Loaders.jsx'
 const AppoinmentCalendar = () => {
     const calendarComponentRef = useRef(null);
     const navigate = useNavigate();
-    const [showModal, setshowModal] = useState(false)
+    const [showModal, setshowModal] = useState(false);
+    const [loading, setloading] = useState(false)
     const [events, setEvents] = useState([
         // Completed (before today if your calendar considers Jan 12 as “today”)
         {
@@ -69,6 +72,21 @@ const AppoinmentCalendar = () => {
             status: "cancelled",
         },
     ]);
+
+    const fetchAppoinments = async () => {
+        setloading(true)
+        const res = await getCoachAppoinments()
+        if(res?.success){
+            setEvents(res?.event)
+        }
+        console.log(res)
+        setloading(false)
+
+    }
+
+    useEffect(() => {
+        fetchAppoinments()
+    }, [])
     // const handleDateClick = (arg) => {
     //     alert(arg.dateStr);
     // };
@@ -96,7 +114,8 @@ const AppoinmentCalendar = () => {
     }
     return (
         <>
-          {showModal && <AppoinmentViewModal setshowModal={setshowModal}/>}
+            {loading && <Loaders/>}
+            {showModal && <AppoinmentViewModal setshowModal={setshowModal} />}
             <div className="claendar_wrappr553">
                 <div className='claender_status_wrapper'>
                     <div className='clendar_upcoming'>

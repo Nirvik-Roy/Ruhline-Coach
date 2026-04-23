@@ -8,7 +8,7 @@ const Sidebar = () => {
     return (
         <>
             <div className='sidebar_Wrapper'>
-                <NavLink to={'/dashboard'} end>
+                <NavLink to={'/'} end>
                     <img src={dashboardIcon} />
                     <p>Dashboard</p>
                 </NavLink>
