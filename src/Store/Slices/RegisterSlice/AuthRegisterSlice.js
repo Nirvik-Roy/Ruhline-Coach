@@ -8,9 +8,8 @@ export const Authregister = createAsyncThunk('Authregister', async (profileData,
     try {
         const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/coach/register`, profileData,)
 
-        if (res?.data.success) {
-            console.log(res)
-            return res.data.data;
+        if (res?.data?.success) {
+            return res?.data?.data;
         }
     } catch (err) {
         toast.error(err.response?.data?.message || err.message);

@@ -12,7 +12,7 @@ export const getCoachProfile = async () => {
         }
       }
     );
-    return response.data;
+    return response?.data;
   } catch (error) {
     throw {
       success: false,

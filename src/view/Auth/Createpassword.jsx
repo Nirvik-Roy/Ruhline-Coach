@@ -49,10 +49,12 @@ const Createpassword = () => {
     }, [location, dispatch]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target
+        const { name, value,type } = e.target
         setformData({
             ...formData,
-            [name]: value
+            [name]: (type === "password" || type === "text")
+                ? value.trim()
+                : value
         })
     }
 

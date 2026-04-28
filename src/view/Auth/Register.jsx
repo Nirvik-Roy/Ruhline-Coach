@@ -84,19 +84,20 @@ const Register = () => {
     }, [isLogin, location.pathname, navigate]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setformData({
-            ...formData,
-            [name]: value
-        })
-    }
+        const { name, value, type } = e.target;
+        setformData(prev => ({
+            ...prev,
+            [name]: (type === "password" || type === "text")
+                ? value.trim()
+                : value
+        }));
+    };
 
     const handleSubmit = async () => {
         if (formData.first_name != '' && formData.last_name != '', formData.email != '' && formData.password != '' && formData.password_confirmation != '') {
             try {
                 setloading(true)
                 const res = await dispatch(Authregister(formData))
-                console.log(res)
                 if (res.type === 'Authregister/fulfilled') {
                     setregisterSuccess(true)
                 }

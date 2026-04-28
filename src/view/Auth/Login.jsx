@@ -39,13 +39,15 @@ const Login = () => {
 
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type } = e.target;
         if (name === 'email') {
             ValidateEmail(value)
         }
         setformData({
             ...formData,
-            [name]: value
+            [name]: (type === "password" || type === "text")
+                ? value.trim()
+                : value
         })
     }
 

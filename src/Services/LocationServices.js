@@ -8,7 +8,7 @@ export const getCountries = async () => {
         'Content-Type': 'application/json'
       }
     })
-    return response.data
+    return response?.data
   } catch (error) {
     throw {
       success: false,
@@ -26,7 +26,7 @@ export const getStates = async (countryId) => {
         'Content-Type': 'application/json'
       }
     })
-    return response.data
+    return response?.data
   } catch (error) {
     throw {
       success: false,
@@ -44,7 +44,7 @@ export const getCities = async (stateId) => {
         'Content-Type': 'application/json'
       }
     })
-    return response.data
+    return response?.data
   } catch (error) {
     throw {
       success: false,
@@ -62,7 +62,7 @@ export const getPhoneCountryCodes = async () => {
         'Content-Type': 'application/json'
       }
     })
-    return response.data
+    return response?.data
   } catch (error) {
     throw {
       success: false,

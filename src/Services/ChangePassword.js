@@ -17,7 +17,7 @@ export const changePassword = async (data) => {
         }
       }
     );
-    return response.data;
+    return response?.data;
   } catch (error) {
     throw {
       success: false,

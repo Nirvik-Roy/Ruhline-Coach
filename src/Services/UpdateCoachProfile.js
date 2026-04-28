@@ -14,14 +14,14 @@ export const updateCoachProfile = async (formData) => {
         }
       }
     );
-    return response.data;
+    return response?.data;
   } catch (error) {
     toast.error(error.response?.data?.message);
-    return error.response.data.errors
+    return error.response?.data?.errors
     // throw {
     //   success: false,
     //   message: error.response?.data?.message || error.message || 'Failed to update profile',
-    //   data: error.response.data.errors
+    //   data: error.response?.data?.errors
     // };
 
   }
