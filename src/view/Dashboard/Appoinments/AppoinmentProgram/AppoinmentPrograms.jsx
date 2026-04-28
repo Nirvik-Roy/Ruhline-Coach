@@ -68,7 +68,7 @@ const AppoinmentPrograms = () => {
         setvideotokenLoader(false)
     }
     useEffect(() => {
-        Promise.all([fetchModules(), getSessionDetails()])
+        Promise.allSettled([fetchModules(), getSessionDetails()])
             .catch((err) => console.error(err))
         // getVideoToken()
     }, [])
