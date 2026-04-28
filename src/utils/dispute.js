@@ -10,12 +10,12 @@ export const getDisputeformOptions = async () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data.data
+            if (res?.data?.success == true) {
+                return res?.data?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     } else {
         toast.error('Unauthenticated')
@@ -32,12 +32,12 @@ export const getDisputeList = async () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data.data
+            if (res?.data?.success == true) {
+                return res?.data?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('Unauthenticated')
@@ -52,13 +52,13 @@ export const createDispute = async (data) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
                 return res.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     } else {
         toast.error('Unauthenticated')
@@ -75,12 +75,12 @@ export const getSingleDispute = async (id) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
-                return res.data.data
+            if (res?.data?.success == true) {
+                return res?.data?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('Unauthenticated')
@@ -96,13 +96,13 @@ export const editDispute = async (data, id) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
                 return res.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data
+            return err?.response?.data
         }
     } else {
         toast.error('Unauthenticated')
@@ -119,13 +119,13 @@ export const deleteDispute = async (id) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res?.data?.message)
                 return res.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('Unauthenticated')

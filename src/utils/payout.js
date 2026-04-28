@@ -10,12 +10,13 @@ export const getPayoutList = async () => {
                     'Authorization': `Bearer ${Token}`
                 }
             });
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 // toast.success(res.data?.message || 'Password Update Successfully');
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message)
+            return err.response?.data
         }
     } else {
         toast.error('Token not found...')

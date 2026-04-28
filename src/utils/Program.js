@@ -10,12 +10,12 @@ export const getCoachPrograms = async () => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('You are not authenticated')
@@ -33,12 +33,12 @@ export const getCoachSinglePrograms = async (programId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('Required details not provided....')
@@ -55,12 +55,12 @@ export const getCoachProgramsStructure = async (programId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('Required details not provided....')
@@ -77,12 +77,12 @@ export const getValuesQuestion = async (id, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -96,13 +96,13 @@ export const postValuesQuestion = async (data, structureId, id) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -116,13 +116,13 @@ export const editValuesQuestion = async (data, structureId, id, questionId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -136,13 +136,13 @@ export const deleteValuesQuestion = async (structureId, id, questionId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -156,13 +156,13 @@ export const postMotivationWord = async (data, structureId, id) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -177,12 +177,12 @@ export const getMotivationWord = async (id, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -198,13 +198,13 @@ export const updateMotivationWord = async (data, structureId, id, wordId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -218,13 +218,13 @@ export const deleteMotivationWord = async (structureId, id, wordId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -238,12 +238,12 @@ export const getWhoAmiQuestions = async (id, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -258,13 +258,13 @@ export const postWhoAmiQuestions = async (data, structureId, id) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -280,13 +280,13 @@ export const editWhoAmiQuestions = async (data, structureId, id, questionId) => 
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -301,13 +301,13 @@ export const deleteWhoAmiQuestions = async (structureId, id, questionId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -320,13 +320,13 @@ export const postwheelofLifeElements = async (data, structureId, id) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Life elements added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Life elements added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -341,12 +341,12 @@ export const getwheelofLifeElements = async (id, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -361,12 +361,12 @@ export const getWheelOfLifeQuestions = async (id, structureId, elementId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -381,13 +381,13 @@ export const postWheelofLifeQuestion = async (data, structureId, id, elementId) 
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -402,13 +402,13 @@ export const editWheelofLifeQuestion = async (data, structureId, id, questionId,
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -422,13 +422,13 @@ export const deleteWheelofLifeQuestion = async (structureId, id, questionId, ele
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -442,13 +442,13 @@ export const updateWheelofLifeLifeElements = async (data, structureId, id, eleme
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -462,13 +462,13 @@ export const deleteWheelofLifelement = async (structureId, id, elementId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -483,12 +483,12 @@ export const getDocuments = async (id, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -502,13 +502,13 @@ export const postDocuments = async (data, id, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Documents added succesfully...');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Documents added succesfully...');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -523,13 +523,13 @@ export const editDocuments = async (data, id, structureId, documentId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Documents edited succesfully...');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Documents edited succesfully...');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -543,13 +543,13 @@ export const deleteDocuments = async (id, structureId, documentId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Document deleted succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Document deleted succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -563,12 +563,12 @@ export const getCardGameQuestionSets = async (id, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -582,13 +582,13 @@ export const editCardGameQuestionSet = async (data, structureId, id, setId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -603,13 +603,13 @@ export const postQuestionsInsideQuestionSet = async (data, structureId, id, setI
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -624,13 +624,13 @@ export const editQuestionsInsideQuestionSet = async (data, structureId, id, ques
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -645,13 +645,13 @@ export const deleteQuestionsInsideSet = async (structureId, id, questionId, setI
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -666,12 +666,12 @@ export const getCardGameQuestions = async (id, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -685,13 +685,13 @@ export const postCardGamecards = async (data, id, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -705,13 +705,13 @@ export const editCardGamecards = async (data, id, structureId, cardId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -726,13 +726,13 @@ export const deleteCardGameCards = async (id, structureId, cardId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values Questions added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -746,13 +746,13 @@ export const postQuoteCategory = async (data) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Quote Added Success..');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Quote Added Success..');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -766,12 +766,12 @@ export const getAllquoteCategory = async (programId, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('No required data provided..')
@@ -788,13 +788,13 @@ export const editQuoteCategory = async (data, id) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Quote edited succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Quote edited succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -808,12 +808,12 @@ export const getSingleQuoteCategory = async (id) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -827,12 +827,12 @@ export const getAllQuotes = async (id) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -847,13 +847,13 @@ export const postQuote = async (data) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Quote Added Success..');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Quote Added Success..');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -868,13 +868,13 @@ export const editQuote = async (data, id) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Quote edited succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Quote edited succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -889,12 +889,12 @@ export const getSingleQuote = async (id) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -908,13 +908,13 @@ export const postValuesIntermediate = async (data, programId, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Values added Success..');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Values added Success..');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -928,12 +928,12 @@ export const getValuesIntermediate = async (programId, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('Required data not provided...')
@@ -950,13 +950,13 @@ export const postGoalSettings = async (programId, structureId, data) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Goal settings added Success..');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Goal settings added Success..');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -970,12 +970,12 @@ export const getGoalSettings = async (programId, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     } else {
         toast.error('Required data not provided..')
@@ -991,13 +991,13 @@ export const postCommonMistakes = async (data, programId, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Mistakes added Success..');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Mistakes added Success..');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -1012,12 +1012,12 @@ export const getCommonMistakes = async (programId, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -1032,13 +1032,13 @@ export const postEachGoal = async (data, programId, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Goal Added Success..');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Goal Added Success..');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -1053,12 +1053,12 @@ export const getEachGoal = async (programId, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -1071,12 +1071,12 @@ export const getSpecificYmethod = async (id, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -1090,13 +1090,13 @@ export const putSpecificYmethod = async (data, id, structureId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Common mistakes added succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Common mistakes added succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -1110,13 +1110,13 @@ export const updateProgramCoachAvailablity = async (data, programId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                toast.success(res.data?.message || 'Coach availablity updated succesfully');
-                return res.data
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Coach availablity updated succesfully');
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -1130,13 +1130,13 @@ export const getProgramCoachAvailablity = async ( programId) => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }
@@ -1151,12 +1151,12 @@ export const getCoachAppoinments = async () => {
                     'Authorization': `Bearer ${Token}`
                 }
             },);
-            if (res.data.success == true) {
-                return res.data
+            if (res?.data?.success == true) {
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }

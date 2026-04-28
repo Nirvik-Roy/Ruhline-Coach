@@ -5,13 +5,13 @@ export const forgotPasswordApi = async (data) => {
     if (data) {
         try {
             const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/coach/forgot-password`, data);
-            if (res.data.success == true) {
+            if (res?.data?.success == true) {
                 toast.success(res.data?.message || 'Email resend successfully');
-                return res.data
+                return res?.data
             }
         } catch (err) {
             toast.error(err.response?.data?.message);
-            return err.response.data.errors
+            return err?.response?.data?.errors
         }
     }
 }

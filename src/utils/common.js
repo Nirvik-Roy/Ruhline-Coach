@@ -9,11 +9,10 @@ export const commonDelelteApi = async (url,id) => {
                     'Authorization': `Bearer ${Token}`
                 }
             });
-            toast.success(res.data?.message || 'Data Deleted Successfully');
-            return res.data
+            toast.success(res?.data?.message || 'Data Deleted Successfully');
+            return res?.data
         } catch (err) {
-            console.log(err.response.data)
-            toast.error(err.response?.data?.message || 'Unexpected Error Occured');
+            toast.error(err?.response?.data?.message || 'Unexpected Error Occured');
         }
     }
 }
