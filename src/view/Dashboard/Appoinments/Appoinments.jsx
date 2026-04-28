@@ -5,6 +5,7 @@ import AddBreakModal from '../../Modal/AddBreakModal'
 import WorkingHoursModal from '../../Modal/WorkingHoursModal'
 import './Appoinments.css'
 import { useState } from 'react'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader'
 const Appoinments = () => {
   const [state, setState] = useState({
     viewWorking: false,
@@ -12,7 +13,7 @@ const Appoinments = () => {
   })
   return (
     <>
-      <div className='dashboard_container'>
+       <div className='dashboard_container'>
         <div className='appointes_head_wrapper'>
           <h2>Appointments</h2>
           <div className='appointments_button_wrapper'>
@@ -38,7 +39,7 @@ const Appoinments = () => {
         </div>
         {state.viewWorking && <WorkingHoursModal setState={setState} />}
         {state.break && <AddBreakModal setState={setState} />}
-        <AppoinmentCalendar />
+        <AppoinmentCalendar  />
       </div>
     </>
   )

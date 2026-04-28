@@ -92,6 +92,7 @@ const AddBreakModal = ({ setState }) => {
                 </Activity>
 
                 <div className='change_cancel_wrapper'>
+                    <button></button>
                     <Button children={'Add'} />
                 </div>
             </div>

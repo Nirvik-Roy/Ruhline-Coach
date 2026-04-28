@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { getCoachProfile } from '../../Services/GetCoachProfile'
 import Loaders from '../../Components/Loaders/Loaders'
 import { getBankDetails } from '../../Services/bankdetails'
+import DashboardLoader from '../../Components/Loaders/DashboardLoader'
 const CoachProfile = () => {
     const [changePassword, setchangePassword] = useState(false)
     const [updateBankDetails, setupdateBankDetails] = useState(false);
@@ -15,7 +16,7 @@ const CoachProfile = () => {
     const [bankDetails, setbankdetails] = useState({})
     const [loaders, setloaders] = useState(false)
     const [loading, setLoading] = useState(true)
-
+    
     const fetchBankDetails = async () => {
         try {
             setloaders(true)
@@ -32,6 +33,7 @@ const CoachProfile = () => {
     }
     const fetchProfile = async () => {
         try {
+            setLoading(true)
             const res = await getCoachProfile()
             setProfile(res?.data?.user ?? null)
         } catch (err) {
@@ -48,7 +50,7 @@ const CoachProfile = () => {
     if (loading) {
         return (
             <div className='dashboard_container'>
-                <p>Loading profile...</p>
+                <DashboardLoader/>
             </div>
         )
     }
@@ -64,9 +66,9 @@ const CoachProfile = () => {
 
     return (
         <>
-            {loaders && <Loaders />}
+            {loading && <Loaders />}
             {changePassword && <ChangePasswordModal setchangePassword={setchangePassword} />}
-            {updateBankDetails && <UpdateBankDetails bankDetails={bankDetails} setupdateBankDetails={setupdateBankDetails} />}
+            {updateBankDetails && <UpdateBankDetails loaders={loaders} bankDetails={bankDetails} setupdateBankDetails={setupdateBankDetails} />}
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
                     <div>
@@ -105,9 +107,9 @@ const CoachProfile = () => {
                         <img src={profile.profile?.profile_image || defaultProfileImg} alt="Profile" />
                     </div>
                     <div className='coach_profile_content_wrapper'>
-                        <h3>{profile.first_name} {profile.last_name}</h3>
                         <div className='coach_profile_content'>
                             <div className='user_info_wrapper'>
+                        <h3>{profile.first_name} {profile.last_name}</h3>
                                 <p><strong>Email:</strong> {profile.email}</p>
                                 <p><strong>Phone:</strong> {profile.profile?.phone_country_code?.dial_code ? `+${profile.profile.phone_country_code.dial_code} ` : ''}{profile.profile?.phone ?? profile.phone}</p>
                                 <p><strong>Address:</strong> {[
@@ -121,7 +123,7 @@ const CoachProfile = () => {
                                 ].filter(Boolean).join(', ') || '—'}</p>
                             </div>
                             {(bankDetails?.country != '' && bankDetails?.bank_name != '' && bankDetails?.swiss_code != '' && bankDetails?.account_holder_name != '') && <div className='banking_details_wrapper'>
-                                <h4>Banking Details</h4>
+                                <h3>Banking Details</h3>
                                 <p><strong>Payment Receive Mode:</strong> Bank Transfer</p>
                              
                                 {bankDetails?.account_holder_name && <p> <strong>

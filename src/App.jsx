@@ -51,11 +51,17 @@ function App() {
       behavior: 'instant'
     })
   }, [location.pathname])
+  // To prevent form reload globally
+  document.addEventListener('submit', (e) => {
+    if (!e.target.classList.contains('allow-submit')) {
+      e.preventDefault();
+    }
+  });
   return (
     <>
 
       <LocationProvider>
-        <Toaster position='top-right'/>
+        <Toaster position='top-right' />
         <ScrollTop />
         <Routes>
           <Route path='/' element={<Register />} />
@@ -68,10 +74,10 @@ function App() {
           <Route path='/dashboard' element={<PrivateRoute />}>
             <Route path='/dashboard' element={<MainLayout />}>
               <Route path='coach-profile' element={<CoachProfile />} />
-              <Route path='payouts' element={<Payouts/>}/>
-              <Route path='support' element={<SupportTable/>}/>
+              <Route path='payouts' element={<Payouts />} />
+              <Route path='support' element={<SupportTable />} />
               <Route path='appoinments' element={<Appoinments />} />
-              <Route path='appoinments/program/:id' element={<AppoinmentPrograms />} />
+              <Route path='appoinments/program/:enrollmentId/session/:sessionId' element={<AppoinmentPrograms />} />
               <Route path='appoinments/program/:id/values' element={<ProgramValues />} />
               <Route path='appoinments/program/:id/goal' element={<ProgramGoal />} />
               <Route path='appoinments/program/:id/create-goal' element={<CreateGoal />} />

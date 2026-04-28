@@ -8,17 +8,19 @@ import { deleteMotivationWord, getCoachProgramsStructure, getCoachSinglePrograms
 import toast from 'react-hot-toast';
 import Loaders from '../../../../../Components/Loaders/Loaders.jsx';
 import DeleteModal from '../../../../../Components/DeleteModal/DeleteModal.jsx';
+import DashboardLoader from '../../../../../Components/Loaders/DashboardLoader.jsx';
 const FindYourMotivationModule = () => {
     const [dropdown, setdropdown] = useState(null);
     const dropdownRef = useRef(null);
     const [deleteId, setdeletedId] = useState();
+    const [postloading, setpostloading] = useState(false)
     const [deleteModal, setdeleteModal] = useState(false)
     const navigate = useNavigate()
     const [isModal, setisModal] = useState(false);
     const [editModal, seteditModal] = useState(false);
     const [wordList, setwordList] = useState([])
     const [loading, setloading] = useState(false);
-    const [singleData, setsingleData] = useState()
+    const [singleData, setsingleData] = useState({})
     const { id, moduleId } = useParams()
     const [singleProgramData, setsingleProgramData] = useState([])
     const fetchSingleProgram = async () => {
@@ -50,7 +52,6 @@ const FindYourMotivationModule = () => {
         try {
             setloading(true)
             const res = await getMotivationWord(id, moduleId);
-            console.log(res)
             setwordList(res?.data?.data)
         } catch (err) {
             console.log(err)
@@ -62,7 +63,7 @@ const FindYourMotivationModule = () => {
     const addFunction = async (data, structureId, id) => {
         if (data && structureId && id) {
             try {
-                setloading(true)
+                setpostloading(true)
                 const res = await postMotivationWord({
                     word: data
                 }, structureId, id);
@@ -74,7 +75,7 @@ const FindYourMotivationModule = () => {
             } catch (err) {
                 console.log(err)
             } finally {
-                setloading(false)
+                setpostloading(false)
             }
         } else {
             toast.error('Required data not found!')
@@ -104,7 +105,7 @@ const FindYourMotivationModule = () => {
     const updateWord = async (data, wordId) => {
         if (data && wordId) {
             try {
-                setloading(true)
+                setpostloading(true)
                 const res = await updateMotivationWord({
                     word: data
                 }, moduleId, id, wordId);
@@ -116,7 +117,7 @@ const FindYourMotivationModule = () => {
             } catch (err) {
                 console.log(err)
             } finally {
-                setloading(false)
+                setpostloading(false)
             }
         } else {
             toast.error('Reuired data not found!')
@@ -128,7 +129,7 @@ const FindYourMotivationModule = () => {
     const deleteWord = async () => {
         if (deleteId) {
             try {
-                setloading(true)
+                setpostloading(true)
                 const res = await deleteMotivationWord(moduleId, id, deleteId);
                 if (res?.success) {
                     setdeleteModal(false)
@@ -138,7 +139,7 @@ const FindYourMotivationModule = () => {
             } catch (err) {
                 console.log(err)
             } finally {
-                setloading(false)
+                setpostloading(false)
             }
         } else {
             toast.error('Reuired data not found!')
@@ -184,10 +185,10 @@ const FindYourMotivationModule = () => {
 
     return (
         <>
-            {loading && <Loaders />}
-            {deleteModal && <DeleteModal setdeleteModal={setdeleteModal} title={'Delete word'} details={'Do you really want to delete this word?'} onClick={deleteWord} />}
-            {isModal && <AddWordModal addFunction={addFunction} setisModal={setisModal} />}
-            {editModal && <EditwordModal updateWord={updateWord} handleChange={handleChange} setsingleData={setsingleData} singleData={singleData} seteditModal={seteditModal} />}
+            {loading && <DashboardLoader />}
+            {deleteModal && <DeleteModal loading={postloading} setdeleteModal={setdeleteModal} title={'Delete word'} details={'Do you really want to delete this word?'} onClick={deleteWord} />}
+            {isModal && <AddWordModal loading={postloading} addFunction={addFunction} setisModal={setisModal} />}
+            {editModal && <EditwordModal loading={postloading} updateWord={updateWord} handleChange={handleChange} setsingleData={setsingleData} singleData={singleData} seteditModal={seteditModal} />}
             <div className='dashboard_container'>
                 <div className='coaches_head_wrapper'>
                     <div>
@@ -197,15 +198,14 @@ const FindYourMotivationModule = () => {
 
                     </div>
 
-                    <div className='coaches_button_wapper'>
-
+                    {programStructureData[0]?.can_edit && <div className='coaches_button_wapper'>
 
                         <div onClick={(() => setisModal(true))}>
                             <Button children={'Add word'} styles={{
                                 fontSize: '13px'
                             }} />
                         </div>
-                    </div>
+                    </div>}
                 </div>
                 <h3 style={{
                     fontSize: '18px',
@@ -213,43 +213,46 @@ const FindYourMotivationModule = () => {
                     margin: '20px 0',
                     fontWeight: '600'
                 }}>Life Elements</h3>
-                {wordList?.length <= 0 && <p style={{
-                    textAlign: 'center'
-                }}>No words found...</p>}
-                <div className='coaches_shift_card_wrapper' style={{
-                    gridTemplateColumns: 'repeat(auto-fill,minmax(170px,1fr)'
-                }}>
-                    {wordList?.length > 0 && wordList?.map((e, i) => (
-                        <div ref={dropdownRef} key={e} className='coaches_shift_card' style={{
-                            padding: " 30px 0px",
-                            background: 'rgba(144, 155, 109, 0.15)',
-                            border: 'none'
-                        }} onClick={((e) => {
-                            e.stopPropagation()
-                            dropdownFunction(i)
-                        })}>
-                            <img style={{
-                                width: '55px'
-                            }} src={laptopImg} />
-                            {programStructureData[0]?.can_edit && <i class="fa-solid fa-ellipsis-vertical"></i>}
-                            <p>{e?.word}</p>
+                {!loading && <>
+                    {wordList?.length <= 0 && <p style={{
+                        textAlign: 'center'
+                    }}>No words found...</p>}
+                    <div className='coaches_shift_card_wrapper' style={{
+                        gridTemplateColumns: 'repeat(auto-fill,minmax(170px,1fr)'
+                    }}>
+                        {wordList?.length > 0 && wordList?.map((e, i) => (
+                            <div ref={dropdownRef} key={e} className='coaches_shift_card' style={{
+                                padding: " 30px 0px",
+                                background: 'rgba(144, 155, 109, 0.15)',
+                                border: 'none'
+                            }} onClick={((event) => {
+                                event.stopPropagation()
+                                dropdownFunction(i)
+                            })}>
+                                <img style={{
+                                    width: '55px'
+                                }} src={laptopImg} />
+                                {programStructureData[0]?.can_edit && <i class="fa-solid fa-ellipsis-vertical"></i>}
+                                <p>{e?.word}</p>
 
-                            {(dropdown == i && programStructureData[0]?.can_edit) && <div className='dropdown_wrapper662' style={{
-                                bottom: '0',
-                                top: '30px',
-                                right: '-30px',
-                                height: 'fit-content'
-                            }} onClick={((e) => e.stopPropagation())}>
-                                <small onClick={(() => {
-                                    getSingleData(i)
-                                    seteditModal(true)
-                                })}>Edit</small>
-                                <small onClick={(() => handleDelete(e?.id))}>Delete</small>
-                            </div>}
-                        </div>
+                                {(dropdown == i && programStructureData[0]?.can_edit) && <div className='dropdown_wrapper662' style={{
+                                    bottom: '0',
+                                    top: '30px',
+                                    right: '-30px',
+                                    height: 'fit-content'
+                                }} onClick={((event) => event.stopPropagation())}>
+                                    <small onClick={(() => {
+                                        getSingleData(i)
+                                        seteditModal(true)
+                                    })}>Edit</small>
+                                    <small onClick={(() => handleDelete(e?.id))}>Delete</small>
+                                </div>}
+                            </div>
 
-                    ))}
-                </div>
+                        ))}
+                    </div>
+
+                </>}
             </div>
         </>
     )

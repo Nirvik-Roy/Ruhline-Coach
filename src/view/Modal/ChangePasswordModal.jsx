@@ -53,7 +53,6 @@ const ChangePasswordModal = ({ setchangePassword }) => {
 
     return (
         <>
-            {loading && <Loaders />}
             <div className='modal_wrapper' onClick={() => setchangePassword(false)}></div>
             <div className='modal_div'>
                 <h4>Change Password</h4>
@@ -141,6 +140,7 @@ const ChangePasswordModal = ({ setchangePassword }) => {
                     </div>
                     {error && <small style={{ color: 'red', display: 'block', marginBottom: '8px' }}>{error}</small>}
                     <div className='change_cancel_wrapper'>
+                    <button></button>
                         <Button
                             children={loading ? 'Changing...' : 'Change'}
                             onClick={(e) => { e.preventDefault(); handleSubmit(e); }}

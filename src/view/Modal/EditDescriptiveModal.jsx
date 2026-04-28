@@ -2,7 +2,7 @@ import React from 'react'
 import Textarea from '../../Components/Textarea'
 import Button from '../../Components/Button'
 
-const EditDescriptiveModal = ({ tabsFunction, singleData, editQuestionText, editQuestions, editErrors, title }) => {
+const EditDescriptiveModal = ({ tabsFunction, singleData, editQuestionText, editQuestions, editErrors, title,loading }) => {
     return (
         <>
             <div className='modal_wrapper' onClick={(() => tabsFunction(0))}></div>
@@ -29,7 +29,11 @@ const EditDescriptiveModal = ({ tabsFunction, singleData, editQuestionText, edit
                         className="change_cancel_wrapper"
                         style={{ margin: "20px 0 0 0" }}
                     >
+                        <button></button>
+
                         <Button
+                            loading={loading}
+                            loadingText='Updating...'
                             onClick={(() => editQuestions(singleData?.id))}
                             children="Update"
                         />

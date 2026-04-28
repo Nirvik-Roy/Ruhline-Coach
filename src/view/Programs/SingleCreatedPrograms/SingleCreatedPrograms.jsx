@@ -17,6 +17,7 @@ import EditDocumentModal from '../../Modal/EditDocumentModal.jsx'
 import UploadDocumentsModal from '../../Modal/UploadDocumentsModal.jsx'
 import { getCoachProgramsStructure, getCoachSinglePrograms } from '../../../utils/Program.js'
 import Loaders from '../../../Components/Loaders/Loaders.jsx'
+import ModalLoader from '../../../Components/Loaders/ModalLoader.jsx'
 const SingleCreatedPrograms = () => {
     const navigate = useNavigate()
     const [documentModuleId, setdocumentModuleId] = useState()
@@ -64,8 +65,8 @@ const SingleCreatedPrograms = () => {
     return (
         <>
             {uploadModal && <UploadDocumentsModal documentModuleId={documentModuleId} setuploadModal={setuploadModal} />}
-            {loading && <Loaders />}
-            <div className='dashboard_container one_time_content_wrapper'>
+            {loading && <ModalLoader />}
+         { !loading &&  <div className='dashboard_container one_time_content_wrapper'>
                 <div className='appointes_head_wrapper'>
                     <div>
                         <h2>{singleProgramData?.name}</h2>
@@ -169,7 +170,7 @@ const SingleCreatedPrograms = () => {
                         ))}
                     </div>
                 </div>
-            </div>
+            </div>}
         </>
     )
 }

@@ -17,8 +17,11 @@ import EditSingleChoiceModal from '../../../../Modal/EditSingleChoiceModal.jsx'
 import EditDescriptiveModal from '../../../../Modal/EditDescriptiveModal.jsx'
 import Loaders from '../../../../../Components/Loaders/Loaders.jsx'
 import toast from 'react-hot-toast'
+import ModalLoader from '../../../../../Components/Loaders/ModalLoader.jsx'
+import DashboardLoader from '../../../../../Components/Loaders/DashboardLoader.jsx'
 const SinglelifeElement = () => {
     const [errors, setErrors] = useState()
+    const [postloading,setpostloading] = useState(false)
     const [editErrors, seteditErrors] = useState()
     const [deleteId, setdeleteId] = useState('')
     const [deleteModal, setdeleteModal] = useState(false)
@@ -127,7 +130,6 @@ const SinglelifeElement = () => {
         try {
             setloading(true)
             const res = await getWheelOfLifeQuestions(id, moduleId, elementId)
-            console.log(res)
             if (res?.success) {
                 setallQuestions(res?.data?.data)
             }
@@ -267,7 +269,7 @@ const SinglelifeElement = () => {
     const postQuestions = async () => {
         if (id) {
             try {
-                setloading(true);
+                setpostloading(true);
                 const formData = new FormData()
                 dynamicOptions.forEach((element) => {
                     if (element.type && element.question_text) {
@@ -316,7 +318,7 @@ const SinglelifeElement = () => {
             } catch (err) {
                 console.log(err)
             } finally {
-                setloading(false)
+                setpostloading(false)
             }
         }
     }
@@ -324,7 +326,7 @@ const SinglelifeElement = () => {
     const editQuestions = async (questionId) => {
         if (id && questionId) {
             try {
-                setloading(true);
+                setpostloading(true);
                 const formData = new FormData()
                 formData.append(`type`, singleData.type)
                 formData.append('question_text', singleData.question_text)
@@ -345,14 +347,14 @@ const SinglelifeElement = () => {
             } catch (err) {
                 console.log(err)
             } finally {
-                setloading(false)
+                setpostloading(false)
             }
         }
     }
     const deleteQuestions = async () => {
         if (deleteId) {
             try {
-                setloading(true)
+                setpostloading(true)
                 const res = await deleteWheelofLifeQuestion(moduleId, id, deleteId, elementId);
                 if (res?.success) {
                     setdeleteModal(false)
@@ -362,7 +364,7 @@ const SinglelifeElement = () => {
             } catch (err) {
                 console.log(err)
             } finally {
-                setloading(false)
+                setpostloading(false)
             }
         } else {
             toast.error('Reuired data not found!')
@@ -387,23 +389,23 @@ const SinglelifeElement = () => {
     }, [])
     return (
         <>
-            {loading && <Loaders />}
-            {deleteModal && <DeleteModal onClick={deleteQuestions} title={'Delete Questions'} details={'Do you really want to delete this question?'} setdeleteModal={setdeleteModal} />}
-            {tabs.descriptive && <DescriptiveModal errors={errors} updateQuestionText={updateQuestionText} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
-            {tabs.multiChoice && <MultiChoiceModal errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
+            {loading && <DashboardLoader />}
+            {deleteModal && <DeleteModal loading={postloading} onClick={deleteQuestions} title={'Delete Questions'} details={'Do you really want to delete this question?'} setdeleteModal={setdeleteModal} />}
+            {tabs.descriptive && <DescriptiveModal loading={postloading} errors={errors} updateQuestionText={updateQuestionText} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
+            {tabs.multiChoice && <MultiChoiceModal loading={postloading} errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
 
-            {tabs.singleChoice && <SingleChoiceModal errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
+            {tabs.singleChoice && <SingleChoiceModal loading={postloading} errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
 
-            {tabs.dropdown && <DropdownModal errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
+            {tabs.dropdown && <DropdownModal loading={postloading} errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
 
 
-            {tabs.editmultiChoice && <EditMultiChoiceModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editmultiChoice && <EditMultiChoiceModal loading={postloading} title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editropdown && <EditDropdownModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editropdown && <EditDropdownModal loading={postloading} title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editsingleChoice && <EditSingleChoiceModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editsingleChoice && <EditSingleChoiceModal loading={postloading} title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editdescriptive && <EditDescriptiveModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editdescriptive && <EditDescriptiveModal loading={postloading} title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
             <div className='dashboard_container'>
                 <div className='coaches_head_wrapper'>
                     <div>
@@ -413,6 +415,7 @@ const SinglelifeElement = () => {
                 </div>
                 <div className='questions_wrapper'>
                     <h3>Questions</h3>
+                    
                     {programStructureData[0]?.can_edit && <div className='questions_tabs_wrapper'>
                         <div onClick={(() => tabsFunction(1))}>
 
@@ -462,7 +465,7 @@ const SinglelifeElement = () => {
                     </div>}
                 </div>
 
-                <div className='questions_list_wrapper4562'>
+                {!loading && <div className='questions_list_wrapper4562'>
                     {allQuestions?.length <= 0 && <p style={{
                         textAlign: 'center',
                         fontWeight: '600',
@@ -500,7 +503,7 @@ const SinglelifeElement = () => {
                     ))}
 
 
-                </div>
+                </div>}
             </div>
         </>
     )

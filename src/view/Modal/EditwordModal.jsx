@@ -1,7 +1,7 @@
 import React from 'react'
 import Input from '../../Components/Input'
 import Button from '../../Components/Button'
-const EditwordModal = ({ seteditModal, singleData, handleChange, updateWord }) => {
+const EditwordModal = ({ seteditModal, singleData, handleChange, updateWord,loading }) => {
     return (
         <>
             <div className='modal_wrapper' onClick={(() => seteditModal(false))}></div>
@@ -17,7 +17,7 @@ const EditwordModal = ({ seteditModal, singleData, handleChange, updateWord }) =
                     <Input name={'word'} onChange={handleChange} value={singleData?.word} label={'Word'} required={true} placeholder={'Enter word'} />
                 </div>
 
-                <Button onClick={(() => { updateWord(singleData?.word, singleData.id ) })} children={'Update'} styles={{
+                <Button loading={loading} loadingText='Updating...' onClick={(() => { updateWord(singleData?.word, singleData.id ) })} children={'Update'} styles={{
                     marginLeft: 'auto'
                 }} />
             </div>

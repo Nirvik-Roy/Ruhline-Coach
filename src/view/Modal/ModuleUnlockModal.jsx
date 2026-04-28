@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../Components/Button'
 
-const ModuleUnlockModal = ({ title, setModal, unlockModulefunc }) => {
+const ModuleUnlockModal = ({ title, setModal, unlockModulefunc, moduleUnlockedLoader }) => {
     return (
         <>
             <div className='modal_wrapper' onClick={(() => setModal(false))}></div>
@@ -12,7 +12,8 @@ const ModuleUnlockModal = ({ title, setModal, unlockModulefunc }) => {
                     margin: '20px 0'
                 }}>Do you want to unlock it?</p>
                 <div onClick={(() => unlockModulefunc())} className='change_cancel_wrapper'>
-                    <Button children={'Yes'} />
+                <button></button>
+                    <Button loading={moduleUnlockedLoader} loadingText='Unlocking...' children={'Yes'} />
                 </div>
             </div>
         </>

@@ -153,7 +153,7 @@ const EditCoachProfile = () => {
 
     return (
         <>
-            {(loading || fetchLoading) && <Loaders />}
+            {/* {(loading || fetchLoading) && <Loaders />} */}
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
                     <div>

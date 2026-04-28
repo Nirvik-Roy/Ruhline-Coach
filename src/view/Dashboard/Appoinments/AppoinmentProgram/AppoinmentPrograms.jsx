@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './AppoinmentProgram.css'
 import img from '../../../../assets/Group 1597882967 (1).png'
 import user from '../../../../assets/User Info.png'
@@ -11,89 +11,90 @@ import icon6 from '../../../../assets/Layer_1 (6).svg'
 import icon7 from '../../../../assets/Group 1597882969 (1).svg'
 import tick from '../../../../assets/Layer_1 (7).svg'
 import lock from '../../../../assets/lock.svg'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import ModuleUnlockModal from '../../../Modal/ModuleUnlockModal'
+import { fetchProgramSessionDetails, fetchProgramSessionModule, fetchVideoToken, lockUnlockModules } from '../../../../utils/Program'
+import DashboardLoader from '../../../../Components/Loaders/DashboardLoader.jsx'
+import ModalLoader from '../../../../Components/Loaders/ModalLoader.jsx'
 const AppoinmentPrograms = () => {
     const [modal, setModal] = useState(false);
     const [title, setTile] = useState('');
-    const [index, setIndex] = useState()
-    const [programData, setProgramData] = useState([
-        {
-            id: 1,
-            img: icon1,
-            title: 'Values',
-            tick: true,
-            lock: false,
-            link: '/dashboard/appoinments/program/1/values'
-        },
-        {
-            id: 2,
-            img: icon2,
-            title: 'Card Game',
-            tick: true,
-            lock: false,
-            link: '/dashboard/appoinments/program/1/card-game'
-        },
-        {
-            id: 3,
-            img: icon3,
-            title: 'Wheel of Life',
-            tick: false,
-            lock: true,
-            link: '/dashboard/appoinments/program/1/wheel-life'
-        },
-        {
-            id: 4,
-            img: icon4,
-            title: 'Goal Settings',
-            tick: false,
-            lock: true,
-            link: '/dashboard/appoinments/program/1/goal'
-        },
-        {
-            id: 5,
-            img: icon5,
-            title: 'Find your Motivation',
-            tick: false,
-            lock: true,
-            link: '/dashboard/appoinment'
-        },
-        {
-            id: 6,
-            img: icon6,
-            title: 'Habit Tracker',
-            tick: false,
-            lock: true,
-            link: '/dashboard/appoinments/program/1/habit-tracker'
-        },
-        {
-            id: 6,
-            img: icon7,
-            title: 'Who am I?',
-            tick: false,
-            lock: true,
-            link: '/dashboard/appoinments/program/:id/who-am-i'
-        },
-    ])
+    const [index, setIndex] = useState();
+    const [sessionLoader, setsessionLoader] = useState(false);
+    const [moduleLoader, setmoduleLoader] = useState(false);
+    const [moduleUnlockedLoader, setmoduleUnlockedLoader] = useState(false)
+    const [videoToken, setvideoToken] = useState()
+    const [videotokenLoader, setvideotokenLoader] = useState(false)
+    const [sessionData, setsessionData] = useState([]);
+    const [structureId, setstructureId] = useState('')
+    const [sessionModuleData, setsessionModuleData] = useState({})
+    const { enrollmentId, sessionId } = useParams()
 
-    const ModalFunc = (title, i) => {
+    const icons = {
+        'Values': icon1,
+        'Card Game': icon2,
+        'Wheel of Life': icon3,
+        'Goal Settings': icon4,
+        'Find your Motivation': icon5,
+        'Habit Tracker': icon6,
+        'Who am I': icon7
+    }
+
+
+
+    const getSessionDetails = async () => {
+        setsessionLoader(true)
+        const res = await fetchProgramSessionDetails(enrollmentId, sessionId)
+        console.log(res)
+        setsessionLoader(false)
+    }
+
+    const fetchModules = async () => {
+        setmoduleLoader(true)
+        const res = await fetchProgramSessionModule(enrollmentId)
+        if (res?.success) {
+            setsessionModuleData(res?.data)
+        }
+        setmoduleLoader(false)
+    }
+
+    const getVideoToken = async () => {
+        setvideotokenLoader(true)
+        const res = await fetchVideoToken(enrollmentId, 3)
+        console.log(res)
+        if (res?.success) {
+            setsessionModuleData(res?.data)
+        }
+        setvideotokenLoader(false)
+    }
+    useEffect(() => {
+        Promise.all([fetchModules(), getSessionDetails()])
+            .catch((err) => console.error(err))
+        // getVideoToken()
+    }, [])
+
+    const unlockModulefunc = async () => {
+        setmoduleUnlockedLoader(true)
+        const res = await lockUnlockModules(enrollmentId, structureId)
+        if (res?.success) {
+            setmoduleUnlockedLoader(false)
+            setModal(false)
+            fetchModules()
+        }
+        setmoduleUnlockedLoader(false)
+    }
+
+    const ModalFunc = (title, i, program_structure_id) => {
         setTile(title)
         setIndex(i)
         setModal(true)
+        setstructureId(program_structure_id)
     }
-
-    const unlockModulefunc = () => {
-        const copyData = [...programData];
-        copyData[index].lock = false;
-        copyData[index].tick = true;
-        setProgramData(copyData)
-        setModal(false)
-    }
-
     return (
         <>
-            {modal && <ModuleUnlockModal title={title} setModal={setModal} unlockModulefunc={unlockModulefunc} />}
-            <div className='dashboard_container'>
+            {modal && <ModuleUnlockModal moduleUnlockedLoader={moduleUnlockedLoader} unlockModulefunc={unlockModulefunc} title={title} setModal={setModal} />}
+            {sessionLoader && <DashboardLoader />}
+            {!sessionLoader && <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
                     <h2>Program 1</h2>
                 </div>
@@ -116,26 +117,37 @@ const AppoinmentPrograms = () => {
                 </div>
 
                 <div className='customer_journey_wrapper'>
-                    <h2>Customer Journey</h2>
-
-                    <div className='customer_journey_cards_wrapper'>
-                        {programData.map((e, i) => (
-                            <div onClick={(() => e.lock && ModalFunc(e.title, i))} className='customer_journey_card'>
-                                <img src={e.tick ? tick : e.lock ? lock : ''} style={{
-                                    position: 'absolute',
-                                    top: '8px',
-                                    right: '8px'
-                                }} />
-                                <img src={e.img} />
-                                <p>{e.title}</p>
-                                {!e.lock && <Link to={e.link} onClick={((e) => {
-                                    e.stopPropagation()
-                                })}>View</Link>}
-                            </div>
-                        ))}
-                    </div>
+                    {moduleLoader && <div style={{
+                        height: '30vh',
+                        position: 'relative'
+                    }}>
+                        <ModalLoader />
+                    </div>}
+                    {!moduleLoader && <>
+                        <h2>Customer Journey</h2>
+                        <div className='customer_journey_cards_wrapper'>
+                            {sessionModuleData?.modules?.map((e, i) => {
+                                if (e?.title != 'Upload Documents' && e?.title != 'Quotes') {
+                                    return (
+                                        <div onClick={(() => e.is_locked && ModalFunc(e.title, i, e?.program_structure_id))} className='customer_journey_card'>
+                                            <img src={e.is_unlocked ? tick : e.is_locked ? lock : ''} style={{
+                                                position: 'absolute',
+                                                top: '8px',
+                                                right: '8px'
+                                            }} />
+                                            <img src={icons[e?.title]} />
+                                            <p>{e.title}</p>
+                                            {e.is_unlocked && <Link to={e.link} onClick={((e) => {
+                                                e.stopPropagation()
+                                            })}>View</Link>}
+                                        </div>
+                                    )
+                                }
+                            })}
+                        </div>
+                    </>}
                 </div>
-            </div>
+            </div>}
         </>
     )
 }

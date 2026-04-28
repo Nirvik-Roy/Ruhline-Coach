@@ -12,6 +12,7 @@ import WorkingHoursModal from '../../../Modal/WorkingHoursModal.jsx';
 import { getCoachAppoinments } from '../../../../utils/Program.js';
 import Loaders from '../../../../Components/Loaders/Loaders.jsx'
 import { toLocalDateTime } from '../../../../utils/dateUtils'
+import DashboardLoader from '../../../../Components/Loaders/DashboardLoader.jsx';
 const AppoinmentCalendar = () => {
     const calendarComponentRef = useRef(null);
     const navigate = useNavigate();
@@ -74,9 +75,9 @@ const AppoinmentCalendar = () => {
     }
     return (
         <>
-            {loading && <Loaders />}
+            {loading && <DashboardLoader />}
             {showModal && <AppoinmentViewModal eventId={eventId} events={events} setshowModal={setshowModal} />}
-            <div className="claendar_wrappr553">
+            {!loading && <div className="claendar_wrappr553">
                 <div className='claender_status_wrapper'>
                     <div className='clendar_upcoming'>
                         <div style={{
@@ -161,7 +162,7 @@ const AppoinmentCalendar = () => {
                         );
                     }}
                 />
-            </div>
+            </div>}
         </>
     )
 }

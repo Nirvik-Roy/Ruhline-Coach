@@ -6,8 +6,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Loaders from '../../../../Components/Loaders/Loaders'
 import CoachAvailablityModal from '../../../Modal/CoachAvailablityModal'
 import Pagination from '../../../../Components/Pagination/Pagination'
+import DashboardLoader from '../../../../Components/Loaders/DashboardLoader'
 const CoachAvailabilityTable = () => {
-    const [loading, setloading] = useState(false)
+    const [loading, setloading] = useState(false);
+    const [coachLoading, setcoachLoading] = useState(false)
     const [availablityModal, setavailablityModal] = useState(false)
     const [singleProgramData, setsingleProgramData] = useState([]);
     const [availableDetails, setavailableDetails] = useState([])
@@ -29,7 +31,7 @@ const CoachAvailabilityTable = () => {
 
     const fetchCoachAvailablity = async () => {
         try {
-            setloading(true);
+            setcoachLoading(true);
             const res = await getProgramCoachAvailablity(id);
             if (res?.success) {
                 setavailableDetails(res?.data?.availability_rules)
@@ -37,7 +39,7 @@ const CoachAvailabilityTable = () => {
         } catch (err) {
             console.log(err)
         } finally {
-            setloading(false)
+            setcoachLoading(false)
         }
     }
 
@@ -61,11 +63,11 @@ const CoachAvailabilityTable = () => {
     const handlePageChange = (selectedItem) => {
         setCurrentPage(selectedItem.selected);
     };
-    
+
 
     return (
         <>
-            {loading && <Loaders />}
+            {(loading || coachLoading) && <DashboardLoader />}
             {availablityModal && <CoachAvailablityModal singleProgramData={singleProgramData} fetchCoachAvailablity={fetchCoachAvailablity} setavailablityModal={setavailablityModal} />}
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
@@ -78,7 +80,9 @@ const CoachAvailabilityTable = () => {
 
                     <Button onClick={(() => { setavailablityModal(true) })} children={'Update Availablity'} />
                 </div>
-                <div className='table_container'>
+                <div className='table_container' style={{
+                    minHeight:'70vh'
+                }}>
                     <table className='total_table_order_wrapper coaches_table_wrapper'>
                         <thead>
                             <tr>
@@ -88,10 +92,10 @@ const CoachAvailabilityTable = () => {
                                 <th>End Time</th>
                                 <th>Date From</th>
                                 <th>Date To</th>
-                               
+
                             </tr>
                         </thead>
-                        <tbody>
+                        {!loading && <tbody>
                             {(currentItems?.length <= 0 && loading) && <td colSpan={12}>Searching avaliablity...</td>}
                             {(currentItems?.length <= 0 && !loading) && <td colSpan={12}>No avaliablity details found..</td>}
                             {currentItems?.map((element, index) => (
@@ -113,10 +117,10 @@ const CoachAvailabilityTable = () => {
                                         textTransform: 'capitalize'
                                     }}>{element?.
                                         effective_to}</td>
-                                   
+
                                 </tr>
                             ))}
-                        </tbody>
+                        </tbody>}
                     </table>
                 </div>
                 <Pagination pageCount={pageCount}

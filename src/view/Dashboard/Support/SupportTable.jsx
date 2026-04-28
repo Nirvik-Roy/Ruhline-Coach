@@ -8,6 +8,7 @@ import Pagination from '../../../Components/Pagination/Pagination.jsx';
 import DeleteModal from '../../../Components/DeleteModal/DeleteModal.jsx';
 import SupportModal from '../../Modal/SupportModal.jsx';
 import ViewSupportModal from '../../Modal/ViewSupportModal.jsx';
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader.jsx';
 const SupportTable = () => {
     const [modalIsopen, setmodalIsopen] = useState(false);
     const [disputeList, setdisputeList] = useState([]);
@@ -17,8 +18,9 @@ const SupportTable = () => {
     const [edit, setedit] = useState(false);
     const [deleteModal, setdeleteModal] = useState(false);
     const [deletedId, setdeleteId] = useState();
-    const [viewModal,setviewModal] = useState(false);
-    const [viewId,setviewId] = useState()
+    const [viewModal, setviewModal] = useState(false);
+    const [deleteLoading,setdeleteLoading] = useState(false)
+    const [viewId, setviewId] = useState()
     const dropdownRef = useRef(null);
 
     const callDisputeList = async () => {
@@ -53,13 +55,13 @@ const SupportTable = () => {
     };
 
     const handleDelete = async () => {
-        setloading(true)
+        setdeleteLoading(true)
         const res = await deleteDispute(deletedId)
         if (res?.success) {
             setdeleteModal(false)
             callDisputeList()
         }
-        setloading(false)
+        setdeleteLoading(false)
     }
 
     const handleClickOutside = (event) => {
@@ -77,9 +79,9 @@ const SupportTable = () => {
     }, []);
     return (
         <>
-            {deleteModal && <DeleteModal setdeleteModal={setdeleteModal} onClick={handleDelete} title={'Delete dispute'} details={'Do you really want to delete this dispute?'} />}
-            {loading && <Loaders />}
-            {viewModal && <ViewSupportModal setedit={setedit} setmodalIsopen={setmodalIsopen} seteditId={seteditId}  viewId={viewId} setviewModal={setviewModal}/>}
+            {deleteModal && <DeleteModal loading={deleteLoading} setdeleteModal={setdeleteModal} onClick={handleDelete} title={'Delete dispute'} details={'Do you really want to delete this dispute?'} />}
+            {loading && <DashboardLoader />}
+            {viewModal && <ViewSupportModal setedit={setedit} setmodalIsopen={setmodalIsopen} seteditId={seteditId} viewId={viewId} setviewModal={setviewModal} />}
             {modalIsopen && <SupportModal callDisputeList={callDisputeList} setedit={setedit} seteditId={seteditId} isEdit={edit} editId={editId} setmodalIsopen={setmodalIsopen} />}
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
@@ -107,7 +109,7 @@ const SupportTable = () => {
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        {!loading && <tbody>
                             {(currentItems?.length <= 0 && !loading) && <td colSpan={12}>No dispute data found....</td>}
                             {currentItems?.map((element, i) => (
                                 <>
@@ -140,7 +142,7 @@ const SupportTable = () => {
                                             indexFunction(i)
                                         })} src={ellipse} />
                                             {index.includes(i) && <div className='actions_wrapper' >
-                                                <p onClick={(()=>{
+                                                <p onClick={(() => {
                                                     setviewId(element?.id)
                                                     setviewModal(true)
                                                 })}>View</p>
@@ -157,7 +159,7 @@ const SupportTable = () => {
                                     </tr>
                                 </>
                             ))}
-                        </tbody>
+                        </tbody>}
 
                     </table>
                 </div>

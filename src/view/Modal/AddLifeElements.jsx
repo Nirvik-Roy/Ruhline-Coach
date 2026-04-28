@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Input from '../../Components/Input'
 import Button from '../../Components/Button'
-const AddLifeElements = ({ setisModal, addFunction }) => {
+const AddLifeElements = ({ setisModal, addFunction, postloading }) => {
     const [lifeData, setlifeData] = useState('');
     const { id, moduleId } = useParams()
     return (
@@ -20,7 +20,7 @@ const AddLifeElements = ({ setisModal, addFunction }) => {
                     <Input value={lifeData} onChange={((e) => setlifeData(e.target.value))} label={'Life element'} required={true} placeholder={'Enter life element'} />
                 </div>
 
-                <Button onClick={(() => addFunction(lifeData, moduleId, id))} children={'Add'} styles={{
+                <Button loading={postloading} loadingText='Adding...' onClick={(() => addFunction(lifeData, moduleId, id))} children={'Add'} styles={{
                     marginLeft: 'auto'
                 }} />
             </div>

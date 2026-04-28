@@ -3,7 +3,7 @@ import Input from '../../Components/Input'
 import Textarea from '../../Components/Textarea'
 import Button from '../../Components/Button'
 import { useParams } from 'react-router-dom'
-const DescriptiveModal = ({ tabsFunction, dynamicOptions, postQuestions, updateQuestionText, errors }) => {
+const DescriptiveModal = ({ tabsFunction, dynamicOptions, postQuestions, updateQuestionText, errors,loading }) => {
     const { moduleId } = useParams()
     return (
         <>
@@ -41,6 +41,8 @@ const DescriptiveModal = ({ tabsFunction, dynamicOptions, postQuestions, updateQ
                                     </button>
 
                                     <Button
+                                        loading={loading}
+                                        loadingText='Adding...'
                                         onClick={() => postQuestions(moduleId)}
                                         children="Add"
                                     />

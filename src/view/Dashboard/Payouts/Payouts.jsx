@@ -6,6 +6,7 @@ import eye from '../../../assets/elements.svg'
 import { getPayoutList } from '../../../utils/payout'
 import Loaders from '../../../Components/Loaders/Loaders.jsx'
 import PayoutViewModal from '../../Modal/PayoutsViewModal.jsx'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader.jsx'
 const Payouts = () => {
     const [loading, setloading] = useState(false);
     const [payoutList, setpayoutList] = useState([]);
@@ -43,20 +44,20 @@ const Payouts = () => {
 
     const filterPayouts = (i) => {
         const filteredData = items.filter((e) => e.id == i)
-        setSinglePayout( ...filteredData )
+        setSinglePayout(...filteredData)
     }
 
 
     return (
         <>
-            {loading && <Loaders />}
+            {loading && <DashboardLoader />}
             {modalIsOpen && <PayoutViewModal singlePayout={singlePayout} setmodalIsOpen={setmodalIsOpen} />}
             <div className='dashboard_container'>
                 <div className='coaches_head_wrapper'>
                     <div>
                         <h2>Payouts</h2>
                     </div>
-                    <div className='coaches_button_wapper' style={{
+                    {!loading && <div className='coaches_button_wapper' style={{
                         display: 'flex',
                         alignItems: 'center',
                         gap: '10px'
@@ -78,9 +79,9 @@ const Payouts = () => {
                                 <i class="fa-solid fa-angle-down"></i>
                             </div>
                         </div>
-                    </div>
+                    </div>}
                 </div>
-                <div className='payouts_payments_summary_wrapper'>
+                {!loading && <div className='payouts_payments_summary_wrapper'>
                     <div className='payouts_summary'>
                         <h4>Total payments received</h4>
                         <h1>SAR {payoutList?.summary?.total_payment_received || 0}</h1>
@@ -89,7 +90,7 @@ const Payouts = () => {
                         <h4>Total payments pending</h4>
                         <h1>SAR {payoutList?.summary?.total_pending_payments || 0}</h1>
                     </div>
-                </div>
+                </div>}
                 <div className='table_container' style={{
                     minHeight: '50vh'
                 }}>
@@ -106,7 +107,7 @@ const Payouts = () => {
                                 }}>View</th>
                             </tr>
                         </thead>
-                        <tbody>
+                   {!loading &&     <tbody>
                             {currentItems?.map((e) => (
                                 <tr>
                                     <td>
@@ -153,9 +154,10 @@ const Payouts = () => {
                                         }}>{e?.status}</p>
                                     </td>
                                     <td>
-                                        <img onClick={(() => { filterPayouts(e?.id) 
-                                        setmodalIsOpen(true)
-                                         })} style={{
+                                        <img onClick={(() => {
+                                            filterPayouts(e?.id)
+                                            setmodalIsOpen(true)
+                                        })} style={{
                                             position: 'relative',
                                             zIndex: '0'
                                         }} src={eye} />
@@ -174,7 +176,7 @@ const Payouts = () => {
                                 }}>Month: January, 2026</td>
                             </tr> */}
 
-                        </tbody>
+                        </tbody>}
                     </table>
                 </div>
                 <Pagination pageCount={pageCount}

@@ -5,6 +5,7 @@ import Pagination from '../../../Components/Pagination/Pagination'
 import { useEffect, useState } from 'react'
 import { getCoachPrograms } from '../../../utils/Program'
 import Loaders from '../../../Components/Loaders/Loaders'
+import DashboardLoader from '../../../Components/Loaders/DashboardLoader'
 const ProgramTable = () => {
     const navigate = useNavigate()
     const [programData, setprogramData] = useState([])
@@ -52,7 +53,7 @@ const ProgramTable = () => {
 
     return (
         <>
-            {loading && <Loaders />}
+            {loading && <DashboardLoader />}
             <div className='dashboard_container'>
                 <div className='coaches_head_wrapper'>
                     <div>
@@ -65,7 +66,9 @@ const ProgramTable = () => {
                         </div>
                     </div>
                 </div>
-                <div className='table_container'>
+                <div className='table_container' style={{
+                    minHeight:'70vh'
+                }}>
                     <table className='total_table_order_wrapper coaches_table_wrapper'>
                         <thead>
                             <tr>
@@ -78,7 +81,7 @@ const ProgramTable = () => {
                                 }}>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        {!loading && <tbody>
                             {(currentItems?.length <= 0 && loading) && <td colSpan={12}>Searching programs...</td>}
                             {(currentItems?.length <= 0 && !loading) && <td colSpan={12}>No programs found...</td>}
                             {currentItems?.map((element, index) => (
@@ -109,7 +112,7 @@ const ProgramTable = () => {
                                     </td>
                                 </tr>
                             ))}
-                        </tbody>
+                        </tbody>}
                     </table>
                 </div>
                 <Pagination pageCount={pageCount}

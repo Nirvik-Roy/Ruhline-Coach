@@ -8,6 +8,9 @@
     overflow-y: auto;
     border-right: 1px solid rgba(217, 217, 217, 1);
     background-color: #fff;
+    min-height: 100vh;
+        overflow-y: auto;
+        position: fixed;   
 }
 .sidebar_Wrapper::-webkit-scrollbar{
     display: none;

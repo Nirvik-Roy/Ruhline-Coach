@@ -219,7 +219,7 @@ export const deleteMotivationWord = async (structureId, id, wordId) => {
                 }
             },);
             if (res?.data?.success == true) {
-                toast.success(res?.data?.message || 'Values Questions added succesfully');
+                toast.success(res?.data?.message || 'Motivation word deleted succesfully');
                 return res?.data
             }
         } catch (err) {
@@ -1121,7 +1121,7 @@ export const updateProgramCoachAvailablity = async (data, programId) => {
     }
 }
 
-export const getProgramCoachAvailablity = async ( programId) => {
+export const getProgramCoachAvailablity = async (programId) => {
     const Token = localStorage.getItem('token');
     if (Token && programId) {
         try {
@@ -1131,7 +1131,7 @@ export const getProgramCoachAvailablity = async ( programId) => {
                 }
             },);
             if (res?.data?.success == true) {
-               
+
                 return res?.data
             }
         } catch (err) {
@@ -1161,3 +1161,83 @@ export const getCoachAppoinments = async () => {
     }
 }
 
+export const fetchProgramSessionDetails = async (enrollmentId, sessionId) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && sessionId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/sessions/${sessionId}`, {
+                headers: {
+                    'Authorization': `Bearer ${Token}`
+                }
+            },);
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors
+        }
+    }
+}
+
+
+export const fetchProgramSessionModule = async (enrollmentId) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules`, {
+                headers: {
+                    'Authorization': `Bearer ${Token}`
+                }
+            },);
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors
+        }
+    }
+}
+
+export const lockUnlockModules = async (enrollmentId, structureId) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId) {
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}`, {
+                is_locked: false
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${Token}`
+                }
+            },);
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Coach availablity updated succesfully');
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors
+        }
+    }
+}
+
+
+export const fetchVideoToken = async (enrollmentId, sessionId) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && sessionId) {
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/sessions/${sessionId}/video-token`,{}, {
+                headers: {
+                    'Authorization': `Bearer ${Token}`
+                }
+            },);
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors
+        }
+    }
+}

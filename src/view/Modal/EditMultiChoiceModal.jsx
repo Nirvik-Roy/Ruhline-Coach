@@ -3,7 +3,7 @@ import crossIcon from '../../assets/Frame 1984078314.svg'
 import Textarea from '../../Components/Textarea'
 import Button from '../../Components/Button'
 
-const EditMultiChoiceModal = ({ tabsFunction, singleData, editAddEmptyOption, editdeleteOption, editOptionValue, editQuestionText, editQuestions, editErrors, title }) => {
+const EditMultiChoiceModal = ({ tabsFunction, singleData, editAddEmptyOption, editdeleteOption, editOptionValue, editQuestionText, editQuestions, editErrors, title, loading }) => {
 
   return (
     <>
@@ -80,7 +80,11 @@ const EditMultiChoiceModal = ({ tabsFunction, singleData, editAddEmptyOption, ed
               className="change_cancel_wrapper"
               style={{ margin: "20px 0 0 0" }}
             >
+              <button></button>
+
               <Button
+              loading={loading}
+              loadingText='Updating...'
                 onClick={(() => editQuestions(singleData?.id))}
                 children="Update"
               />

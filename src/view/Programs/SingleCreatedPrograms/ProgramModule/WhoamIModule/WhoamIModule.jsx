@@ -20,6 +20,7 @@ import eye from '../../../../../assets/elements.svg'
 const WhoamIModule = () => {
     const navigate = useNavigate()
     const [loading, setloading] = useState(false);
+    const [postloading, setpostloading] = useState(false);
     const { id, moduleId } = useParams()
     const [allQuestions, setallQuestions] = useState([]);
     const [deleteId, setdeleteId] = useState('')
@@ -207,7 +208,6 @@ const WhoamIModule = () => {
         try {
             setloading(true)
             const res = await getWhoAmiQuestions(id, moduleId)
-            console.log(res)
             if (res?.success) {
                 setallQuestions(res?.data?.data)
             }
@@ -232,7 +232,7 @@ const WhoamIModule = () => {
     const deleteQuestions = async () => {
         if (deleteId) {
             try {
-                setloading(true)
+                setpostloading(true)
                 const res = await deleteWhoAmiQuestions(moduleId, id, deleteId);
                 if (res?.success) {
                     setdeleteModal(false)
@@ -242,7 +242,7 @@ const WhoamIModule = () => {
             } catch (err) {
                 console.log(err)
             } finally {
-                setloading(false)
+                setpostloading(false)
             }
         } else {
             toast.error('Reuired data not found!')
@@ -258,7 +258,7 @@ const WhoamIModule = () => {
     const postQuestions = async () => {
         if (id) {
             try {
-                setloading(true);
+                setpostloading(true);
                 const formData = new FormData()
                 dynamicOptions.forEach((element) => {
                     if (element.type && element.question_text) {
@@ -307,7 +307,7 @@ const WhoamIModule = () => {
             } catch (err) {
                 console.log(err)
             } finally {
-                setloading(false)
+                setpostloading(false)
             }
         }
     }
@@ -316,7 +316,7 @@ const WhoamIModule = () => {
     const editQuestions = async (questionId) => {
         if (id && questionId) {
             try {
-                setloading(true);
+                setpostloading(true);
                 const formData = new FormData()
                 formData.append(`type`, singleData.type)
                 formData.append('question_text', singleData.question_text)
@@ -337,7 +337,7 @@ const WhoamIModule = () => {
             } catch (err) {
                 console.log(err)
             } finally {
-                setloading(false)
+                setpostloading(false)
             }
         }
     }
@@ -362,22 +362,22 @@ const WhoamIModule = () => {
 
     return (
         <>
-            {deleteModal && <DeleteModal onClick={deleteQuestions} title={'Delete Questions'} details={'Do you really want to delete this question?'} setdeleteModal={setdeleteModal} />}
-            {tabs.descriptive && <DescriptiveModal errors={errors} updateQuestionText={updateQuestionText} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
-            {tabs.multiChoice && <MultiChoiceModal errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
+            {deleteModal && <DeleteModal loading={postloading} onClick={deleteQuestions} title={'Delete Questions'} details={'Do you really want to delete this question?'} setdeleteModal={setdeleteModal} />}
+            {tabs.descriptive && <DescriptiveModal loading={postloading} errors={errors} updateQuestionText={updateQuestionText} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
+            {tabs.multiChoice && <MultiChoiceModal loading={postloading} errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
 
-            {tabs.singleChoice && <SingleChoiceModal errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
+            {tabs.singleChoice && <SingleChoiceModal loading={postloading} errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
 
-            {tabs.dropdown && <DropdownModal errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
+            {tabs.dropdown && <DropdownModal loading={postloading} errors={errors} updateOptionText={updateOptionText} updateQuestionText={updateQuestionText} removeOption={removeOption} addEmptyOption={addEmptyOption} postQuestions={postQuestions} dynamicOptions={dynamicOptions} setdynamicOptions={setdynamicOptions} tabsFunction={tabsFunction} />}
 
 
-            {tabs.editmultiChoice && <EditMultiChoiceModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editmultiChoice && <EditMultiChoiceModal loading={postloading} title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editropdown && <EditDropdownModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editropdown && <EditDropdownModal loading={postloading} title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editsingleChoice && <EditSingleChoiceModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editsingleChoice && <EditSingleChoiceModal loading={postloading} title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} editdeleteOption={editdeleteOption} editAddEmptyOption={editAddEmptyOption} editOptionValue={editOptionValue} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
 
-            {tabs.editdescriptive && <EditDescriptiveModal title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
+            {tabs.editdescriptive && <EditDescriptiveModal loading={postloading} title={programStructureData[0]?.can_edit ? 'Edit' : 'View'} editErrors={editErrors} singleData={singleData} editQuestions={editQuestions} tabsFunction={tabsFunction} editQuestionText={editQuestionText} />}
             {loading && <Loaders />}
             <div className='dashboard_container'>
                 <div className='coaches_head_wrapper'>

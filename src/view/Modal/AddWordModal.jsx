@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Input from '../../Components/Input'
 import Button from '../../Components/Button'
 import { useParams } from 'react-router-dom';
-const AddWordModal = ({ setisModal, addFunction }) => {
+const AddWordModal = ({ setisModal, addFunction, loading }) => {
     const [wordData, setwordData] = useState('');
     const { id, moduleId } = useParams()
     return (
@@ -20,7 +20,7 @@ const AddWordModal = ({ setisModal, addFunction }) => {
                     <Input value={wordData} onChange={((e) => setwordData(e.target.value))} label={'Word'} required={true} placeholder={'Enter word'} />
                 </div>
 
-                <Button onClick={(() => addFunction(wordData, moduleId, id))} children={'Add'} styles={{
+                <Button loading={loading} loadingText='Adding...' onClick={(() => addFunction(wordData, moduleId, id))} children={'Add'} styles={{
                     marginLeft: 'auto'
                 }} />
             </div>

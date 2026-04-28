@@ -11,6 +11,7 @@ const AppoinmentViewModal = ({ setshowModal, events, eventId }) => {
             setsingleEvent(...filteredData)
         }
     }, [eventId, events])
+
     return (
         <>
             <div className='modal_wrapper' onClick={(() => setshowModal(false))}></div>
@@ -23,7 +24,7 @@ const AppoinmentViewModal = ({ setshowModal, events, eventId }) => {
                     <p>Time: <span>{toLocalTime(singleEvent?.start)}</span></p>
                     <p>Program Booked: <span>{singleEvent?.extendedProps
                         ?.program?.name}</span></p>
-                    <Link to={'/dashboard/appoinments/program/1'}>Join Now</Link>
+                    <Link to={`/dashboard/appoinments/program/${singleEvent?.extendedProps?.enrollmentId}/session/${singleEvent?.extendedProps?.sessionNumber}`}>Join Now</Link>
                 </div>
             </div>
         </>

@@ -1,7 +1,7 @@
 import React from 'react'
 import Input from '../../Components/Input'
 import Button from '../../Components/Button'
-const EditlifeelmentsModal = ({ seteditModal, singleData, handleChange, updateLifeElements }) => {
+const EditlifeelmentsModal = ({ seteditModal, singleData, handleChange, updateLifeElements, postloading }) => {
     return (
         <>
             <div className='modal_wrapper' onClick={(() => seteditModal(false))}></div>
@@ -17,7 +17,7 @@ const EditlifeelmentsModal = ({ seteditModal, singleData, handleChange, updateLi
                     <Input name={'name'} onChange={handleChange} value={singleData?.name} label={'Life elements'} required={true} placeholder={'Enter word'} />
                 </div>
 
-                <Button onClick={(() => { updateLifeElements(singleData?.name, singleData.id) })} children={'Update'} styles={{
+                <Button loading={postloading} loadingText='Updating...' onClick={(() => { updateLifeElements(singleData?.name, singleData.id) })} children={'Update'} styles={{
                     marginLeft: 'auto'
                 }} />
             </div>

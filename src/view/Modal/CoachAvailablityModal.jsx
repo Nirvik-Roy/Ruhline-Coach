@@ -104,7 +104,6 @@ const CoachAvailablityModal = ({ setavailablityModal, fetchCoachAvailablity, sin
     }
     return (
         <>
-            {loading && <Loaders />}
             <div className='modal_wrapper'></div>
             <div className='modal_div' style={{
                 height: '80vh'
@@ -257,7 +256,7 @@ const CoachAvailablityModal = ({ setavailablityModal, fetchCoachAvailablity, sin
                     <Input type={'time'} value={endTime} onChange={((e) => setendTime(e.target.value))} label={'End Time'} required={true} />
                 </form>
 
-                <Button onClick={submitAvailablity} children={'Update'} styles={{
+                <Button loading={loading} loadingText='Updating...' onClick={submitAvailablity} children={'Update'} styles={{
                     marginLeft: 'auto',
                     marginTop: '15px'
                 }} />
