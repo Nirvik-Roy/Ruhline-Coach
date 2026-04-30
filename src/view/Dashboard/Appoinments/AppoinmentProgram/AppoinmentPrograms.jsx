@@ -147,7 +147,8 @@ const AppoinmentPrograms = () => {
                                             }} onClick={((event) => {
                                                 const links = {
                                                     'Values': `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/values/${e?.title == 'Values' && e?.program_structure_id}`,
-                                                    'Wheel of Life': `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/wheel-of-life/${e?.title == 'Wheel of Life' && e?.program_structure_id}`
+                                                    'Wheel of Life': `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/wheel-of-life/${e?.title == 'Wheel of Life' && e?.program_structure_id}`,
+                                                    "Who am I": `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/who-am-i/${e?.title == 'Who am I' && e?.program_structure_id}`,
                                                 }
                                                 event.stopPropagation()
                                                 navigate(links[e?.title])

@@ -82,7 +82,7 @@ function App() {
               <Route path='appoinments/program/:id/goal' element={<ProgramGoal />} />
               <Route path='appoinments/program/:id/create-goal' element={<CreateGoal />} />
               <Route path='appoinments/goal/view-goal/:id' element={<ViewGoal />} />
-              <Route path='appoinments/program/:id/who-am-i' element={<Whoami />} />
+              <Route path='appoinments/program/:enrollmentId/session/:sessionId/who-am-i/:structureId' element={<Whoami />} />
               <Route path='appoinments/program/:id/card-game' element={<Cardgame />} />
               <Route path='appoinments/program/:enrollmentId/session/:sessionId/wheel-of-life/:structureId' element={<WheelOfLife />} />
               <Route path='appoinments/program/:id/habit-tracker' element={<Habitracker />} />
