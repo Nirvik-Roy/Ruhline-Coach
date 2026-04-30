@@ -32,7 +32,7 @@ const AppoinmentCalendar = () => {
                 end: ev?.end_at,       // FullCalendar needs "end"
                 extendedProps: {
                     status: ev?.status,
-                    sessionNumber: ev?.session_number,
+                    sessionNumber: ev?.session_id,
                     enrollmentId: ev?.enrollment_id,
                     program: ev?.program,
                     customer: ev?.customer,

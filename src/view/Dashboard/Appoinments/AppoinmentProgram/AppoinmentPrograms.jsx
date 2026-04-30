@@ -11,7 +11,7 @@ import icon6 from '../../../../assets/Layer_1 (6).svg'
 import icon7 from '../../../../assets/Group 1597882969 (1).svg'
 import tick from '../../../../assets/Layer_1 (7).svg'
 import lock from '../../../../assets/lock.svg'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import ModuleUnlockModal from '../../../Modal/ModuleUnlockModal'
 import { fetchProgramSessionDetails, fetchProgramSessionModule, fetchVideoToken, lockUnlockModules } from '../../../../utils/Program'
 import DashboardLoader from '../../../../Components/Loaders/DashboardLoader.jsx'
@@ -29,7 +29,7 @@ const AppoinmentPrograms = () => {
     const [structureId, setstructureId] = useState('')
     const [sessionModuleData, setsessionModuleData] = useState({})
     const { enrollmentId, sessionId } = useParams()
-
+    const navigate = useNavigate()
     const icons = {
         'Values': icon1,
         'Card Game': icon2,
@@ -40,12 +40,18 @@ const AppoinmentPrograms = () => {
         'Who am I': icon7
     }
 
+    const links = {
+        'Values': `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/values`,
+        'Wheel of Life': `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/wheel-of-life`
+    }
 
 
     const getSessionDetails = async () => {
         setsessionLoader(true)
         const res = await fetchProgramSessionDetails(enrollmentId, sessionId)
-        console.log(res)
+        if (res?.success) {
+            setsessionData(res?.data)
+        }
         setsessionLoader(false)
     }
 
@@ -96,7 +102,7 @@ const AppoinmentPrograms = () => {
             {sessionLoader && <DashboardLoader />}
             {!sessionLoader && <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
-                    <h2>Program 1</h2>
+                    <h2>{sessionData?.program?.name}</h2>
                 </div>
 
                 <div className='appoinment_program_wrapper'>
@@ -107,11 +113,11 @@ const AppoinmentPrograms = () => {
                     <div className='appoinment_program_details_wrapper'>
                         <p>Details</p>
                         <img src={user} />
-                        <h4>Customer Name: <span>Bidisha Bhowmick</span></h4>
+                        <h4>Customer Name: <span>{sessionData?.customer?.name}</span></h4>
                         <div className='appoinment_program_name_wrapper'>
                             <h4>Program Name: <span>Program 1</span></h4>
-                            <h4>Session number: <span>2</span></h4>
-                            <h4>Session Duration: <span>120mins</span></h4>
+                            <h4>Session number: <span>{sessionData?.session_number}</span></h4>
+                            <h4>Session Duration: <span>{sessionData?.session_duration_minutes}mins</span></h4>
                         </div>
                     </div>
                 </div>
@@ -127,7 +133,7 @@ const AppoinmentPrograms = () => {
                         <h2>Customer Journey</h2>
                         <div className='customer_journey_cards_wrapper'>
                             {sessionModuleData?.modules?.map((e, i) => {
-                                if (e?.title != 'Upload Documents' && e?.title != 'Quotes') {
+                                if (e?.title != 'Upload Documents' && e?.title != 'Quotes' && !e?.module_type?.startsWith('intermediate')) {
                                     return (
                                         <div onClick={(() => e.is_locked && ModalFunc(e.title, i, e?.program_structure_id))} className='customer_journey_card'>
                                             <img src={e.is_unlocked ? tick : e.is_locked ? lock : ''} style={{
@@ -137,9 +143,14 @@ const AppoinmentPrograms = () => {
                                             }} />
                                             <img src={icons[e?.title]} />
                                             <p>{e.title}</p>
-                                            {e.is_unlocked && <Link to={e.link} onClick={((e) => {
-                                                e.stopPropagation()
-                                            })}>View</Link>}
+                                            {e.is_unlocked && <p style={{
+                                                color: 'var(--primary-color)',
+                                                textDecoration: 'underline',
+                                                fontWeight: '600'
+                                            }} onClick={((event) => {
+                                                event.stopPropagation()
+                                                navigate(links[e?.title])
+                                            })}>View</p>}
                                         </div>
                                     )
                                 }

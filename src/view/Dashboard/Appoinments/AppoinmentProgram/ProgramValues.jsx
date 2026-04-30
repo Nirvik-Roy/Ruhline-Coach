@@ -1,8 +1,22 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { getSessionValuesresponse } from '../../../../utils/Program'
 const ProgramValues = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const { enrollmentId, sessionId } = useParams()
+    const [valuesdata, setvaluesData] = useState({})
+    const [loading, setloading] = useState(false)
+
+    const getValuesData = async () => {
+        setloading(true)
+        const res = await getSessionValuesresponse(enrollmentId, sessionId)
+        console.log(res)
+        setloading(false)
+    }
+
+    useEffect(() => {
+        getValuesData()
+    }, [])
     return (
         <>
             <div className='dashboard_container'>
@@ -11,7 +25,7 @@ const ProgramValues = () => {
                         <h2>Values</h2>
                         <small style={{
                             cursor: 'pointer'
-                        }}><span onClick={(() => navigate('/dashboard/appoinments'))}>Appointments</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1'))}>Program 1</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1/values'))} >Values</span></small>
+                        }}><span onClick={(() => navigate('/dashboard/appoinments'))}>Appointments</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1'))}>Program 1</span> / <span  >Values</span></small>
                     </div>
                 </div>
                 <div className='response_details_wrapper'>

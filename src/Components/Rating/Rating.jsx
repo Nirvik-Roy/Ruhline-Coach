@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { FaStar } from "react-icons/fa";
 
-const Rating = () => {
-    const [rating, setRating] = useState(0);
+const Rating = ({value}) => {
+    const [rating, setRating] = useState(value);
     const totalStars = 10;
     return (
         <>
@@ -14,7 +14,7 @@ const Rating = () => {
                             key={index}
                             size={20}
                             color={starValue <= rating ? "#ffc107" : "#e4e5e9"}
-                            onClick={() => setRating(starValue)}
+                            values={rating}
                             style={{ cursor: "pointer" }}
                         />
                     );

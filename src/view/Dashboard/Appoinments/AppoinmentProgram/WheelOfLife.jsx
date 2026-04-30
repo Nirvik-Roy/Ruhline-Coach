@@ -1,54 +1,47 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import arrowRight from '../../../../assets/Chevron Right.svg'
 import arrowDown from '../../../../assets/Chevron.svg'
 import Rating from '../../../../Components/Rating/Rating';
+import { fetchProgramSessionDetails, getSessionWheelofLiferesponse } from '../../../../utils/Program';
+import DashboardLoader from '../../../../Components/Loaders/DashboardLoader';
 const WheelOfLife = () => {
-
+    const { enrollmentId, sessionId } = useParams()
     const navigate = useNavigate();
     const [index, setIndex] = useState();
-    const data = [
-        {
-            num: 2,
-            title: 'Depression'
-        },
-        {
-            num: 3,
-            title: 'Forgiveness'
-        },
-        {
-            num: 4,
-            title: 'Loyalty'
-        },
-        {
-            num: 5,
-            title: 'Peace'
-        },
-        {
-            num: 6,
-            title: 'Health'
-        },
-        {
-            num: 8,
-            title: 'Depression'
-        },
-        {
-            num: 9,
-            title: 'Forgiveness'
-        },
-        {
-            num: 10,
-            title: 'Loyalty'
-        },
-        {
-            num: 11,
-            title: 'Peace'
-        },
-        {
-            num: 12,
-            title: 'Health'
-        },
-    ]
+    const [loader, setloader] = useState(false)
+    const [sessionData, setsessionData] = useState({})
+    const [wheeloflifeData, setwheelofLifeData] = useState({})
+    const getSessionDetails = async () => {
+        setloader(true)
+        const res = await fetchProgramSessionDetails(enrollmentId, sessionId)
+        if (res?.success) {
+            setsessionData(res?.data)
+            setloader(false)
+        }
+        setloader(false)
+    }
+    useEffect(() => {
+        if (enrollmentId && sessionId) {
+            getSessionDetails()
+        }
+    }, [])
+
+
+    const getWheeloflifeResponse = async () => {
+        setloader(true)
+        const res = await getSessionWheelofLiferesponse(enrollmentId, sessionId)
+        if (res?.success) {
+            setwheelofLifeData(res?.data)
+            setloader(false)
+        }
+        setloader(false)
+    }
+
+    useEffect(() => {
+        getWheeloflifeResponse()
+    }, [])
+
 
     const indexFunction = (i) => {
         if (index == i) {
@@ -59,21 +52,24 @@ const WheelOfLife = () => {
     }
     return (
         <>
+            {loader && <DashboardLoader />}
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
                     <div>
                         <h2>Wheel of Life</h2>
                         <small style={{
                             cursor: 'pointer'
-                        }}><span onClick={(() => navigate('/dashboard/appoinments'))}>Appointments</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1'))}>Program 1</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1/card-game'))} >Wheel of Life</span></small>
+                        }}><span onClick={(() => navigate('/dashboard/appoinments'))}>Appointments</span> / <span onClick={(() => navigate(`/dashboard/appoinments/program/${enrollmentId}/sessions/${sessionId}`))}>{sessionData?.program?.name}</span> / <span >Wheel of Life</span></small>
                     </div>
 
                 </div>
-                <div className='response_details_wrapper'>
-                    {['Anxiety','Depression','Health','Courage','Peace','Forgiveness'].map((e, i) => (
+                {!loader && <div className='response_details_wrapper'>
+                    {wheeloflifeData?.elements?.map((e, i) => (
                         <div className='response_set_wrapper'>
                             <div className='response_set_head'>
-                                <h5>{e}</h5>
+                                <h5 style={{
+                                    textTransform: 'capitalize'
+                                }}>{e?.name}</h5>
                                 <hr />
                                 <div onClick={(() => indexFunction(i))} className='arrow_btn' style={index == i ? {
                                     background: 'var(--primary-color)',
@@ -94,20 +90,35 @@ const WheelOfLife = () => {
                                         color: 'var(--text-color)',
                                         fontSize: '16px'
                                     }}>Rate Life Elements:</h6>
-                                    <Rating />
+                                    <Rating value={e?.rating?.value}/>
                                 </div>
-                                <h4>1. Tell us about ur Working Experience.</h4>
-                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi</p>
 
-                                <h4>2. Skills you know</h4>
-                                <p>React Js</p>
-                                <p>Wordpress</p>
-                                <p>Flutter</p>
+                                {e?.questions?.map((ele, i) => {
+                                    if (ele?.type == 'descriptive') {
+                                        return (
+                                            <>
+                                                <h4>{i + 1}. {ele?.question_text}</h4>
+                                                <p>{ele?.answer?.answer_text}</p>
+                                            </>
+                                        )
+                                    } else {
+                                        return (
+                                            <>
+                                                <h4>{i + 1}. {ele?.question_text}</h4>
+                                                {ele?.answer?.answer_options?.map((answer) => (
+                                                    <p>{answer}</p>
+                                                ))}
+                                                <p>{ele?.answer?.answer_option}</p>
+                                            </>
+                                        )
+                                    }
+                                })}
 
-                                <h4>3. Have you ever used AI?</h4>
-                                <p>Yes</p>
 
-                                <h4>Selected Cards</h4>
+
+
+
+                                {/* <h4>Selected Cards</h4>
 
                                 <div className='selected_cards_grid_wrapper'>
                                     {data.map((e, i) => (
@@ -117,12 +128,12 @@ const WheelOfLife = () => {
                                             <span>Stability, orderliness, predictability</span>
                                         </div>
                                     ))}
-                                </div>
+                                </div> */}
                             </>}
                         </div>
 
                     ))}
-                    <div className='response_set_wrapper'>
+                    {/* <div className='response_set_wrapper'>
                         <div className='response_set_head'>
                             <h5>Final Selected Cards</h5>
                             <hr />
@@ -143,8 +154,8 @@ const WheelOfLife = () => {
                                 </div>
                             ))}
                         </div>
-                    </div>
-                </div>
+                    </div> */}
+                </div>}
             </div>
         </>
     )

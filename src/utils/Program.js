@@ -1227,7 +1227,45 @@ export const fetchVideoToken = async (enrollmentId, sessionId) => {
     const Token = localStorage.getItem('token');
     if (Token && enrollmentId && sessionId) {
         try {
-            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/sessions/${sessionId}/video-token`,{}, {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/sessions/${sessionId}/video-token`, {}, {
+                headers: {
+                    'Authorization': `Bearer ${Token}`
+                }
+            },);
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors
+        }
+    }
+}
+
+export const getSessionValuesresponse = async (enrollmentId, structureId) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/values/responses`, {
+                headers: {
+                    'Authorization': `Bearer ${Token}`
+                }
+            },);
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors
+        }
+    }
+}
+
+export const getSessionWheelofLiferesponse = async (enrollmentId, structureId) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/wheel-of-life/responses`, {
                 headers: {
                     'Authorization': `Bearer ${Token}`
                 }
