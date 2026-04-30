@@ -1,53 +1,44 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import arrowRight from '../../../../assets/Chevron Right.svg'
 import arrowDown from '../../../../assets/Chevron.svg'
+import { fetchProgramSessionDetails, getSessioncardgameresponse } from '../../../../utils/Program'
+import DashboardLoader from '../../../../Components/Loaders/DashboardLoader'
 const Cardgame = () => {
     const navigate = useNavigate();
     const [index, setIndex] = useState();
-    const data = [
-        {
-            num: 2,
-            title: 'Depression'
-        },
-        {
-            num: 3,
-            title: 'Forgiveness'
-        },
-        {
-            num: 4,
-            title: 'Loyalty'
-        },
-        {
-            num: 5,
-            title: 'Peace'
-        },
-        {
-            num: 6,
-            title: 'Health'
-        },
-        {
-            num: 8,
-            title: 'Depression'
-        },
-        {
-            num: 9,
-            title: 'Forgiveness'
-        },
-        {
-            num: 10,
-            title: 'Loyalty'
-        },
-        {
-            num: 11,
-            title: 'Peace'
-        },
-        {
-            num: 12,
-            title: 'Health'
-        },
-    ]
+    const { enrollmentId, sessionId, structureId } = useParams()
+    const [cardgame, setcardgame] = useState({})
+    const [loading, setloading] = useState(false)
+    const [sessionData, setsessionData] = useState({})
 
+    const getSessionDetails = async () => {
+        setloading(true)
+        const res = await fetchProgramSessionDetails(enrollmentId, sessionId)
+        if (res?.success) {
+            setsessionData(res?.data)
+            setloading(false)
+        }
+        setloading(false)
+    }
+    useEffect(() => {
+        if (enrollmentId && sessionId) {
+            getSessionDetails()
+        }
+    }, [])
+
+    const getcardgame = async () => {
+        setloading(true)
+        const res = await getSessioncardgameresponse(enrollmentId, structureId)
+        if (res?.success) {
+            setcardgame(res?.data)
+        }
+        setloading(false)
+    }
+
+    useEffect(() => {
+        getcardgame()
+    }, [])
     const indexFunction = (i) => {
         if (index == i) {
             setIndex()
@@ -57,22 +48,23 @@ const Cardgame = () => {
     }
     return (
         <>
+            {loading && <DashboardLoader />}
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
                     <div>
                         <h2>Card Game</h2>
                         <small style={{
                             cursor: 'pointer'
-                        }}><span onClick={(() => navigate('/dashboard/appoinments'))}>Appointments</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1'))}>Program 1</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1/card-game'))} >Card Game</span></small>
+                        }}><span onClick={(() => navigate('/dashboard/appoinments'))}>Appointments</span> / <span onClick={(() => navigate(`/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}`))}>{sessionData?.program?.name}</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1/card-game'))} >Card Game</span></small>
                     </div>
 
                 </div>
-                <div className='response_details_wrapper'>
+                {!loading && <div className='response_details_wrapper'>
                     <h3>Response Details</h3>
-                    {[1, 2, 3, 4, 5].map((e, i) => (
-                        <div  className='response_set_wrapper'>
+                    {cardgame?.question_sets?.map((e, i) => (
+                        <div className='response_set_wrapper'>
                             <div className='response_set_head'>
-                                <h5>Response Set {e}</h5>
+                                <h5>Response Set {i + 1}</h5>
                                 <hr />
                                 <div onClick={(() => indexFunction(i))} className='arrow_btn' style={index == i ? {
                                     background: 'var(--primary-color)',
@@ -83,25 +75,38 @@ const Cardgame = () => {
                             </div>
 
                             {index == i && <>
-                                <h4>1. Tell us about ur Working Experience.</h4>
-                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi</p>
-
-                                <h4>2. Skills you know</h4>
-                                <p>React Js</p>
-                                <p>Wordpress</p>
-                                <p>Flutter</p>
-
-                                <h4>3. Have you ever used AI?</h4>
-                                <p>Yes</p>
-
-                                <h4>Selected Cards</h4>
-
+                                {e?.questions?.map((e, i) => {
+                                    if (e?.type == 'descriptive') {
+                                        return (
+                                            <>
+                                                <h4>{i + 1}.{e?.question_text}</h4>
+                                                <p>{e?.answer?.answer_text}</p>
+                                            </>
+                                        )
+                                    } else {
+                                        return (
+                                            <>
+                                                <h4>{i + 1}. {e?.question_text}</h4>
+                                                {e?.answer?.answer_options?.map((answer) => (
+                                                    <p>{answer}</p>
+                                                ))}
+                                                <p>{e?.answer?.answer_option}</p>
+                                            </>
+                                        )
+                                    }
+                                })}
+                                
+                                <h2 style={{
+                                    fontSize:'17px',
+                                    margin:'20px 0',
+                                    fontWeight:'600'
+                                }}>Selected Cards</h2>
                                 <div className='selected_cards_grid_wrapper'>
-                                    {data.map((e, i) => (
+                                    {e?.submitted_card_selection?.selected_cards?.map((e, i) => (
                                         <div className='selected_card' key={i}>
-                                            <h6>{e.num}</h6>
-                                            <h5>{e.title}</h5>
-                                            <span>Stability, orderliness, predictability</span>
+                                            <h6>{i + 1}</h6>
+                                            <h5>{e.name}</h5>
+                                            <span>{e?.description}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -122,16 +127,16 @@ const Cardgame = () => {
                         <div className='selected_cards_grid_wrapper' style={{
                             marginTop: '15px'
                         }}>
-                            {data.map((e, i) => (
+                            {cardgame?.core_values?.map((e, i) => (
                                 <div className='selected_card' key={i}>
-                                    <h6>{e.num}</h6>
-                                    <h5>{e.title}</h5>
-                                    <span>Stability, orderliness, predictability</span>
+                                    <h6>{i+1}</h6>
+                                    <h5>{e.name}</h5>
+                                    <span>{e?.description}</span>
                                 </div>
                             ))}
                         </div>
                     </div>
-                </div>
+                </div>}
             </div>
         </>
     )

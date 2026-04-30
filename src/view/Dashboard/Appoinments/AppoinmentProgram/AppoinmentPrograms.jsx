@@ -16,10 +16,13 @@ import ModuleUnlockModal from '../../../Modal/ModuleUnlockModal'
 import { fetchProgramSessionDetails, fetchProgramSessionModule, fetchVideoToken, lockUnlockModules } from '../../../../utils/Program'
 import DashboardLoader from '../../../../Components/Loaders/DashboardLoader.jsx'
 import ModalLoader from '../../../../Components/Loaders/ModalLoader.jsx'
+import FindYourMotivationModule from '../../../Programs/SingleCreatedPrograms/ProgramModule/FindYourMotivationModule/FindYourMotivationModule.jsx'
+import FindYourmotivation from '../../../Modal/FindYourmotivation.jsx'
 const AppoinmentPrograms = () => {
     const [modal, setModal] = useState(false);
     const [title, setTile] = useState('');
     const [index, setIndex] = useState();
+    const [motivationModel,setmotivationModel] = useState(false)
     const [sessionLoader, setsessionLoader] = useState(false);
     const [moduleLoader, setmoduleLoader] = useState(false);
     const [moduleUnlockedLoader, setmoduleUnlockedLoader] = useState(false)
@@ -95,6 +98,7 @@ const AppoinmentPrograms = () => {
     }
     return (
         <>
+            {motivationModel && <FindYourmotivation structureId={structureId} setmotivationModel={setmotivationModel}/>}
             {modal && <ModuleUnlockModal moduleUnlockedLoader={moduleUnlockedLoader} unlockModulefunc={unlockModulefunc} title={title} setModal={setModal} />}
             {sessionLoader && <DashboardLoader />}
             {!sessionLoader && <div className='dashboard_container'>
@@ -149,6 +153,12 @@ const AppoinmentPrograms = () => {
                                                     'Values': `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/values/${e?.title == 'Values' && e?.program_structure_id}`,
                                                     'Wheel of Life': `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/wheel-of-life/${e?.title == 'Wheel of Life' && e?.program_structure_id}`,
                                                     "Who am I": `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/who-am-i/${e?.title == 'Who am I' && e?.program_structure_id}`,
+                                                    'Card Game': `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/card-game/${e?.title == 'Card Game' && e?.program_structure_id}`,
+                                                
+                                                }
+                                                if(e?.title == 'Find your Motivation'){
+                                                    setmotivationModel(true)
+                                                    setstructureId(e?.program_structure_id)
                                                 }
                                                 event.stopPropagation()
                                                 navigate(links[e?.title])

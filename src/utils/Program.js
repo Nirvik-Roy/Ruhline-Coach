@@ -1298,3 +1298,42 @@ export const getSessionWhoamIresponse = async (enrollmentId, structureId) => {
         }
     }
 }
+
+
+export const getSessioncardgameresponse = async (enrollmentId, structureId) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/card-game/responses`, {
+                headers: {
+                    'Authorization': `Bearer ${Token}`
+                }
+            },);
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors
+        }
+    }
+}
+
+export const getSessionMotivationresponse = async (enrollmentId, structureId) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/find-your-motivation/responses`, {
+                headers: {
+                    'Authorization': `Bearer ${Token}`
+                }
+            },);
+            if (res?.data?.success == true) {
+                return res?.data
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors
+        }
+    }
+}

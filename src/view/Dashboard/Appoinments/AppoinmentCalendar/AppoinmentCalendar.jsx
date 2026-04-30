@@ -69,9 +69,10 @@ const AppoinmentCalendar = () => {
     // };
 
     const handleNavigation = (info) => {
-        // navigate(`/dashboard/calendar/programs/${info.dateStr}`)
-        seteventId(info?.event?.id)
-        setshowModal(true)
+        if (info?.event?._def?.extendedProps?.status == 'Upcoming') {
+            seteventId(info?.event?.id)
+            setshowModal(true)
+        }
     }
     return (
         <>
@@ -110,6 +111,7 @@ const AppoinmentCalendar = () => {
                     </div>
                 </div>
                 <FullCalendar
+                    
                     timeZone="Asia/Kolkata"
                     schedulerLicenseKey="GPL-My-Project-Is-Open-Source"
                     ref={calendarComponentRef}
