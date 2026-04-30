@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getSessionValuesresponse } from '../../../../utils/Program'
+import DashboardLoader from '../../../../Components/Loaders/DashboardLoader';
 const ProgramValues = () => {
     const navigate = useNavigate();
-    const { enrollmentId, sessionId } = useParams()
+    const { enrollmentId, sessionId, structureId } = useParams()
     const [valuesdata, setvaluesData] = useState({})
     const [loading, setloading] = useState(false)
 
     const getValuesData = async () => {
         setloading(true)
-        const res = await getSessionValuesresponse(enrollmentId, sessionId)
-        console.log(res)
+        const res = await getSessionValuesresponse(enrollmentId, structureId)
+        if (res?.success) {
+            setvaluesData(res?.data)
+        }
         setloading(false)
     }
 
@@ -19,6 +22,7 @@ const ProgramValues = () => {
     }, [])
     return (
         <>
+            {loading && <DashboardLoader />}
             <div className='dashboard_container'>
                 <div className='appointes_head_wrapper'>
                     <div>
@@ -28,19 +32,29 @@ const ProgramValues = () => {
                         }}><span onClick={(() => navigate('/dashboard/appoinments'))}>Appointments</span> / <span onClick={(() => navigate('/dashboard/appoinments/program/1'))}>Program 1</span> / <span  >Values</span></small>
                     </div>
                 </div>
-                <div className='response_details_wrapper'>
+                {!loading && <div className='response_details_wrapper'>
                     <h3>Response Details</h3>
-                    <h4>1. Tell us about ur Working Experience.</h4>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi</p>
-
-                    <h4>2. Skills you know</h4>
-                    <p>React Js</p>
-                    <p>Wordpress</p>
-                    <p>Flutter</p>
-
-                    <h4>3. Have you ever used AI?</h4>
-                    <p>Yes</p>
-                </div>
+                    {valuesdata?.questions?.map((e, i) => {
+                        if (e?.type == 'descriptive') {
+                            return (
+                                <>
+                                    <h4>{i + 1}.{e?.question_text}</h4>
+                                    <p>{e?.answer?.answer_text}</p>
+                                </>
+                            )
+                        } else {
+                            return (
+                                <>
+                                    <h4>{i + 1}. {e?.question_text}</h4>
+                                    {e?.answer?.answer_options?.map((answer) => (
+                                        <p>{answer}</p>
+                                    ))}
+                                    <p>{e?.answer?.answer_option}</p>
+                                </>
+                            )
+                        }
+                    })}
+                </div>}
 
             </div>
         </>

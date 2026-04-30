@@ -6,7 +6,7 @@ import Rating from '../../../../Components/Rating/Rating';
 import { fetchProgramSessionDetails, getSessionWheelofLiferesponse } from '../../../../utils/Program';
 import DashboardLoader from '../../../../Components/Loaders/DashboardLoader';
 const WheelOfLife = () => {
-    const { enrollmentId, sessionId } = useParams()
+    const { enrollmentId, sessionId,structureId } = useParams()
     const navigate = useNavigate();
     const [index, setIndex] = useState();
     const [loader, setloader] = useState(false)
@@ -30,7 +30,7 @@ const WheelOfLife = () => {
 
     const getWheeloflifeResponse = async () => {
         setloader(true)
-        const res = await getSessionWheelofLiferesponse(enrollmentId, sessionId)
+        const res = await getSessionWheelofLiferesponse(enrollmentId, structureId)
         if (res?.success) {
             setwheelofLifeData(res?.data)
             setloader(false)

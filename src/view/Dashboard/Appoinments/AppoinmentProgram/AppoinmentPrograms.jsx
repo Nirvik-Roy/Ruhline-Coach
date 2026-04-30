@@ -40,10 +40,7 @@ const AppoinmentPrograms = () => {
         'Who am I': icon7
     }
 
-    const links = {
-        'Values': `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/values`,
-        'Wheel of Life': `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/wheel-of-life`
-    }
+
 
 
     const getSessionDetails = async () => {
@@ -148,6 +145,10 @@ const AppoinmentPrograms = () => {
                                                 textDecoration: 'underline',
                                                 fontWeight: '600'
                                             }} onClick={((event) => {
+                                                const links = {
+                                                    'Values': `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/values/${e?.title == 'Values' && e?.program_structure_id}`,
+                                                    'Wheel of Life': `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/wheel-of-life/${e?.title == 'Wheel of Life' && e?.program_structure_id}`
+                                                }
                                                 event.stopPropagation()
                                                 navigate(links[e?.title])
                                             })}>View</p>}
