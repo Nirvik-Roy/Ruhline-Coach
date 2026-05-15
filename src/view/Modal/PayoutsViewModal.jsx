@@ -1,7 +1,6 @@
 import React from 'react'
 
 const PayoutViewModal = ({ setmodalIsOpen, singlePayout }) => {
-    console.log(singlePayout)
     return (
         <>
             <div className='modal_wrapper' onClick={(() => setmodalIsOpen(false))}></div>

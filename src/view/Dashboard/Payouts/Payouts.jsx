@@ -18,7 +18,7 @@ const Payouts = () => {
         const res = await getPayoutList()
         if (res?.success) {
             setpayoutList(res?.data)
-            setitems(res?.data?.groups[0]?.items)
+            setitems(res?.data?.groups?.[0]?.items)
         }
         setloading(false)
     }
@@ -34,16 +34,16 @@ const Payouts = () => {
 
     const offset = currentPage * itemsPerPage;
 
-    const currentItems = items.slice(offset, offset + itemsPerPage);
+    const currentItems = items?.slice(offset, offset + itemsPerPage);
 
-    const pageCount = Math.ceil(items.length / itemsPerPage);
+    const pageCount = Math.ceil(items?.length / itemsPerPage);
 
     const handlePageChange = (selectedItem) => {
         setCurrentPage(selectedItem.selected);
     };
 
     const filterPayouts = (i) => {
-        const filteredData = items.filter((e) => e.id == i)
+        const filteredData = items?.filter((e) => e.id == i)
         setSinglePayout(...filteredData)
     }
 
