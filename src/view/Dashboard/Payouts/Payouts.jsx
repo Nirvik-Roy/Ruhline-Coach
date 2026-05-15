@@ -108,7 +108,7 @@ const Payouts = () => {
                             </tr>
                         </thead>
                         {!loading && <tbody>
-                            {currentItems?.length <=0 && <td colSpan={12}>No data available...</td>}
+                     
                             {currentItems?.map((e) => (
                                 <tr>
                                     <td>
