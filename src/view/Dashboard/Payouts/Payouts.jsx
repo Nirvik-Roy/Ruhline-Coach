@@ -107,7 +107,8 @@ const Payouts = () => {
                                 }}>View</th>
                             </tr>
                         </thead>
-                   {!loading &&     <tbody>
+                        {!loading && <tbody>
+                            {currentItems?.length <=0 && <td colSpan={12}>No data available...</td>}
                             {currentItems?.map((e) => (
                                 <tr>
                                     <td>
