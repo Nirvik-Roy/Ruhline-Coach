@@ -38,7 +38,8 @@ export const AuthlogOut = createAsyncThunk('AuthlogOut', async (loginParams, { r
                 return res?.data?.data
             }
         } catch (err) {
-            toast.error(err.response?.data?.message)
+            // toast.error(err.response?.data?.message)
+            localStorage.removeItem('token')
             return rejectWithValue(err.response?.data || "Something went wrong");
         }
     } else {
@@ -92,7 +93,7 @@ const AuthSlice = createSlice({
         })
         builder.addCase(AuthlogOut.rejected, (state) => {
             state.isLoading = false;
-            state.isLogin = true;
+            state.isLogin = false;
         })
         builder.addCase(Auth.fulfilled, (state, action) => {
             if (action.payload.token) {
