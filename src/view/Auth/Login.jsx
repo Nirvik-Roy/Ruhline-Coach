@@ -53,7 +53,7 @@ const Login = () => {
 
     const loginFunc = () => {
         if (formData.email == '' && formData.password == '') {
-            toast.error('Plz enter all required fields...')
+            toast.error('Please enter all required fields...')
         }
         else {
             dispatch(Auth({ formData: formData }))

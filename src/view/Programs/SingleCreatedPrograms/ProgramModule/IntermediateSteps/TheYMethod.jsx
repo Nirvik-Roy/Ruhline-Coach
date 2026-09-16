@@ -68,7 +68,7 @@ const TheYMethod = () => {
             }
 
         } else {
-            toast.error("Plz enter the headline")
+            toast.error("Please enter the headline")
         }
     }
 

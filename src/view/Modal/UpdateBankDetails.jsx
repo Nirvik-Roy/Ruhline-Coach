@@ -48,7 +48,7 @@ const UpdateBankDetails = ({ setupdateBankDetails, bankDetails, loaders }) => {
                 setloading(false)
             }
         } else {
-            toast.error('Plz fill all the required fileds...')
+            toast.error('Please fill all the required fileds...')
         }
 
     }

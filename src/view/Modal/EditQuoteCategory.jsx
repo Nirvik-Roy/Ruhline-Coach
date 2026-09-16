@@ -26,7 +26,7 @@ const EditQuoteCategory = ({ seteditModal, quoteId, fetchQuotes }) => {
                 setloading(false)
             }
         } else {
-            toast.error('Plz enter the field...')
+            toast.error('Please enter the field...')
         }
     }
 

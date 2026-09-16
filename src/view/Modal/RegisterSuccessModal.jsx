@@ -16,7 +16,7 @@ const RegisterSuccessModal = ({ setregisterSuccess }) => {
         <p style={{
           marginTop: '-15px',
           zIndex:'9999'
-        }}>Plz check your inbox and verify your email</p>
+        }}>Please check your inbox and verify your email</p>
         <p>Don't get the link? <Link to={'/resend-email'} >Click to resend email</Link></p>
       </div>
     </>

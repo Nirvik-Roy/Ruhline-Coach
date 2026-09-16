@@ -14,7 +14,7 @@ const AutoVerificationModal = () => {
                 <h1>Auto Verifiying</h1>
                 <p style={{
                     marginTop: '-15px'
-                }}>Auto verifiying... Plz be paitent..</p>
+                }}>Auto verifiying... Please be paitent..</p>
             </div>
         </>
     )

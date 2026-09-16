@@ -34,7 +34,7 @@ const ForgotPassword = () => {
                 setloading(false)
             }
         } else {
-            toast.error('Plz enter your email properly')
+            toast.error('Please enter your email properly')
         }
     }
     return (

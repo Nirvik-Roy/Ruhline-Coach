@@ -23,7 +23,7 @@ const CreateHabitTrackerModal = ({ sethabitTracker, editFunc }) => {
             editFunc(copiedData);
             sethabitTracker(false)
         }else{
-            alert('plz enter all fields')
+            alert('Please enter all fields')
         }
 
     }
