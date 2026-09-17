@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { Provider } from 'react-redux'
 import store from './Store/Store'
 import { BrowserRouter } from 'react-router-dom'
+import './CustomAxios/methodSpoofing'
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
   <BrowserRouter>
