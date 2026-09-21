@@ -7,6 +7,9 @@
     font-size: 0.8rem !important;
 }
 
+.fc-timegrid-event-harness{
+    cursor: pointer;
+}
 .fc-toolbar-chunk {
     display: flex;
     justify-content: flex-start;

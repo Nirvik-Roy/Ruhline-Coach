@@ -3,14 +3,26 @@ import './Modal.css'
 import ModalLoader from '../../Components/Loaders/ModalLoader.jsx'
 import { useEffect, useState } from 'react'
 import { toLocalDate, toLocalTime } from '../../utils/dateUtils.js'
+import { joinMeeting } from '../../utils/Program.js'
 const AppoinmentViewModal = ({ setshowModal, events, eventId }) => {
-    const [singleEvent, setsingleEvent] = useState({})
+    const [singleEvent, setsingleEvent] = useState({});
+    // const [joining,setisJoining] = useState(false);
+
+    // const joinMeetingFunc = async () =>{
+    //     setisJoining(true)
+    //     const res = await joinMeeting(singleEvent?.extendedProps?.enrollmentId, singleEvent?.extendedProps?.sessionNumber);
+    //     if(res?.success){
+    //         setisJoining(false)
+    //     }
+    //     setisJoining(false)
+    // }
     useEffect(() => {
         if (eventId) {
             const filteredData = events?.filter((element) => element.id == eventId)
             setsingleEvent(...filteredData)
         }
     }, [eventId, events])
+
 
     return (
         <>
@@ -24,7 +36,9 @@ const AppoinmentViewModal = ({ setshowModal, events, eventId }) => {
                     <p>Time: <span>{toLocalTime(singleEvent?.start)}</span></p>
                     <p>Program Booked: <span>{singleEvent?.extendedProps
                         ?.program?.name}</span></p>
-                    <Link to={`/dashboard/appoinments/program/${singleEvent?.extendedProps?.enrollmentId}/session/${singleEvent?.extendedProps?.sessionNumber}`}>Join Now</Link>
+                    <Link 
+                    to={`/dashboard/appoinments/program/${singleEvent?.extendedProps?.enrollmentId}/session/${singleEvent?.extendedProps?.sessionNumber}`}
+                    >Join Now</Link>
                 </div>
             </div>
         </>

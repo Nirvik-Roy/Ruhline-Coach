@@ -13,6 +13,7 @@ import { getCoachAppoinments } from '../../../../utils/Program.js';
 import Loaders from '../../../../Components/Loaders/Loaders.jsx'
 import { toLocalDateTime } from '../../../../utils/dateUtils'
 import DashboardLoader from '../../../../Components/Loaders/DashboardLoader.jsx';
+import ZoomMeeting from '../../../../Components/ZoomMeeting/ZoomMeeting.jsx'
 const AppoinmentCalendar = () => {
     const calendarComponentRef = useRef(null);
     const navigate = useNavigate();
@@ -74,6 +75,10 @@ const AppoinmentCalendar = () => {
             setshowModal(true)
         }
     }
+    // JWT role in signature is currently 1 (host). Host start requires a ZAK token from
+    // GET /users/{userId}/token?type=zak — without it, join fails with errorCode 200.
+    // For participant join only, regenerate the signature with role: 0 and omit zak.
+
     return (
         <>
             {loading && <DashboardLoader />}
