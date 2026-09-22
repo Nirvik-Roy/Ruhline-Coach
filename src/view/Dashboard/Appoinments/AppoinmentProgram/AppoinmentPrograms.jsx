@@ -206,9 +206,9 @@ console.log(profile)
                 <div className="customer_journey_cards_wrapper">
                   {sessionModuleData?.modules?.map((e, i) => {
                     if (
-                      e?.title != "Upload Documents" &&
-                      e?.title != "Quotes"  &&
-                      !e?.module_type?.startsWith("intermediate")
+                  //    e?.title != "Upload Documents" //
+                      e?.title != "Quotes"  
+                     // !e?.module_type?.startsWith("intermediate")//
                     ) {
                       return (
                         <div
@@ -226,9 +226,12 @@ console.log(profile)
                               right: "8px",
                             }}
                           />
-                          <img src={icons[e?.title]} />
+                          <img style={{
+                            width:'40px',
+                            height:'40px'
+                          }} src={icons[e?.title] || '/Frame (2).png'} />
                           <p>{e.title}</p>
-                          {e.is_unlocked && !e?.module_type?.startsWith("intermediate") && (
+                          {e.is_unlocked && !e?.module_type?.startsWith("intermediate") && e?.title != "Upload Documents" && (
                             <p
                               style={{
                                 color: "var(--primary-color)",
