@@ -175,7 +175,7 @@ const Createpassword = () => {
                 </div>
                 <div className='right_register'>
                     <img src={bg} />
-                    <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit, </h1>
+                    <h1>Every sign-in is a chance to bring someone closer to who they're meant to be. </h1>
                 </div>
             </div>
         </>
