@@ -69,6 +69,10 @@ td {
   margin-inline: auto;
 }
 
+input[type="password"]::-ms-reveal {
+  display: none !important;
+}
+
 @media(max-width:480px) {
   .all_heading {
     font-size: 17px

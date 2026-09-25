@@ -100,6 +100,13 @@ const Register = () => {
                 const res = await dispatch(Authregister(formData))
                 if (res.type === 'Authregister/fulfilled') {
                     setregisterSuccess(true)
+                    setformData({
+                        first_name: "",
+                        last_name: "",
+                        email: "",
+                        password: "",
+                        password_confirmation: ''
+                    })
                 }
             } catch (err) {
                 console.log(err)
@@ -112,7 +119,6 @@ const Register = () => {
     }
     return (
         <>
-            {loading && <Loaders />}
             {registerSuccess && <RegisterSuccessModal setregisterSuccess={setregisterSuccess} />}
             {verificationChecking && <AutoVerificationModal />}
             {verifiedSuccess && <VerficationDoneModal setverifiedSuccess={setverifiedSuccess} />}
@@ -216,7 +222,7 @@ const Register = () => {
                             <p>By continuing I agree with the Terms & Conditions, Privacy Policy</p>
                         </div> */}
                         <div onClick={handleSubmit}>
-                            <Button styles={{
+                            <Button loading={loading} loadingText='Creating account...' styles={{
                                 width: '100%'
                             }} children={
                                 'Create Account'

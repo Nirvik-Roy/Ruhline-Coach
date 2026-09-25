@@ -100,14 +100,14 @@ const AuthSlice = createSlice({
                 state.isLogin = true;
                 state.isLoading = false;
                 state.errors = '';
-                localStorage.setItem('token', action.payload.token);
+                localStorage.setItem('token', action?.payload?.token);
                 localStorage.setItem("expiry", Date.now() + 24 * 60 * 60 * 1000);
             }
         })
         builder.addCase(Auth.rejected, (state, action) => {
             state.isLoading = false;
             state.isLogin = false;
-            state.errors = action.payload.errors
+            state.errors = action?.payload?.errors
         })
 
         builder.addCase(Authregister.pending, (state) => {
@@ -125,7 +125,7 @@ const AuthSlice = createSlice({
         builder.addCase(Authregister.rejected, (state, action) => {
             state.isRegister = true,
                 state.isLoading = false,
-                state.registrationErrors = action.payload
+                state.registrationErrors = action?.payload
         })
     }
 })

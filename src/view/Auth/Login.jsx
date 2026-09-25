@@ -22,6 +22,8 @@ const Login = () => {
         password: ''
     })
 
+    console.log(isLoading)
+
     useEffect(() => {
         setadminErrrors(errors)
     }, [errors])
@@ -52,8 +54,8 @@ const Login = () => {
     }
 
     const loginFunc = () => {
-        if (formData.email == '' && formData.password == '') {
-            toast.error('Please enter all required fields...')
+        if (formData.email == '' || formData.password == '') {
+            toast.error('Please enter both of the fields')
         }
         else {
             dispatch(Auth({ formData: formData }))
@@ -75,7 +77,7 @@ const Login = () => {
     }, [isLogin, location.pathname, navigate]);
 
     return (
-        <>  {isLoading && <Loaders />}
+        <>  
             <div className='register_wrapper'>
                 <div className='left_register'>
                     <img src={logo} />
@@ -143,7 +145,7 @@ const Login = () => {
                         </div>
                         <div>
                             <div onClick={(() => loginFunc())}>
-                                <Button styles={{
+                                <Button loading={isLoading} loadingText='Logging in...' styles={{
                                     width: '100%'
                                 }} children={
                                     'Login'
