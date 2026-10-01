@@ -1338,6 +1338,306 @@ export const getSessionMotivationresponse = async (enrollmentId, structureId) =>
     }
 }
 
+export const getHabitTrackerState = async (enrollmentId, structureId) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(
+                `${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/habit-tracker/state`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${Token}`,
+                    },
+                }
+            );
+            if (res?.data?.success == true) {
+                return res?.data;
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors;
+        }
+    }
+};
+
+export const getEnrollmentGoalSettingsGoals = async (enrollmentId, structureId) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId) {
+        try {
+            const res = await axios.get(
+                `${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/goal-settings/goals`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${Token}`,
+                    },
+                }
+            );
+            if (res?.data?.success == true) {
+                return res?.data;
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors;
+        }
+    }
+};
+
+export const createEnrollmentGoalSettingsGoal = async (enrollmentId, structureId, data) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId && data) {
+        try {
+            const res = await axios.post(
+                `${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/goal-settings/goals`,
+                data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${Token}`,
+                    },
+                }
+            );
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Goal created successfully');
+                return res?.data;
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors;
+        }
+    } else {
+        toast.error('Required details not provided....');
+    }
+};
+
+export const updateEnrollmentGoalSettingsGoal = async (
+    enrollmentId,
+    structureId,
+    goalId,
+    data,
+    { showSuccessToast = true } = {}
+) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId && goalId && data) {
+        try {
+            const res = await axios.put(
+                `${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/goal-settings/goals/${goalId}`,
+                data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${Token}`,
+                    },
+                }
+            );
+            if (res?.data?.success == true) {
+                if (showSuccessToast) {
+                    toast.success(res?.data?.message || 'Goal updated successfully');
+                }
+                return res?.data;
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors;
+        }
+    } else {
+        toast.error('Required details not provided....');
+    }
+};
+
+export const deleteEnrollmentGoalSettingsGoal = async (enrollmentId, structureId, goalId) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId && goalId) {
+        try {
+            const res = await axios.delete(
+                `${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/goal-settings/goals/${goalId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${Token}`,
+                    },
+                }
+            );
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Goal deleted successfully');
+                return res?.data;
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors;
+        }
+    } else {
+        toast.error('Required details not provided....');
+    }
+};
+
+export const updateEnrollmentGoalSettingsSubGoal = async (
+    enrollmentId,
+    structureId,
+    goalId,
+    subGoalId,
+    data,
+    { showSuccessToast = false } = {}
+) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId && goalId && subGoalId && data) {
+        try {
+            const res = await axios.put(
+                `${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/goal-settings/goals/${goalId}/sub-goals/${subGoalId}`,
+                data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${Token}`,
+                    },
+                }
+            );
+            if (res?.data?.success == true) {
+                if (showSuccessToast) {
+                    toast.success(res?.data?.message || 'Sub-goal updated successfully');
+                }
+                return res?.data;
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors;
+        }
+    } else {
+        toast.error('Required details not provided....');
+    }
+};
+
+export const deleteEnrollmentGoalSettingsSubGoal = async (
+    enrollmentId,
+    structureId,
+    goalId,
+    subGoalId,
+    { showSuccessToast = true } = {}
+) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId && goalId && subGoalId) {
+        try {
+            const res = await axios.delete(
+                `${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/goal-settings/goals/${goalId}/sub-goals/${subGoalId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${Token}`,
+                    },
+                }
+            );
+            if (res?.data?.success == true) {
+                if (showSuccessToast) {
+                    toast.success(res?.data?.message || 'Sub-goal deleted successfully');
+                }
+                return res?.data;
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors;
+        }
+    } else {
+        toast.error('Required details not provided....');
+    }
+};
+
+// export const updateEnrollmentGoalSettingsGoal = async (enrollmentId, structureId, goalId, data) => {
+//     const Token = localStorage.getItem('token');
+//     if (Token && enrollmentId && structureId && goalId && data) {
+//         try {
+//             const res = await axios.put(
+//                 `${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/goal-settings/goals/${goalId}`,
+//                 data,
+//                 {
+//                     headers: {
+//                         Authorization: `Bearer ${Token}`,
+//                     },
+//                 }
+//             );
+//             if (res?.data?.success == true) {
+//                 toast.success(res?.data?.message || 'Goal updated successfully');
+//                 return res?.data;
+//             }
+//         } catch (err) {
+//             toast.error(err.response?.data?.message);
+//             return err?.response?.data?.errors;
+//         }
+//     } else {
+//         toast.error('Required details not provided....');
+//     }
+// };
+
+export const createHabitTrackerHabit = async (enrollmentId, structureId, data) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId && data) {
+        try {
+            const res = await axios.post(
+                `${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/habit-tracker/habits`,
+                data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${Token}`,
+                    },
+                }
+            );
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Habit created successfully');
+                return res?.data;
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors;
+        }
+    } else {
+        toast.error('Required details not provided....');
+    }
+};
+
+export const updateHabitTrackerHabit = async (enrollmentId, structureId, habitId, data) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId && habitId && data) {
+        try {
+            const res = await axios.put(
+                `${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/habit-tracker/habits/${habitId}`,
+                data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${Token}`,
+                    },
+                }
+            );
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Habit updated successfully');
+                return res?.data;
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors;
+        }
+    } else {
+        toast.error('Required details not provided....');
+    }
+};
+
+export const deleteHabitTrackerHabit = async (enrollmentId, structureId, habitId) => {
+    const Token = localStorage.getItem('token');
+    if (Token && enrollmentId && structureId && habitId) {
+        try {
+            const res = await axios.delete(
+                `${import.meta.env.VITE_BASE_URL}/program/enrollments/${enrollmentId}/modules/${structureId}/habit-tracker/habits/${habitId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${Token}`,
+                    },
+                }
+            );
+            if (res?.data?.success == true) {
+                toast.success(res?.data?.message || 'Habit deleted successfully');
+                return res?.data;
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message);
+            return err?.response?.data?.errors;
+        }
+    } else {
+        toast.error('Required details not provided....');
+    }
+};
+
 export const joinMeeting = async (enrollmentId, sessionId,) => {
     const token = localStorage.getItem('token')
     if (token  && enrollmentId && sessionId) {

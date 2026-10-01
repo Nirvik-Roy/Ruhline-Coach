@@ -69,6 +69,13 @@ td {
   margin-inline: auto;
 }
 
+.table_container{
+  overflow: auto !important;
+  min-height: 70vh;
+}
+.coaches_table_wrapper td{
+  padding: 20px 20px !important;
+}
 input[type="password"]::-ms-reveal {
   display: none !important;
 }

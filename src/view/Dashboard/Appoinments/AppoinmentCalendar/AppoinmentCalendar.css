@@ -10,6 +10,9 @@
 .fc-timegrid-event-harness{
     cursor: pointer;
 }
+.sub_goal_2 h4{
+    margin-bottom: 10px !important;
+}
 .fc-toolbar-chunk {
     display: flex;
     justify-content: flex-start;

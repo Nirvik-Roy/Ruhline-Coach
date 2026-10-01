@@ -10,13 +10,14 @@ import MainLayout from './MainLayout/MainLayout'
 import Appoinments from './view/Dashboard/Appoinments/Appoinments'
 import AppoinmentPrograms from './view/Dashboard/Appoinments/AppoinmentProgram/AppoinmentPrograms'
 import ProgramValues from './view/Dashboard/Appoinments/AppoinmentProgram/ProgramValues'
-import ProgramGoal from './view/Dashboard/Appoinments/AppoinmentProgram/ProgramGoal'
 import CreateGoal from './view/Dashboard/Appoinments/AppoinmentProgram/CreateGoal'
 import ViewGoal from './view/Dashboard/Appoinments/AppoinmentProgram/ViewGoal'
+import UpdateGoal from './view/Dashboard/Appoinments/AppoinmentProgram/UpdateGoal'
 import Whoami from './view/Dashboard/Appoinments/AppoinmentProgram/Whoami'
 import Cardgame from './view/Dashboard/Appoinments/AppoinmentProgram/Cardgame'
 import WheelOfLife from './view/Dashboard/Appoinments/AppoinmentProgram/WheelOfLife'
 import Habitracker from './view/Dashboard/Appoinments/AppoinmentProgram/Habitacker'
+import GoalSettingsTable from './view/Dashboard/Appoinments/AppoinmentProgram/GoalSettingsTable'
 import { Toaster } from 'react-hot-toast'
 import PrivateRoute from './PrivateRoute/PrivateRoute'
 import ResendEmail from './view/Auth/ResendEmail'
@@ -79,13 +80,14 @@ function App() {
               <Route path='appoinments' element={<Appoinments />} />
               <Route path='appoinments/program/:enrollmentId/session/:sessionId' element={<AppoinmentPrograms />} />
               <Route path='appoinments/program/:enrollmentId/session/:sessionId/values/:structureId' element={<ProgramValues />} />
-              <Route path='appoinments/program/:id/goal' element={<ProgramGoal />} />
-              <Route path='appoinments/program/:id/create-goal' element={<CreateGoal />} />
-              <Route path='appoinments/goal/view-goal/:id' element={<ViewGoal />} />
+              <Route path='appoinments/program/:enrollmentId/session/:sessionId/goal-settings/:structureId/create-goal' element={<CreateGoal />} />
+              <Route path='appoinments/program/:enrollmentId/session/:sessionId/goal-settings/:structureId/edit-goal/:goalId' element={<UpdateGoal />} />
+              <Route path='appoinments/program/:enrollmentId/session/:sessionId/goal-settings/:structureId/view-goal/:goalId' element={<ViewGoal />} />
               <Route path='appoinments/program/:enrollmentId/session/:sessionId/who-am-i/:structureId' element={<Whoami />} />
               <Route path='appoinments/program/:enrollmentId/session/:sessionId/card-game/:structureId' element={<Cardgame />} />
               <Route path='appoinments/program/:enrollmentId/session/:sessionId/wheel-of-life/:structureId' element={<WheelOfLife />} />
-              <Route path='appoinments/program/:id/habit-tracker' element={<Habitracker />} />
+              <Route path='appoinments/program/:enrollmentId/session/:sessionId/habit-tracker/:structureId' element={<Habitracker />} />
+              <Route path='appoinments/program/:enrollmentId/session/:sessionId/goal-settings/:structureId' element={<GoalSettingsTable />} />
               <Route path='edit-profile/:id' element={<EditCoachProfile />} />
               <Route path='program' >
                 <Route path='' element={<ProgramTable />} />

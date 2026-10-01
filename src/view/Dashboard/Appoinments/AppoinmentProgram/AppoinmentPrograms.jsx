@@ -244,13 +244,17 @@ console.log(profile)
                                   "Wheel of Life": `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/wheel-of-life/${e?.title == "Wheel of Life" && e?.program_structure_id}`,
                                   "Who am I": `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/who-am-i/${e?.title == "Who am I" && e?.program_structure_id}`,
                                   "Card Game": `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/card-game/${e?.title == "Card Game" && e?.program_structure_id}`,
+                                  "Habit Tracker": `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/habit-tracker/${e?.title == "Habit Tracker" && e?.program_structure_id}`,
+                                  "Goal Settings": `/dashboard/appoinments/program/${enrollmentId}/session/${sessionId}/goal-settings/${e?.title == "Goal Settings" && e?.program_structure_id}`,
                                 };
                                 if (e?.title == "Find your Motivation") {
                                   setmotivationModel(true);
                                   setstructureId(e?.program_structure_id);
                                 }
                                 event.stopPropagation();
-                                navigate(links[e?.title]);
+                                // navigate(links[e?.title]);
+                                window.open(links[e?.title], '_blank', 'noopener,noreferrer');
+
                               }}
                             >
                               View
